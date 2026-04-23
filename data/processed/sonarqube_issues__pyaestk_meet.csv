@@ -1,0 +1,147 @@
+file_path,sonar_issue_count,highest_severity,severity_breakdown,type_breakdown
+src/helm/meet/templates/ingress.yaml,17,MAJOR,"MINOR:16, MAJOR:1",CODE_SMELL:17
+src/helm/extra/templates/clustersecretstore.yaml,12,MAJOR,MAJOR:12,CODE_SMELL:12
+src/helm/extra/templates/minio.yaml,12,MAJOR,MAJOR:12,CODE_SMELL:12
+src/helm/meet/templates/ingress_admin.yaml,11,MAJOR,"MINOR:10, MAJOR:1",CODE_SMELL:11
+bin/prepare-release.sh,11,MAJOR,MAJOR:11,CODE_SMELL:11
+src/frontend/src/features/legalsTerms/TermsOfService.tsx,10,MAJOR,MAJOR:10,CODE_SMELL:10
+src/helm/meet/templates/ingress_posthog_assets.yaml,9,MAJOR,"MINOR:8, MAJOR:1",CODE_SMELL:9
+src/helm/meet/templates/ingress_webhook.yaml,9,MAJOR,"MINOR:8, MAJOR:1",CODE_SMELL:9
+src/helm/meet/templates/ingress_posthog.yaml,9,MAJOR,"MINOR:8, MAJOR:1",CODE_SMELL:9
+src/helm/meet/templates/ingress_media_files.yaml,8,MINOR,MINOR:8,CODE_SMELL:8
+src/frontend/src/features/rooms/utils/getParticipantColor.ts,8,MAJOR,"MINOR:7, MAJOR:1",CODE_SMELL:8
+src/summary/summary/api/route/tasks_v2.py,8,BLOCKER,"MAJOR:4, BLOCKER:4",CODE_SMELL:8
+bin/install-external-secrets.sh,8,MAJOR,MAJOR:8,CODE_SMELL:8
+bin/_config.sh,7,MAJOR,MAJOR:7,CODE_SMELL:7
+src/frontend/src/features/rooms/livekit/hooks/useMediaQuery.ts,7,MINOR,MINOR:7,CODE_SMELL:7
+src/frontend/src/features/settings/components/SettingsDialogExtended.tsx,7,MAJOR,"MINOR:2, MAJOR:5",CODE_SMELL:7
+src/frontend/src/features/rooms/livekit/hooks/useResizeObserver.ts,6,MAJOR,"MINOR:5, MAJOR:1",CODE_SMELL:6
+src/backend/core/migrations/0001_initial.py,6,CRITICAL,CRITICAL:6,CODE_SMELL:6
+src/frontend/src/features/rooms/livekit/components/effects/EffectsConfiguration.tsx,6,MAJOR,"MINOR:4, MAJOR:2",CODE_SMELL:6
+src/frontend/src/features/rooms/livekit/components/ParticipantTileFocus.tsx,6,MAJOR,"MINOR:5, MAJOR:1",CODE_SMELL:6
+src/frontend/src/features/shortcuts/useLongPress.ts,5,MINOR,MINOR:5,CODE_SMELL:5
+src/summary/summary/api/route/tasks.py,5,CRITICAL,CRITICAL:5,CODE_SMELL:5
+src/frontend/src/features/rooms/livekit/components/controls/Participants/ParticipantsList.tsx,5,MINOR,"MINOR:2, INFO:3",CODE_SMELL:5
+src/backend/core/models.py,5,MAJOR,MAJOR:5,CODE_SMELL:5
+src/frontend/src/features/rooms/livekit/components/blur/BackgroundCustomProcessor.ts,5,MAJOR,"MINOR:2, MAJOR:1, INFO:2",CODE_SMELL:5
+src/helm/meet/templates/celery_summarize_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/frontend/src/features/rooms/routes/Feedback.tsx,4,MAJOR,"MINOR:3, MAJOR:1",CODE_SMELL:4
+src/frontend/src/features/home/components/JoinMeetingDialog.tsx,4,MINOR,MINOR:4,CODE_SMELL:4
+src/frontend/src/features/rooms/components/Join.tsx,4,MAJOR,"MINOR:2, MAJOR:1, INFO:1",CODE_SMELL:4
+src/helm/meet/templates/celery_backend_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/backend/core/migrations/0006_merge_duplicate_users.py,4,MAJOR,"MINOR:2, MAJOR:2",CODE_SMELL:4
+src/frontend/src/utils/mergeProps.ts,4,MAJOR,"MINOR:3, MAJOR:1",CODE_SMELL:4
+src/helm/extra/templates/external_secret.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/agent_metadata_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/summary_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/frontend_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/sdk/consumer/src/App.tsx,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/celery_summary_backend_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/backend_job_migrate.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/backend_job_createsuperuser.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/backend_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/agent_subtitles_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/helm/meet/templates/celery_transcribe_deployment.yaml,4,MAJOR,MAJOR:4,CODE_SMELL:4
+src/frontend/src/features/rooms/livekit/components/blur/FaceLandmarksProcessor.ts,3,MAJOR,"MINOR:2, MAJOR:1",CODE_SMELL:3
+src/helm/extra/templates/redis.yaml,3,MAJOR,MAJOR:3,CODE_SMELL:3
+src/frontend/src/api/apiUrl.ts,3,MINOR,MINOR:3,CODE_SMELL:3
+src/frontend/src/features/sdk/utils/PopupWindow.ts,3,MINOR,MINOR:3,CODE_SMELL:3
+src/helm/extra/templates/postgresql-sts.yaml,3,MAJOR,MAJOR:3,CODE_SMELL:3
+src/frontend/src/features/settings/components/tabs/AccountTab.tsx,3,MAJOR,"MINOR:1, MAJOR:2",CODE_SMELL:3
+src/helm/extra/templates/kc-postgresql-sts.yaml,3,MAJOR,MAJOR:3,CODE_SMELL:3
+src/frontend/src/features/home/components/IntroSlider.tsx,3,MAJOR,"MAJOR:2, INFO:1",CODE_SMELL:3
+src/frontend/src/features/layout/components/CarouselLayout.tsx,3,MAJOR,"MINOR:2, MAJOR:1",CODE_SMELL:3
+src/frontend/src/features/rooms/livekit/components/controls/Participants/ParticipantsCollapsableList.tsx,3,MAJOR,"MINOR:2, MAJOR:1",CODE_SMELL:3
+src/frontend/src/api/mediaUrl.ts,3,MINOR,MINOR:3,CODE_SMELL:3
+src/frontend/src/features/rooms/livekit/components/controls/CameraSwitchButton.tsx,3,MINOR,MINOR:3,CODE_SMELL:3
+src/summary/summary/api/health.py,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/primitives/VisualOnlyTooltip.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+src/frontend/src/primitives/Dialog.tsx,2,MAJOR,"MINOR:1, MAJOR:1",CODE_SMELL:2
+src/frontend/src/features/layout/components/PaginationIndicator.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+src/backend/core/api/viewsets.py,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+src/backend/core/tests/test_api_resource_accesses.py,2,CRITICAL,CRITICAL:2,CODE_SMELL:2
+src/frontend/src/primitives/MenuList.tsx,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/utils/parseLineBreaks.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+src/frontend/src/utils/livekit.ts,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/stores/screenReaderAnnouncer.ts,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/primitives/Tabs.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+src/frontend/src/features/shortcuts/useKeyboardShortcuts.ts,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/settings/components/tabs/VideoTab.tsx,2,MAJOR,"MINOR:1, MAJOR:1",CODE_SMELL:2
+src/frontend/src/features/rooms/livekit/components/effects/FunnyEffects.tsx,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+src/frontend/src/features/rooms/livekit/components/ParticipantTile.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+src/frontend/src/features/rooms/livekit/components/ScreenShareErrorModal.tsx,2,MINOR,"MINOR:1, INFO:1",CODE_SMELL:2
+src/frontend/src/features/rooms/routes/Room.tsx,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/home/components/LaterMeetingDialog.tsx,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+src/frontend/src/features/home/routes/Home.tsx,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/rooms/livekit/prefabs/VideoConference.tsx,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/reactions/components/ReactionPortals.tsx,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/rooms/components/Rating.tsx,2,MAJOR,"MINOR:1, MAJOR:1",CODE_SMELL:2
+src/frontend/src/features/rooms/components/InviteDialog.tsx,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+src/frontend/src/features/sdk/utils/PopupManager.ts,2,MINOR,MINOR:2,CODE_SMELL:2
+src/frontend/src/features/rooms/livekit/hooks/usePublishSourcesManager.ts,2,MAJOR,"MINOR:1, MAJOR:1",CODE_SMELL:2
+src/frontend/src/features/settings/components/tabs/NotificationsTab.tsx,2,MAJOR,MAJOR:2,CODE_SMELL:2
+Dockerfile,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/App.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/backend/core/services/participants_management.py,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+src/backend/core/migrations/0014_room_pin_code.py,1,MINOR,MINOR:1,CODE_SMELL:1
+src/backend/core/services/lobby.py,1,BLOCKER,BLOCKER:1,CODE_SMELL:1
+src/agents/metadata_collector.py,1,MAJOR,MAJOR:1,CODE_SMELL:1
+bin/buildpack_postfrontend.sh,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/backend/core/admin.py,1,MINOR,MINOR:1,CODE_SMELL:1
+src/backend/core/external_api/permissions.py,1,BLOCKER,BLOCKER:1,CODE_SMELL:1
+src/frontend/src/features/rooms/utils/isRoomValid.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/controls/Options/TranscriptMenuItem.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/controls/Options/OptionsMenuItems.tsx,1,INFO,INFO:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/chat/Input.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/controls/StartMediaButton.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/auth/utils/authUrl.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/components/NotFoundScreen.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/api/fetchApi.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/layout/components/PaginationControl.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/layout/components/GridLayout.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/layout/components/ControlBarRegion.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/auth/api/fetchUser.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/auth/api/useUser.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/auth/components/UserAware.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/notifications/components/ToastRegion.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/layout/components/RoomContentArea.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/components/Conference.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/recording/components/RowWrapper.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/notifications/hooks/useSoundNotification.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/components/Permissions.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/hooks/useWaitingParticipants.ts,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/Admin.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/ParticipantName.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/ParticipantPlaceholder.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/auth/utils/silentLogin.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/utils/generateRoomId.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/processors/RnnNoiseProcessor.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/prefabs/ControlBar/ResponsiveMenu.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/hooks/useKonami.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/prefabs/Chat.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/prefabs/ControlBar/ControlBar.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/controls/ScreenShareToggle.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/rooms/livekit/components/controls/Options/ScreenRecordingMenuItem.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/stores/accessibility.ts,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+src/frontend/vite.config.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/layout/Header.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/navigation/getRoutePath.ts,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/navigation/getRouteUrl.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/navigation/navigateTo.ts,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/primitives/Checkbox.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/features/settings/components/tabs/AudioTab.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/settings/components/SettingsDialog.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/styles/livekit.css,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/utils/formatDate.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/primitives/FieldErrors.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/primitives/Field.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/primitives/Select.tsx,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/frontend/src/primitives/buttonRecipe.ts,1,INFO,INFO:1,CODE_SMELL:1
+src/frontend/src/primitives/Div.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/features/support/hooks/useSupport.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/frontend/src/layout/Layout.tsx,1,MINOR,MINOR:1,CODE_SMELL:1
+src/helm/meet/generate-readme.sh,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/helm/meet/templates/ingress_media.yaml,1,MAJOR,MAJOR:1,CODE_SMELL:1
+src/sdk/library/vite.config.ts,1,MINOR,MINOR:1,CODE_SMELL:1
+src/summary/summary/core/config.py,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+src/summary/summary/core/file_service.py,1,MAJOR,MAJOR:1,CODE_SMELL:1
