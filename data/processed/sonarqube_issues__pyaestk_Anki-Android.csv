@@ -1,0 +1,330 @@
+file_path,sonar_issue_count,highest_severity,severity_breakdown,type_breakdown
+AnkiDroid/src/main/assets/changelog.html,115,MAJOR,"MINOR:100, MAJOR:15",CODE_SMELL:115
+AnkiDroid/src/main/assets/scripts/card.js,37,CRITICAL,"MINOR:9, MAJOR:2, CRITICAL:26",CODE_SMELL:37
+AnkiDroid/src/main/java/com/ichi2/anki/provider/CardContentProvider.kt,23,CRITICAL,"MAJOR:16, INFO:2, CRITICAL:5",CODE_SMELL:23
+AnkiDroid/src/main/java/com/ichi2/anki/NoteEditorFragment.kt,15,CRITICAL,"MAJOR:6, INFO:4, CRITICAL:5",CODE_SMELL:15
+AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserFragment.kt,15,CRITICAL,"MAJOR:4, INFO:6, CRITICAL:5",CODE_SMELL:15
+AnkiDroid/src/main/java/com/ichi2/anki/DeckPicker.kt,14,CRITICAL,"MAJOR:3, INFO:8, CRITICAL:3",CODE_SMELL:14
+AnkiDroid/src/main/java/com/ichi2/anki/DeckPickerFloatingActionMenu.kt,14,CRITICAL,"INFO:1, CRITICAL:13",CODE_SMELL:14
+AnkiDroid/src/main/java/com/ichi2/anki/AbstractFlashcardViewer.kt,14,CRITICAL,"MAJOR:4, INFO:5, CRITICAL:5",CODE_SMELL:14
+libanki/src/main/java/com/ichi2/anki/libanki/Collection.kt,13,MAJOR,"MINOR:1, MAJOR:6, INFO:6",CODE_SMELL:13
+AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.kt,11,CRITICAL,"MAJOR:4, INFO:4, CRITICAL:3",CODE_SMELL:11
+AnkiDroid/src/main/java/com/ichi2/utils/AlertDialogFacade.kt,10,CRITICAL,"MAJOR:8, INFO:1, CRITICAL:1",CODE_SMELL:10
+AnkiDroid/src/main/java/com/ichi2/anki/deckpicker/DeckPickerViewModel.kt,10,INFO,INFO:10,CODE_SMELL:10
+AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserViewModel.kt,8,MAJOR,"MAJOR:1, INFO:7",CODE_SMELL:8
+AnkiDroid/src/main/java/com/ichi2/anki/AnkiDroidApp.kt,8,MAJOR,"MAJOR:1, INFO:7",CODE_SMELL:8
+AnkiDroid/src/main/java/com/ichi2/anki/Reviewer.kt,8,CRITICAL,"MAJOR:6, INFO:1, CRITICAL:1",CODE_SMELL:8
+AnkiDroid/src/main/java/com/ichi2/anki/JavaScriptSTT.kt,7,CRITICAL,CRITICAL:7,CODE_SMELL:7
+AnkiDroid/src/main/java/com/ichi2/anki/ui/dialogs/ActivityAgnosticDialogs.kt,7,CRITICAL,CRITICAL:7,CODE_SMELL:7
+AnkiDroid/src/main/java/com/ichi2/anki/IntentHandler.kt,6,MAJOR,"MAJOR:3, INFO:3",CODE_SMELL:6
+vbpd/src/main/java/dev/androidbroadcast/vbpd/ActivityViewBindings.kt,6,CRITICAL,CRITICAL:6,CODE_SMELL:6
+compat/src/main/java/com/ichi2/anki/compat/CompatHelper.kt,5,MAJOR,MAJOR:5,CODE_SMELL:5
+AnkiDroid/src/main/java/com/ichi2/anki/ReadText.kt,5,MAJOR,"MAJOR:2, INFO:3",CODE_SMELL:5
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/ChangeNoteTypeDialog.kt,5,MAJOR,MAJOR:5,CODE_SMELL:5
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyDialog.kt,5,CRITICAL,"INFO:4, CRITICAL:1",CODE_SMELL:5
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/MultimediaUtils.kt,5,MAJOR,"MAJOR:4, INFO:1",CODE_SMELL:5
+AnkiDroid/src/main/java/com/ichi2/anki/CoroutineHelpers.kt,5,CRITICAL,"MAJOR:3, INFO:1, CRITICAL:1",CODE_SMELL:5
+libanki/src/main/java/com/ichi2/anki/libanki/Notetypes.kt,4,MAJOR,"MINOR:2, MAJOR:1, INFO:1",CODE_SMELL:4
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/audio/AudioRecordingController.kt,4,CRITICAL,"INFO:3, CRITICAL:1",CODE_SMELL:4
+libanki/src/main/java/com/ichi2/anki/libanki/Decks.kt,4,MAJOR,"MAJOR:2, INFO:2",CODE_SMELL:4
+AnkiDroid/src/main/java/com/ichi2/anki/reviewreminders/ReminderTroubleshootingFragment.kt,4,INFO,INFO:4,CODE_SMELL:4
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/AnswerFeedbackView.kt,4,CRITICAL,"INFO:1, CRITICAL:3",CODE_SMELL:4
+AnkiDroid/src/main/java/com/ichi2/widget/AnkiDroidWidgetSmall.kt,4,CRITICAL,"MINOR:1, INFO:2, CRITICAL:1",CODE_SMELL:4
+AnkiDroid/src/main/java/com/ichi2/anki/AnkiDroidJsAPI.kt,3,CRITICAL,"MAJOR:2, CRITICAL:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/cardviewer/CardMediaPlayer.kt,3,CRITICAL,"MAJOR:1, CRITICAL:2",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/CardTemplateEditor.kt,3,MAJOR,"MAJOR:2, INFO:1",CODE_SMELL:3
+libanki/src/main/java/com/ichi2/anki/libanki/sched/Scheduler.kt,3,CRITICAL,"MAJOR:1, INFO:1, CRITICAL:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/NoteEditorActivity.kt,3,MAJOR,"MAJOR:2, INFO:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/ui/internationalization/SentenceCase.kt,3,MAJOR,"MAJOR:2, INFO:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/AdvancedSearchFragment.kt,3,INFO,INFO:3,CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/StudyOptionsFragment.kt,3,CRITICAL,"MAJOR:1, INFO:1, CRITICAL:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/snackbar/Snackbars.kt,3,CRITICAL,"MAJOR:2, CRITICAL:1",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/ReviewerViewModel.kt,3,MAJOR,"MAJOR:2, INFO:1",CODE_SMELL:3
+buildSrc/src/main/kotlin/com/ichi2/anki/gradle/GitHubActionsTestListener.kt,3,CRITICAL,CRITICAL:3,CODE_SMELL:3
+api/src/main/java/com/ichi2/anki/api/NoteInfo.kt,3,MINOR,MINOR:3,CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/StandardSearchFragment.kt,3,INFO,INFO:3,CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/FlagsBottomSheetFragment.kt,3,INFO,INFO:3,CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/utils/AdaptionUtil.kt,3,MAJOR,MAJOR:3,CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/servicelayer/NoteService.kt,3,MAJOR,"MAJOR:1, INFO:2",CODE_SMELL:3
+AnkiDroid/src/main/java/com/ichi2/anki/CollectionHelper.kt,3,INFO,INFO:3,CODE_SMELL:3
+libanki/src/main/java/com/ichi2/anki/libanki/Utils.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/MediaRegistration.kt,2,CRITICAL,"INFO:1, CRITICAL:1",CODE_SMELL:2
+libanki/src/main/java/com/ichi2/anki/libanki/Note.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/utils/ext/TabLayout.kt,2,CRITICAL,CRITICAL:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/utils/ext/BundleUtils.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/workarounds/SafeWebViewLayout.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/workarounds/ClosableDrawerLayout.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/TtsVoices.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/preferences/AutoFocusEditTextPreference.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/ui/AnimationUtil.kt,2,CRITICAL,CRITICAL:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/SingleFragmentActivity.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/TtsParser.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/res/layout/fragment_my_account.xml,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/preferences/SliderPreference.kt,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/SharedDecksActivity.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/snackbar/SensibleSwipeDismissBehavior.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/services/BootService.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/scheduling/SetDueDateDialog.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/scheduling/SetDueDateViewModel.kt,2,MINOR,"MINOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/whiteboard/WhiteboardFragment.kt,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/browser/BrowserRowCollection.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/android/back/ExitViaDoubleTapBackBackPressCallback.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/whiteboard/ColorPickerDialog.kt,2,CRITICAL,"INFO:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/browser/CardOrNoteId.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/utils/Permissions.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/EditDeckDescriptionDialog.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/ChangeNoteTypeViewModel.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/CreateDeckDialog.kt,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/DatabaseErrorDialog.kt,2,CRITICAL,"MINOR:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/DeckSelectionDialog.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/DiscardChangesDialog.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/filtered/FilteredDeckOptionsFragment.kt,2,CRITICAL,"INFO:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialog.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/TtsVoicesDialogFragment.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/IntegerDialog.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/ImportFileSelectionFragment.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/SyncSettingsFragment.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/FieldSelectionDialog.kt,2,INFO,INFO:2,CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/jsaddons/TgzPackageExtract.kt,2,MAJOR,"MAJOR:1, INFO:1",CODE_SMELL:2
+common/android/src/main/java/com/ichi2/anki/common/crashreporting/CrashReportService.kt,2,INFO,INFO:2,CODE_SMELL:2
+api/src/main/java/com/ichi2/anki/api/Utils.kt,2,MINOR,"MINOR:1, INFO:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/mediacheck/MediaCheckViewModel.kt,2,INFO,INFO:2,CODE_SMELL:2
+api/src/main/java/com/ichi2/anki/api/AddContentApi.kt,2,CRITICAL,"MAJOR:1, CRITICAL:1",CODE_SMELL:2
+AnkiDroid/src/main/assets/scripts/ankidroid-reviewer.js,2,MAJOR,"MINOR:1, MAJOR:1",CODE_SMELL:2
+AnkiDroid/src/main/java/com/ichi2/anki/AcraCrashReporter.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+libanki/src/main/java/com/ichi2/anki/libanki/LibAnki.kt,2,INFO,INFO:2,CODE_SMELL:2
+libanki/src/main/java/com/ichi2/anki/libanki/Media.kt,2,MAJOR,MAJOR:2,CODE_SMELL:2
+libanki/src/main/java/com/ichi2/anki/libanki/Field.kt,1,INFO,INFO:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/CardTemplate.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/CollectionManager.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/BackupManager.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/AndroidTtsPlayer.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ActionProviderCompat.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anim/ActivityTransitionAnimation.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/assets/scripts/js-api.js,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+vbpd/src/main/java/dev/androidbroadcast/vbpd/internal/VbpdUtils.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+vbpd/src/main/java/dev/androidbroadcast/vbpd/ViewGroupBindings.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/assets/scripts/ankidroid-cardviewer.js,1,BLOCKER,BLOCKER:1,CODE_SMELL:1
+lint-rules/src/main/java/com/ichi2/anki/lint/utils/Aapt2Util.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+lint-rules/src/main/java/com/ichi2/anki/lint/rules/NonPositionalFormatSubstitutions.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+lint-rules/src/main/java/com/ichi2/anki/lint/rules/JUnitNullAssertionDetector.kt,1,INFO,INFO:1,CODE_SMELL:1
+lint-rules/src/main/java/com/ichi2/anki/lint/rules/DuplicateCrowdInStrings.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+compat/src/main/java/com/ichi2/anki/compat/UtteranceProgressListenerCompat.kt,1,INFO,INFO:1,CODE_SMELL:1
+common/src/main/java/com/ichi2/anki/common/utils/StringUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+common/src/main/java/com/ichi2/anki/common/time/TimeUtils.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/res/xml/preferences_custom_buttons.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/observability/ChangeManager.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/notetype/ManageNotetypes.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/notetype/ManageNoteTypesViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/notetype/CardTypeName.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multiprofile/ProfileManager.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multiprofile/ProfileContextWrapper.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/SoundUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/MultimediaImageFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/MultimediaFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/multimedia/MultimediaActivity.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/model/SortType.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/model/FieldFilters.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/logging/ProductionCrashReportingTree.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/jsaddons/NpmUtils.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/instantnoteeditor/InstantNoteEditorActivity.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/instantnoteeditor/InstantEditorViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/instantnoteeditor/EditorChips.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/filtered/FilteredDeckOptionsViewModel.kt,1,MINOR,MINOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialogViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsArrayAdapter.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/IncludedExcludedTagsAdapter.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/SavedBrowserSearchesDialogFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/SaveBrowserSearchDialogFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/InsertFieldDialog.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewer/EaseButton.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewer/AutomaticAnswer.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/previewer/TemplatePreviewerViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/previewer/PreviewerAction.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/reviewer/ViewerAction.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/profiles/SwitchProfilesFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/HeaderFragment.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/DeveloperOptionsFragment.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/ControlsSettingsFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/AppearanceSettingsFragment.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/AdvancedSettingsFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/preferences/AccessibilitySettingsFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/pages/RemoveAccountFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/pages/PostRequestHandler.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/pages/PageFragment.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/GradeNowDialog.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/EmptyCardsDialogFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/dialogs/DialogHandler.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/contextmenu/DeckPickerMenuContentProvider.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/cardviewer/MediaErrorHandler.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/cardviewer/Gesture.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/sync/SchemaChanges.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/settings/Prefs.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/servicelayer/ThrowableFilterService.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/servicelayer/PreferenceUpgradeService.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/scheduling/ForgetCardsDialog.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewreminders/ScheduleReminders.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewreminders/ReminderTroubleshootingViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewer/SingleAxisDetector.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/reviewer/PreviousAnswerIndicator.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/utils/Exceptions.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/utils/Destination.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/whiteboard/WhiteboardView.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/audiorecord/CheckPronunciationFragment.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/audiorecord/AudioRecordView.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/ReviewerMenu.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/reviewer/ReviewerFragment.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/managespace/ManageSpaceFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/windows/managespace/FileUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/preferences/screens/BackupLimitsPresenter.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/ui/dialogs/tools/AsyncDialogs.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/CardStateBottomSheetFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/CardBrowserSearchViewModel.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/search/AdvancedSearchFieldsTab.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/SearchHistory.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/ReverseDirection.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/FindAndReplaceDialogFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/BrowserMultiColumnAdapter.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/browser/BrowserColumnSelectionFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/backend/HtmlUtils.kt,1,MINOR,MINOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/analytics/UsageAnalytics.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/Whiteboard.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/preferences/NumberRangePreference.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/preferences/IncrementerNumberRangePreference.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/preferences/DialogFragmentProvider.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/compat/customtabs/CustomTabsHelper.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/compat/customtabs/CustomTabActivityHelper.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/worker/SyncMediaWorker.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/workarounds/FullDraggableContainerFix.kt,1,MINOR,MINOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/workarounds/AppLoadedFromBackupWorkaround.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/widgets/DeckAdapter.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/utils/ext/NoteType.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/utils/ext/MenuHost.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/ViewUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/VersionUtils.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/NoteFieldDecorator.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/MenuItemUtil.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/ImportUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/FragmentManagerSupplier.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/ui/TextInputEditField.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/ui/OnGestureListener.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/ui/KeyPicker.kt,1,MINOR,MINOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/ui/GesturePicker.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/ui/GestureDisplay.kt,1,MINOR,MINOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/preferences/VersatileTextPreference.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/res/menu/card_browser_multiselect.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/view_colorpicker_flag_bubble.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/item_tts_voice.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/item_browser_columns_entry.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/fragment_advanced_search.xml,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/activity_manage_note_types.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/layout/activity_audio_recording_reviewer.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/deckpicker/DeckPickerWidgetConfig.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/deckpicker/DeckPickerWidget.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/cardanalysis/CardAnalysisWidget.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/WidgetStatus.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/Id.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/widget/AnalyticsWidgetProvider.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/utils/WebViewUtils.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-es-rES/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-es-rAR/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-eo/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-el/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-de/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-da/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-cs/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ckb/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ca/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-bn/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-bg/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-be/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-az/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ar/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-am/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-af/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-hy/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-hu/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-hr/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-hi/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-heb/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-gu/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-got/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-gl/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ga/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-fy/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-fr/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-fil/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-fi/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-fa/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-eu/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-et/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-mn/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ml/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-mk/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-lv/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-lt/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ky/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ku/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ko/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-kn/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-km/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-kk/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ka/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ja/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-iw/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-it/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ind/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sk/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sc/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sat/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ru/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ro/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-pt-rPT/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-pt-rBR/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-pl/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-pa/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-or/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-no/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-nn/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-nl/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-my/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ms/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-mr/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-vi/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-uz/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ur/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-uk/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ug/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-tt/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-tr/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ti/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-th/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-tgl/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-te/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-ta/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sv/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sr/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sq/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-sl/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/StudyOptionsActivity.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/SharedDecksDownloadFragment.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/utils/PythonExtensions.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/sched/Ease.kt,1,INFO,INFO:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/sched/DeckNode.kt,1,INFO,INFO:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/Tts.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/TemplateManager.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+libanki/src/main/java/com/ichi2/anki/libanki/NotetypeJson.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values/styles.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values/sentence-case.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values/attrs.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values/12-dont-translate.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-zh-rTW/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/NotificationChannels.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/NavigationDrawerActivity.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/MetaDB.kt,1,CRITICAL,CRITICAL:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/IntroductionActivity.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/FieldEditText.kt,1,MAJOR,MAJOR:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/DrawingFragment.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/java/com/ichi2/anki/DeckSpinnerSelection.kt,1,INFO,INFO:1,CODE_SMELL:1
+AnkiDroid/src/main/res/values-zh-rCN/10-preferences.xml,1,INFO,INFO:1,CODE_SMELL:1
