@@ -1,0 +1,37 @@
+issue_number,title,body,state,created_at,updated_at,html_url,matched_keywords
+13283,[Cleanup]: Add Tests to the code (`@NeedsTest`),"> [!NOTE]
+> This issue does not need to be assigned to you before you work on it
+
+A number of paths of the code have been identified as requiring automated testing. 
+
+Typically this is regression testing: if a bug has been found, then it's useful to have a unit test which would have failed due to the bug.
+
+1. Find a usage of `@NeedsTest`: https://github.com/ankidroid/Anki-Android/blob/main/AnkiDroid/src/main/java/com/ichi2/annotations/NeedsTest.kt
+   a. Ensure that the method(s) you are testing are in use. 
+3. Post the test(s) that you're handling on this issue, so people don't duplicate work
+4. Write a unit test (`/test`, not `/androidTest`)
+5. Ensure that re-introducing the bug or issue would break the test
+6. Submit a Pull Request",open,2023-02-16,2026-04-20,https://github.com/ankidroid/Anki-Android/issues/13283,cleanup
+19460,architecture: support `withProgress` in ViewModels,"This issue exists as a placeholder to establish a common pattern for progress notifications in the ViewModel. 
+Likely via getting PR #17804 listed as high priority, discussed, reviewed and merged.
+
+Being unable to use `withProgress` from the ViewModel unnecessarily complicates a lot of code.
+
+In particular, it'd have been useful when refactoring the `DeckPicker` in #18886, and in the CardBrowser refactor.
+
+* #17804
+* #18290",open,2025-11-10,2026-04-12,https://github.com/ankidroid/Anki-Android/issues/19460,refactor
+20694,Decide whether the JS API will be on a new repository or inside this one (`Anki-Android`),,open,2026-04-08,2026-04-12,https://github.com/ankidroid/Anki-Android/issues/20694,
+20381,Potential storage leak in audio recording `createTempFile`,"##Description
+During the implementation of the new recording logic, it was noted that createTempFile() generates files in the cacheDir without a defined cleanup strategy inspect.
+
+OP: David 
+```
+What's the lifecycle of this file and who is responsible for cleanup?
+
+Feel free to peel this one off into an issue
+```
+
+_Originally posted by @david-allison in https://github.com/ankidroid/Anki-Android/pull/19911#discussion_r2660695544_
+
+            ",closed,2026-03-03,2026-04-03,https://github.com/ankidroid/Anki-Android/issues/20381,cleanup

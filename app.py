@@ -539,8 +539,8 @@ def _render_results(
     if validation_insights is not None and comparison_df is not None:
         _render_validation_section(windows, validation_insights, comparison_df)
 
-    _render_methodology(config, windows)
-    _render_limitations()
+    # _render_methodology(config, windows)
+    # _render_limitations()
 
     export_df = hotspot_df.copy()
     if comparison_df is not None and not comparison_df.empty:

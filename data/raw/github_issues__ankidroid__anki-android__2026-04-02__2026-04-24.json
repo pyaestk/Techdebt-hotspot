@@ -1,0 +1,42 @@
+[
+  {
+    "issue_number": 13283,
+    "title": "[Cleanup]: Add Tests to the code (`@NeedsTest`)",
+    "body": "> [!NOTE]\n> This issue does not need to be assigned to you before you work on it\n\nA number of paths of the code have been identified as requiring automated testing. \n\nTypically this is regression testing: if a bug has been found, then it's useful to have a unit test which would have failed due to the bug.\n\n1. Find a usage of `@NeedsTest`: https://github.com/ankidroid/Anki-Android/blob/main/AnkiDroid/src/main/java/com/ichi2/annotations/NeedsTest.kt\n   a. Ensure that the method(s) you are testing are in use. \n3. Post the test(s) that you're handling on this issue, so people don't duplicate work\n4. Write a unit test (`/test`, not `/androidTest`)\n5. Ensure that re-introducing the bug or issue would break the test\n6. Submit a Pull Request",
+    "state": "open",
+    "created_at": "2023-02-16",
+    "updated_at": "2026-04-20",
+    "html_url": "https://github.com/ankidroid/Anki-Android/issues/13283",
+    "matched_keywords": "cleanup"
+  },
+  {
+    "issue_number": 19460,
+    "title": "architecture: support `withProgress` in ViewModels",
+    "body": "This issue exists as a placeholder to establish a common pattern for progress notifications in the ViewModel. \nLikely via getting PR #17804 listed as high priority, discussed, reviewed and merged.\n\nBeing unable to use `withProgress` from the ViewModel unnecessarily complicates a lot of code.\n\nIn particular, it'd have been useful when refactoring the `DeckPicker` in #18886, and in the CardBrowser refactor.\n\n* #17804\n* #18290",
+    "state": "open",
+    "created_at": "2025-11-10",
+    "updated_at": "2026-04-12",
+    "html_url": "https://github.com/ankidroid/Anki-Android/issues/19460",
+    "matched_keywords": "refactor"
+  },
+  {
+    "issue_number": 20694,
+    "title": "Decide whether the JS API will be on a new repository or inside this one (`Anki-Android`)",
+    "body": "",
+    "state": "open",
+    "created_at": "2026-04-08",
+    "updated_at": "2026-04-12",
+    "html_url": "https://github.com/ankidroid/Anki-Android/issues/20694",
+    "matched_keywords": ""
+  },
+  {
+    "issue_number": 20381,
+    "title": "Potential storage leak in audio recording `createTempFile`",
+    "body": "##Description\nDuring the implementation of the new recording logic, it was noted that createTempFile() generates files in the cacheDir without a defined cleanup strategy inspect.\n\nOP: David \n```\nWhat's the lifecycle of this file and who is responsible for cleanup?\n\nFeel free to peel this one off into an issue\n```\n\n_Originally posted by @david-allison in https://github.com/ankidroid/Anki-Android/pull/19911#discussion_r2660695544_\n\n            ",
+    "state": "closed",
+    "created_at": "2026-03-03",
+    "updated_at": "2026-04-03",
+    "html_url": "https://github.com/ankidroid/Anki-Android/issues/20381",
+    "matched_keywords": "cleanup"
+  }
+]

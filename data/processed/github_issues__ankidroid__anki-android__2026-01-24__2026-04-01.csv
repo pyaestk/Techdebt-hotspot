@@ -1,0 +1,274 @@
+issue_number,title,body,state,created_at,updated_at,html_url,matched_keywords
+12582,Reorganizing the code tree.,"I'd love to do some cleanup in the code tree. I find it very confusing, even after almost 3 years working in it.
+
+Right now, this issue is up for discussion, we are not expecting anyone to do anything until there is a consensus. The first question is whether you agree that it's, on principle, something worth doing, whether you oppose it, or whether you don't care (I'm not asking whether you want to work on it yourself, I'm fine doing it myself, or getting help of whoever people also belive it'll improve the state of the codebase and contributors work)
+
+If we agree that it's worth doing a change, I suggest a new organization of the tree in https://docs.google.com/document/d/1IfEdbSWqWdpWWZUkFiENqty7twAupyJou7JakDvHkEo/edit?usp=sharing
+I believe a design document is better than an issue because anyone can comment any specific point, and we can track discussions of each directory proposal independently. 
+",open,2022-10-05,2026-03-22,https://github.com/ankidroid/Anki-Android/issues/12582,cleanup
+20236,Refactor NoteEditor to use Change Note Type Dialog,"Currently, the note editor's implementation of changing note type is not as intuitive.
+
+We should deprecate it to use the new dialog",closed,2026-01-27,2026-03-10,https://github.com/ankidroid/Anki-Android/issues/20236,refactor
+11116,Add View Binding,"**2026 update: Task List**
+
+* [x] Audit adapter/ViewHolder usage: https://github.com/ankidroid/Anki-Android/pull/19565#discussion_r2553888502
+  * [x] #20390 
+* [x] Remove the merge tag in toolbar.xml 
+    * it's not needed(we already have a single view as root and we don't append this included layout to a Toolbar view) and it also breaks ViewBinding(Missing required view with ID: `com.ichi2.anki.debug:id/toolbar`).
+    * #20286
+* [x] architecture review: vendor 'vbpd' David Allison 18/09/2025, 14:50
+* [x] #20188
+* [x] ~~refactor: remove 'layout' from MultimediaFragment David Allison 12/09/2025, 02:51~~
+* [x] #20186
+* [x] #20185
+* [x] #20184
+* [x] #20183
+* [x] #20165
+* [x] #19940
+* [x] #20153
+* [x] #20152
+* [x] #20151
+* [x] #20150
+* [x] #20149
+* [x] #20148
+* [x] #20139
+* [x] #20138
+* [x] #20389
+* [x] #20137
+* [x] #20135
+* [x] #19620
+* [x] #20134
+* [x] #20132
+* [x] #20083
+* [x] #19564
+* [x] #20081
+* [x] #20080
+* [x] #20079
+* [x] #20076
+* [x] #20075
+* [x] #20074
+* [x] CustomStudyDialog: 12ef7055367d3e687f58be3acc78ba9efabd8278
+* [x] #20012
+* [x] WhiteboardFragment: 8e869ad69cc7fe80c52b636b70a40d10950d1854
+* [x] #20011
+* [x] #20010
+* [x] #20009
+* [x] #20008
+* [x] #19621
+* [x] #19900
+* [x] #19899
+* [x] #19894
+* [x] #19566
+* [x] #19637
+* [x] #19892
+* [x] #19891
+* [x] #19890
+* [x] #19482
+* [x] #19565
+* [x] #19591
+* [x] #19889
+* [x] #19608
+* [x] #19888
+* [x] #19708
+* [x] #19593
+* [x] #19707
+* [x] #19706
+* [x] #19705
+* [x] #19568
+* [x] #19704
+* [x] https://github.com/ankidroid/Anki-Android/pull/19496
+* [x] #19567
+* [x] #19483
+* [x] #20202
+* [x] #20201
+* [x] #19525
+* [x] #19524
+* [x] ImageOcclusionBottomSheetFragment
+   *  https://github.com/ankidroid/Anki-Android/pull/19396
+* [x] #19482
+* [x] #20200
+* [x] #19523
+* [x] #19522
+* [x] #19526
+* [x] #19521
+* [x] #19511
+* [x] #19520
+* [x] #19502
+* [x] #19501
+* [x] #20199
+* [x] #19471
+* [x] ~~chore: convert Preferences to ViewBinding David Allison 10/09/2025, 22:27~~
+* [x] #19442
+* [x] #19440
+* [x] #20187
+* [x] #19439
+* [x] #19429
+* [x] chore: convert StudyOptionsFragment to ViewBinding David Allison 10/09/2025, 21:12
+* [x] #19428
+* [x] #19420
+* [x] chore: convert DrawingActivity to ViewBinding David Allison 10/09/2025, 18:57
+
+
+
+**Implement View Binding**
+Advantages of using it over findViewById
+Null safety – Properties in the generated class are non-null. In the case of multiple layout versions, e.g. layout file for different screen orientation or size, if some configuration contains an id that is not present in others, the generated property will be nullable.
+Type safety – Binding properties will be correctly typed, even with custom views.
+
+**Describe the solution you'd like**
+I will try to implement ViewiBinding for all activities and fragments.
+
+**Describe alternatives you've considered**
+This issue can be marked as good first issue so it will be helpful for new contributors. I will make a readme for this issue which have all the information about how to implement viewBinding for activities and fragments .
+
+**Additional context**
+**Advantages**
+Interoperability – Generated classes are in Java and are optimized for Kotlin-Java interoperability.
+Injection capability – Generated class can be injected in activity or fragment.
+Speed – There are no impacts on build speed, as it doesn’t use an annotation processor. After the first build with View Binding is enabled, it will dynamically generate new properties. And if you add new view elements to your XML, there is no need to rebuild every time
+
+",closed,2022-04-27,2026-03-09,https://github.com/ankidroid/Anki-Android/issues/11116,refactor
+13282,[Cleanup]: Fix Android Studio Warnings,"This task is designed as a small, useful task to onboard new users to the codebase who are unsure about what  to work on.
+
+> [!IMPORTANT] 
+> **Unique constraint to this issue**
+> Multiple pull requests from the same author will not be accepted, unless the refactoring is part of a larger piece of work 
+
+> [!TIP]
+> You do not need to be assigned this issue to work on it
+
+Android Studio flags a number of warnings in the AnkiDroid project.
+
+If a file which contains these warnings is committed, then Android Studio will warn the author. If the warning was not introduced by the author's commit, then the author is unnecessarily slowed down by having to confirm that they did not introduce more warnings into the codebase (which inevitably leads them to disabling the warning, as they're low value).
+
+The list of warnings can be obtained via:
+* Code -> Inspect Code
+
+![Screenshot 2023-02-16 at 21 38 16](https://user-images.githubusercontent.com/62114487/219492902-6f1198ee-50ed-4cf5-9d7b-95816653d8e8.png)
+
+The aim of this task is to introduce new contributors to the code with an 'easy' first issue to resolve.
+
+1. Run `Code -> Inspect Code` on the solution (it will be slow)
+2. Select one file which has warnings (under the `Kotlin` header is easiest.- many of the Java warnings are not flagged by the IDE)
+3. Fix all the errors, warnings + weak warnings in the file, automatically if this is offered by the IDE, or manually otherwise.
+4. Produce a Pull Request
+
+If you have completed this and desire to do more work, please select one of our accepted issues, [or fix some `@NeedsTest` annotations in the codebase.](https://github.com/ankidroid/Anki-Android/issues/13283)
+
+Once this issue has been completed, we can use CI to run Android Studio in headless mode to ensure that the codebase gets to, and stays at 0 warnings.",closed,2023-02-16,2026-03-08,https://github.com/ankidroid/Anki-Android/issues/13282,"refactor, cleanup"
+19924,[Split Browser] : java.util.NoSuchElementException: List is empty when toggling Card/Notes,"I got an exception changing to notes only mode. My be related.
+
+Instead of working around it, I'd rather move that logic to the ViewModel and get a unit test around it, it's bad code which I haven't tackled yet in the ViewModel/fragment refactor of the class
+```
+2025-12-13 21:55:20.521 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 I  Toggle select all / none
+2025-12-13 21:55:20.521 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  selecting none
+2025-12-13 21:55:20.523 13278-13278 CardBrowse...lectedRows com.ichi2.anki.debug                 D  refreshed selected rows
+2025-12-13 21:55:20.523 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:20.523 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:22.015 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 1390KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/33MB, paused 268us,2.142ms total 47.843ms
+2025-12-13 21:55:22.116 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:24.157 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 628KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 169us,1.925ms total 38.856ms
+2025-12-13 21:55:24.259 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:25.928 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@c00aad9
+2025-12-13 21:55:26.302 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 456KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 173us,1.602ms total 40.681ms
+2025-12-13 21:55:26.405 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:27.388 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:27.389 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:27.390 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  end multiselect mode
+2025-12-13 21:55:27.419 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onCreateOptionsMenu()
+2025-12-13 21:55:27.429 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:27.429 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:28.444 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 525KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 157us,1.289ms total 35.826ms
+2025-12-13 21:55:28.546 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:30.586 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 670KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/33MB, paused 190us,1.201ms total 36.242ms
+2025-12-13 21:55:30.688 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:30.967 13278-13278 NoteEditorFragment      com.ichi2.anki.debug                 D  NoteEditor::onMenuItemSelected
+2025-12-13 21:55:30.967 13278-13278 CardBrowse...$setupMenu com.ichi2.anki.debug                 D  CardBrowserFragment::onMenuItemSelected
+2025-12-13 21:55:30.968 13278-13278 BrowserOpt...$Companion com.ichi2.anki.debug                 I  BrowserOptionsDialog::newInstance
+2025-12-13 21:55:30.969 13278-13278 NoteEditorFragment      com.ichi2.anki.debug                 D  NoteEditor::onMenuItemSelected
+2025-12-13 21:55:30.969 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@146f82c
+2025-12-13 21:55:30.972 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onAttach
+2025-12-13 21:55:30.973 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onCreate
+2025-12-13 21:55:31.011 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onViewCreated
+2025-12-13 21:55:31.021 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onStart
+2025-12-13 21:55:31.021 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onResume
+2025-12-13 21:55:31.321 13278-13375 HWUI                    com.ichi2.anki.debug                 D  endAllActiveAnimators on 0xb40000721d9eb580 (MenuPopupWindow$MenuDropDownListView) with handle 0xb40000715d97f950
+2025-12-13 21:55:32.737 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 1527KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 17MB/34MB, paused 207us,1.635ms total 46.439ms
+2025-12-13 21:55:32.838 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:33.905 13278-13278 CardBrowse...rdsOrNotes com.ichi2.anki.debug                 I  setting mode to NOTES
+2025-12-13 21:55:33.905 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.app.Dialog$$ExternalSyntheticLambda2@a22453d
+2025-12-13 21:55:33.910 13278-13375 HWUI                    com.ichi2.anki.debug                 D  endAllActiveAnimators on 0xb40000721dbc7510 (RippleDrawable) with handle 0xb40000715da0c230
+2025-12-13 21:55:33.914 13278-13278 CardBrowse...mnHeadings com.ichi2.anki.debug                 D  updated headings for 4 columns
+2025-12-13 21:55:33.914 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  column names changed
+2025-12-13 21:55:33.914 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Sort Field, ankiColumnKey=noteFld)
+2025-12-13 21:55:33.915 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Cards, ankiColumnKey=template)
+2025-12-13 21:55:33.916 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Due, ankiColumnKey=cardDue)
+2025-12-13 21:55:33.917 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Deck, ankiColumnKey=deck)
+2025-12-13 21:55:33.918 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  loading columns for NOTES mode
+2025-12-13 21:55:33.918 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  updating active columns
+2025-12-13 21:55:33.920 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  search state: Searching
+2025-12-13 21:55:33.920 13278-13278 CardBrowse...mnHeadings com.ichi2.anki.debug                 D  updated headings for 4 columns
+2025-12-13 21:55:33.921 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  column names changed
+2025-12-13 21:55:33.921 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Sort Field, ankiColumnKey=noteFld)
+2025-12-13 21:55:33.922 13278-13557 CardBrowse...chForCards com.ichi2.anki.debug                 D  performing search: ''
+2025-12-13 21:55:33.923 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Note Type, ankiColumnKey=note)
+2025-12-13 21:55:33.923 13278-13557 CardBrowse...chForCards com.ichi2.anki.debug                 D  Search returned 4 card(s)
+2025-12-13 21:55:33.923 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Cards, ankiColumnKey=template)
+2025-12-13 21:55:33.924 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Tags, ankiColumnKey=noteTags)
+2025-12-13 21:55:33.924 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  columns changed
+2025-12-13 21:55:33.939 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onPause
+2025-12-13 21:55:33.939 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onStop
+2025-12-13 21:55:33.939 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of android.widget.ScrollView (com.ichi2.anki.dialogs.BrowserOptionsDialog received Fragment#onDestroyView() callback (references to its views should be cleared to prevent leaks)) with key 5519fc4b-6e67-469f-a137-6e4164f814c6
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onViewDestroyed
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of androidx.lifecycle.SavedStateHandlesVM (androidx.lifecycle.SavedStateHandlesVM received ViewModel#onCleared() callback) with key ddb1a680-bbf4-4b6e-b4f3-f38e79d24741
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of leakcanary.internal.ViewModelClearedWatcher (leakcanary.internal.ViewModelClearedWatcher received ViewModel#onCleared() callback) with key 3afe93c2-3959-4c6e-825d-c9b5cbd8c177
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of androidx.loader.app.LoaderManagerImpl$LoaderViewModel (androidx.loader.app.LoaderManagerImpl$LoaderViewModel received ViewModel#onCleared() callback) with key a619cd09-887e-4792-9069-89729f1d4145
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of com.ichi2.anki.dialogs.BrowserOptionsDialog (com.ichi2.anki.dialogs.BrowserOptionsDialog received Fragment#onDestroy() callback) with key c21611d1-a276-4cc3-a19d-5519b434d40d
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onDestroy
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onDetach
+2025-12-13 21:55:33.941 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  search state: Completed
+2025-12-13 21:55:33.942 13278-13278 CardBrowse...fterSearch com.ichi2.anki.debug                 I  CardBrowser:: Completed searchCards() Successfully
+2025-12-13 21:55:33.943 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateList
+2025-12-13 21:55:33.944 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:33.944 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:33.961 13278-13278 CoroutineHelpersKt      com.ichi2.anki.debug                 E  java.util.NoSuchElementException: List is empty.
+                                                                                                    	at kotlin.collections.CollectionsKt___CollectionsKt.first(_Collections.kt:221)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId.toCardId_impl$lambda$0(CardOrNoteId.kt:42)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId.$r8$lambda$bxkjGAhWtD0G-4MOEwFHY5dBQno(Unknown Source:0)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId$$ExternalSyntheticLambda1.invoke(D8$$SyntheticClass:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager.withCol$lambda$1(CollectionManager.kt:146)
+                                                                                                    	at com.ichi2.anki.CollectionManager.$r8$lambda$ffr4nUlMOyAvThaKA2WuJlnLaPU(Unknown Source:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager$$ExternalSyntheticLambda10.invoke(D8$$SyntheticClass:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager$withQueue$3.invokeSuspend(CollectionManager.kt:128)
+                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+                                                                                                    	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:113)
+                                                                                                    	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:589)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:823)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:720)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:707)
+2025-12-13 21:55:33.961 13278-13278 CoroutineHelpersKt      com.ichi2.anki.debug                 E  	at com.ichi2.anki.CoroutineHelpersKt.launchCatchingTask$default(CoroutineHelpers.kt:222)
+                                                                                                    	at com.ichi2.anki.CardBrowser.redrawAfterSearch(CardBrowser.kt:1187)
+                                                                                                    	at com.ichi2.anki.CardBrowser.setupFlows$searchStateChanged(CardBrowser.kt:538)
+                                                                                                    	at com.ichi2.anki.CardBrowser.setupFlows$searchStateChanged$30(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.CardBrowser.access$setupFlows$searchStateChanged$30(CardBrowser.kt:111)
+                                                                                                    	at com.ichi2.anki.CardBrowser$setupFlows$8.invoke(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.CardBrowser$setupFlows$8.invoke(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.AnkiActivity$launchCollectionInLifecycleScope$1$1$1.emit(AnkiActivity.kt:766)
+                                                                                                    	at kotlinx.coroutines.flow.SharedFlowImpl.collect$suspendImpl(SharedFlow.kt:397)
+                                                                                                    	at kotlinx.coroutines.flow.SharedFlowImpl$collect$1.invokeSuspend(Unknown Source:19)
+                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+                                                                                                    	at android.os.Handler.handleCallback(Handler.java:995)
+                                                                                                    	at android.os.Handler.dispatchMessage(Handler.java:103)
+                                                                                                    	at android.os.Looper.loopOnce(Looper.java:248)
+                                                                                                    	at android.os.Looper.loop(Looper.java:338)
+                                                                                                    	at android.app.ActivityThread.main(ActivityThread.java:9067)
+                                                                                                    	at java.lang.reflect.Method.invoke(Native Method)
+                                                                                                    	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:593)
+                                                                                                    	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:932)
+```
+
+_Originally posted by @david-allison in https://github.com/ankidroid/Anki-Android/pull/19790#pullrequestreview-3574416888_
+            ",closed,2025-12-25,2026-02-20,https://github.com/ankidroid/Anki-Android/issues/19924,refactor
