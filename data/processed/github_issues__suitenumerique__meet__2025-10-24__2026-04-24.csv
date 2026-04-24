@@ -1,0 +1,136 @@
+issue_number,title,body,state,created_at,updated_at,html_url,matched_keywords
+930,WhisperX FastAPI endpoint returns 500 on silent audio + wrong language,"### Context
+
+We are running WhisperX behind a FastAPI service. 
+Over the last few weeks, we observed ~100 occurrences of HTTP 500 errors causing the server request to fail.
+
+### References
+- API repository [suitenumerique/meet-whisperx](https://github.com/suitenumerique/meet-whisperx)
+- Image deployed in production : [lasuite/whisper-api](https://hub.docker.com/r/lasuite/whisper-api) tag [v1.1.0](https://hub.docker.com/layers/lasuite/whisper-api/v1.1.0/images/sha256-655c860cdc3b3984a943462010a73df6bdf0817c24b8381d58bb1b8c30f26c89)
+
+
+## Issue 1 - Server crash on silent / near-empty audio
+
+[[Sentry Issues](https://sentry.incubateur.net/organizations/betagouv/issues/209410/?environment=production&environment=Production&query=is%3Aunresolved%20issue.priority%3A%5Bhigh%2C%20medium%5D&referrer=issue-stream)]
+
+When uploaded audio contains no audible speech or extremely low signal, the API returns HTTP 500. The failure appears to occur during alignment model loading, specifically a Welsh (""cy"") alignment model : 
+
+```
+Detected language: cy (0.70) in first 30s of audio...
+INFO:     2026-01-29 15:11:29 - Transcription done.
+There is no default alignment model set for this language (cy).                Please find a wav2vec2.0 model finetuned on this language in https://huggingface.co/models, then pass the model name in --align_model [MODEL_NAME]
+INFO:     2026-01-29 15:11:29 - 10.233.70.198:40492 - ""POST /v1/audio/transcriptions HTTP/1.1"" 500 Internal Server Error
+ERROR:    2026-01-29 15:11:29 - Exception in ASGI application
+Traceback (most recent call last):
+  File ""/usr/local/lib/python3.10/dist-packages/uvicorn/protocols/http/h11_impl.py"", line 406, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+  File ""/usr/local/lib/python3.10/dist-packages/uvicorn/middleware/proxy_headers.py"", line 60, in __call__
+    return await self.app(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/fastapi/applications.py"", line 1054, in __call__
+    await super().__call__(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/applications.py"", line 113, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py"", line 187, in __call__
+    raise exc
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/middleware/errors.py"", line 165, in __call__
+    await self.app(scope, receive, _send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/middleware/exceptions.py"", line 62, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/_exception_handler.py"", line 53, in wrapped_app
+    raise exc
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/_exception_handler.py"", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/routing.py"", line 715, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/routing.py"", line 735, in app
+    await route.handle(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/routing.py"", line 288, in handle
+    await self.app(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/routing.py"", line 76, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/_exception_handler.py"", line 53, in wrapped_app
+    raise exc
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/_exception_handler.py"", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File ""/usr/local/lib/python3.10/dist-packages/starlette/routing.py"", line 73, in app
+    response = await f(request)
+  File ""/usr/local/lib/python3.10/dist-packages/fastapi/routing.py"", line 301, in app
+    raw_response = await run_endpoint_function(
+  File ""/usr/local/lib/python3.10/dist-packages/fastapi/routing.py"", line 212, in run_endpoint_function
+    return await dependant.call(**values)
+  File ""/app/endpoints/audio.py"", line 80, in audio_transcriptions
+    model_alignment, metadata = whisperx.load_align_model(
+  File ""/usr/local/lib/python3.10/dist-packages/whisperx/alignment.py"", line 78, in load_align_model
+    raise ValueError(f""No default align-model for language: {language_code}"")
+ValueError: No default align-model for language: cy
+```
+
+WhisperX crashes instead of failing gracefully
+
+### Suspected root cause
+
+WhisperX attempts to:
+- Run transcription
+- Detect language (possibly incorrectly)
+- Load an alignment model for detected language
+- Alignment model loading fails
+- Exception is not caught → crashes request → 500 error
+
+When audio has no real speech, language detection may produce invalid/low-confidence output.
+
+### Expected behavior
+
+API should never return 500 for user-provided audio.
+Plus, the API should not run language detection anymore as we explicitly pass a language parameter.
+
+
+For silent/invalid audio, return a controlled client error, e.g.:
+- 400 Bad Request with message like ""No speech detected in audio""
+- OR a valid response with empty transcript + warning flag
+
+## Issue 2 - Incorrect transcription language
+
+Multiple users have reported that transcripts are being returned in the wrong language (for example, Russian or English instead of the language that was requested).
+
+It appears that the `language` parameter in the API is being ignored:
+[https://github.com/suitenumerique/meet-whisperx/blob/f9de81086c342a34a18b11ac4eb3e7d2f9019d5b/app/endpoints/audio.py#L39](https://github.com/suitenumerique/meet-whisperx/blob/f9de81086c342a34a18b11ac4eb3e7d2f9019d5b/app/endpoints/audio.py#L39)
+
+The parameter is passed from here:
+[https://github.com/suitenumerique/meet/blob/fd894eb61f45c2fd43a4ab850322c6f2192e4f7f/src/summary/summary/core/celery_worker.py#L168](https://github.com/suitenumerique/meet/blob/fd894eb61f45c2fd43a4ab850322c6f2192e4f7f/src/summary/summary/core/celery_worker.py#L168)
+
+And then forwarded to the WhisperX dependency here:
+[https://github.com/m-bain/whisperX/blob/6ec4a020489d904c4f2cd1ed097674232d2692d4/whisperx/asr.py#L197](https://github.com/m-bain/whisperX/blob/6ec4a020489d904c4f2cd1ed097674232d2692d4/whisperx/asr.py#L197)
+
+This suggests the language setting may be dropped or overridden somewhere along this chain.
+
+### Some user feedback 
+
+> j'ai testé Visio aujourd'hui avec transcription, cette dernière a bien été créée dans Docs, mais en anglais. Ai-je manqué un paramètre ? 
+
+> Bonjour, j'ai fait une visio hier via l'outil visio.numerique et j'avais activé la transcription automatique IA. J'ai bien reçu cette transcription, mais elle est en russe 😨. Aujourd'hui j'ai refait le test, et c'est bien en français (pourtant je n'ai changé aucun paramètre). Est-ce arrivé à d'autres gens ? 
+
+Please DM to get more details on the concerned recording.
+
+
+
+
+
+
+
+
+
+
+
+",closed,2026-01-29,2026-03-31,https://github.com/suitenumerique/meet/issues/930,
+892,The rendered login/logout button text is reversed,"## Bug Report
+
+**Problematic behavior**
+The rendered text is reversed ""Sophie Drouvroy connected as…”
+
+**Expected behavior/code**
+It would be more logical to have a voice restitution like this ""Connected as … Sophie Drouvroy""
+
+**Additional context/Screenshots**
+<img width=""1424"" height=""330"" alt=""Image"" src=""https://github.com/user-attachments/assets/c3a4aefd-0b40-4bab-ab22-ae074693b43c"" />
+<img width=""247"" height=""84"" alt=""Image"" src=""https://github.com/user-attachments/assets/1eff33a2-03ea-41b2-ad13-cb177e0e8411"" />
+",closed,2026-01-22,2026-01-28,https://github.com/suitenumerique/meet/issues/892,

@@ -1,0 +1,27 @@
+issue_number,title,body,state,created_at,updated_at,html_url,matched_keywords
+525,Recording synchronization mecanism,"## Bug Report
+
+**Problematic behavior**
+If an error occurs while recording a room, the recording may still be marked as active in the database, even though the egress has stopped. This prevents users from starting a new recording, as only one recording is allowed per room.
+
+**Expected behavior/code**
+The system should detect that the egress has stopped and update the recording status accordingly, allowing users to start a new recording.
+
+**Steps to Reproduce**
+
+1. Start a recording in a room.
+2. Trigger an error during the recording process.
+3. Observe that the database still marks the recording as active.
+4. Try to start a new recording — it fails due to the existing ""active"" state.
+
+**Environment**
+
+* Meet version:
+* Platform:
+
+**Possible Solution**
+Implement a cleanup or synchronization mechanism to reset the recording status if the egress has stopped unexpectedly.
+
+**Additional context/Screenshots**
+N/A
+",open,2025-05-12,2025-05-12,https://github.com/suitenumerique/meet/issues/525,cleanup
