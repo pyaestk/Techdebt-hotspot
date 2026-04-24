@@ -40,6 +40,8 @@ class AppConfig:
     weight_churn: float
     weight_sonar: float
     weight_github_issues: float
+    enable_time_sliced_validation: bool = False
+    validation_window_ratio: float = 0.25
     use_mock_data: bool = False
 
 
@@ -63,6 +65,8 @@ def get_default_sidebar_values() -> dict[str, object]:
         "sonar_base_url": os.getenv("SONARQUBE_BASE_URL", ""),
         "sonar_token": os.getenv("SONARQUBE_TOKEN", ""),
         "sonar_project_key": os.getenv("SONARQUBE_PROJECT_KEY", ""),
+        "enable_time_sliced_validation": os.getenv("ENABLE_TIME_SLICED_VALIDATION", "false").lower() == "true",
+        "validation_window_ratio": float(os.getenv("VALIDATION_WINDOW_RATIO", "0.25")),
         "use_mock_data": os.getenv("USE_MOCK_DATA", "false").lower() == "true",
     }
 

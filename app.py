@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import Any, Callable
 
 import pandas as pd
@@ -11,6 +12,7 @@ from src.charts import (
     create_churn_over_time_chart,
     create_hotspot_bar_chart,
     create_scatter_chart,
+    create_validation_comparison_chart,
 )
 from src.config import AppConfig, ensure_data_directories, get_default_sidebar_values
 from src.github_data import (
@@ -20,13 +22,12 @@ from src.github_data import (
     fetch_maintenance_issues_with_progress,
     load_mock_github_data,
 )
-from src.scoring import compute_hotspot_scores, summarize_hotspots
+from src.scoring import compute_hotspot_scores, compute_validation_insights, summarize_hotspots
 from src.sonar_data import SonarAPIError, fetch_sonar_issues_with_progress, load_mock_sonar_data
 
 
 st.set_page_config(
-    page_title="Technical Debt Hotspot Dashboard",
-    page_icon=":bar_chart:",
+    page_title="Potential Technical Debt Hotspot Dashboard",
     layout="wide",
 )
 
@@ -56,6 +57,46 @@ def _format_hotspot_score(value: float) -> str:
     return f"{value:.4f}"
 
 
+def _derive_time_windows(config: AppConfig) -> dict[str, Any]:
+    """Split the selected study range into analysis and validation windows when enabled."""
+    study_start = config.start_date
+    study_end = config.end_date
+    windows = {
+        "study_start": study_start,
+        "study_end": study_end,
+        "analysis_start": study_start,
+        "analysis_end": study_end,
+        "validation_enabled": False,
+        "validation_start": None,
+        "validation_end": None,
+    }
+
+    if not config.enable_time_sliced_validation:
+        return windows
+
+    total_days = (study_end - study_start).days + 1
+    if total_days < 28:
+        raise ValueError("Time-sliced validation needs at least 28 days in the selected study range.")
+
+    validation_days = max(14, int(round(total_days * config.validation_window_ratio)))
+    analysis_days = total_days - validation_days
+    if analysis_days < 14:
+        raise ValueError("The validation split is too large for the selected date range. Reduce the validation share or widen the range.")
+
+    analysis_end = study_start + timedelta(days=analysis_days - 1)
+    validation_start = analysis_end + timedelta(days=1)
+
+    windows.update(
+        {
+            "analysis_end": analysis_end,
+            "validation_enabled": True,
+            "validation_start": validation_start,
+            "validation_end": study_end,
+        }
+    )
+    return windows
+
+
 def _render_sidebar(defaults: dict[str, Any]) -> tuple[AppConfig, bool]:
     """Render the sidebar inputs and return the selected configuration."""
     with st.sidebar.form("analysis_inputs"):
@@ -65,9 +106,9 @@ def _render_sidebar(defaults: dict[str, Any]) -> tuple[AppConfig, bool]:
         default_branch = st.text_input("Default branch", value=defaults["default_branch"])
 
         date_range = st.date_input(
-            "Analysis date range",
+            "Study date range",
             value=(defaults["start_date"], defaults["end_date"]),
-            help="Commit churn and GitHub issue signals are calculated across this window.",
+            help="This is the full historical window used for analysis, and optionally split into analysis and validation slices.",
         )
 
         if isinstance(date_range, tuple) and len(date_range) == 2:
@@ -101,7 +142,14 @@ def _render_sidebar(defaults: dict[str, Any]) -> tuple[AppConfig, bool]:
         )
 
         st.subheader("Scoring Weights")
-        weight_churn = st.slider("Churn weight", min_value=0.0, max_value=1.0, value=0.5, step=0.05)
+        weight_churn = st.slider(
+            "Code activity weight",
+            min_value=0.0,
+            max_value=1.0,
+            value=0.5,
+            step=0.05,
+            help="Controls the combined code-activity signal built from churn, recency, ownership concentration, contributor spread, and burstiness.",
+        )
         weight_sonar = st.slider("Sonar weight", min_value=0.0, max_value=1.0, value=0.3, step=0.05)
         weight_github_issues = st.slider(
             "GitHub issue weight",
@@ -110,6 +158,23 @@ def _render_sidebar(defaults: dict[str, Any]) -> tuple[AppConfig, bool]:
             value=0.2,
             step=0.05,
         )
+
+        st.subheader("Time-Sliced Validation")
+        enable_time_sliced_validation = st.checkbox(
+            "Enable time-sliced validation",
+            value=bool(defaults.get("enable_time_sliced_validation", False)),
+            help="Splits the selected study range into an analysis slice and a future validation slice, so the system can compare current hotspot scores with later maintenance pressure.",
+        )
+        validation_window_ratio = defaults.get("validation_window_ratio", 0.25)
+        if enable_time_sliced_validation:
+            validation_window_ratio = st.slider(
+                "Validation window share",
+                min_value=0.15,
+                max_value=0.50,
+                value=float(validation_window_ratio),
+                step=0.05,
+                help="Fraction of the study range reserved for the future validation slice.",
+            )
 
         use_mock_data = st.checkbox(
             "Use mock data",
@@ -132,6 +197,8 @@ def _render_sidebar(defaults: dict[str, Any]) -> tuple[AppConfig, bool]:
         weight_churn=weight_churn,
         weight_sonar=weight_sonar,
         weight_github_issues=weight_github_issues,
+        enable_time_sliced_validation=enable_time_sliced_validation,
+        validation_window_ratio=float(validation_window_ratio),
         use_mock_data=use_mock_data,
     )
     return config, run_analysis
@@ -148,9 +215,9 @@ def _render_kpis(summary: dict[str, Any]) -> None:
     columns[5].metric("Median hotspot score", _format_hotspot_score(summary["median_hotspot_score"]))
 
 
-def _build_signal_summary(config: AppConfig, sonar_issue_df: pd.DataFrame) -> str:
+def _build_signal_summary(config: AppConfig, sonar_issue_df: pd.DataFrame, validation_enabled: bool) -> str:
     """Build a concise summary of which signals are active in this run."""
-    signal_labels = ["GitHub churn", "GitHub maintenance issue search"]
+    signal_labels = ["GitHub code-activity signals", "GitHub maintenance issue search"]
     if config.use_mock_data:
         signal_labels.append("Mock SonarQube data")
     elif not sonar_issue_df.empty:
@@ -159,6 +226,8 @@ def _build_signal_summary(config: AppConfig, sonar_issue_df: pd.DataFrame) -> st
         signal_labels.append("SonarCloud configured")
     else:
         signal_labels.append("SonarCloud omitted")
+    if validation_enabled:
+        signal_labels.append("time-sliced validation")
     return ", ".join(signal_labels)
 
 
@@ -167,13 +236,14 @@ def _render_repository_summary(
     commit_df: pd.DataFrame,
     hotspot_df: pd.DataFrame,
     sonar_issue_df: pd.DataFrame,
+    windows: dict[str, Any],
 ) -> None:
     """Render a compact repository summary card section."""
     commit_count = int(commit_df["sha"].nunique()) if not commit_df.empty else 0
     contributor_count = int(commit_df["contributor"].nunique()) if not commit_df.empty else 0
-    analysis_days = (config.end_date - config.start_date).days + 1
+    analysis_days = (windows["analysis_end"] - windows["analysis_start"]).days + 1
     hotspot_candidates = int(hotspot_df["file_path"].nunique()) if not hotspot_df.empty else 0
-    signal_summary = _build_signal_summary(config, sonar_issue_df)
+    signal_summary = _build_signal_summary(config, sonar_issue_df, windows["validation_enabled"])
 
     st.subheader("Repository summary")
     columns = st.columns(5)
@@ -191,31 +261,51 @@ def _render_repository_summary(
                 st.caption(label)
                 st.markdown(f"**{value}**")
 
-    st.caption(
-        f"Date range: {config.start_date.isoformat()} to {config.end_date.isoformat()} | "
-        f"Hotspot candidates: {hotspot_candidates:,} | Signals used: {signal_summary}"
-    )
+    study_range = f"{windows['study_start'].isoformat()} to {windows['study_end'].isoformat()}"
+    analysis_range = f"{windows['analysis_start'].isoformat()} to {windows['analysis_end'].isoformat()}"
+    caption_parts = [
+        f"Study range: {study_range}",
+        f"Analysis slice: {analysis_range}",
+        f"Hotspot candidates: {hotspot_candidates:,}",
+        f"Signals used: {signal_summary}",
+    ]
+    if windows["validation_enabled"]:
+        caption_parts.insert(
+            2,
+            f"Validation slice: {windows['validation_start'].isoformat()} to {windows['validation_end'].isoformat()}",
+        )
+    st.caption(" | ".join(caption_parts))
 
 
-def _render_methodology(config: AppConfig) -> None:
+def _render_methodology(config: AppConfig, windows: dict[str, Any]) -> None:
     """Render the methodology section for seminar use."""
     st.subheader("Methodology")
     left_col, right_col = st.columns([1.3, 0.7])
 
     with left_col:
+        validation_note = ""
+        if windows["validation_enabled"]:
+            validation_note = (
+                f"\n\n**Time-sliced validation**\n"
+                f"- Analysis slice: `{windows['analysis_start'].isoformat()}` to `{windows['analysis_end'].isoformat()}`\n"
+                f"- Validation slice: `{windows['validation_start'].isoformat()}` to `{windows['validation_end'].isoformat()}`\n"
+                f"- Current hotspot scores are computed on the analysis slice and then compared with later signals from the validation slice."
+            )
+
         st.markdown(
-            """
+            f"""
             This dashboard combines multiple repository signals to identify **potential technical debt hotspots**.
 
             **Data sources**
-            - GitHub commit history: file-level commit count, additions, deletions, total churn, and contributor spread.
+            - GitHub commit history: file-level commit count, additions, deletions, total churn, contributor spread, recency, and burstiness.
             - GitHub issue search: maintenance-related issues matching keywords such as `refactor`, `cleanup`, `technical debt`, `maintainability`, and `code smell`.
             - SonarCloud maintainability findings: unresolved `CODE_SMELL` issues aggregated by file when SonarCloud access is configured.
 
             **Metrics**
-            - `Total churn` = additions + deletions per file across the selected period.
-            - `GitHub issue signal` combines repository-level maintenance issue frequency with simple file-name or path mentions in issue text.
-            - `Sonar issue count` is the number of SonarCloud `CODE_SMELL` findings associated with each file.
+            - `Code activity signal` combines total churn with commit frequency, active days, contributor spread, average churn per commit, recency of last touch, ownership concentration, bug-fix ratio, and change burstiness.
+            - `GitHub issue signal` combines repository-level maintenance issue frequency with weighted file attributions using exact path mentions, path suffix mentions, basename mentions, and directory context.
+            - `Sonar signal` combines SonarCloud code-smell count with severity information at file level.
+            {validation_note}
             """
         )
 
@@ -224,17 +314,17 @@ def _render_methodology(config: AppConfig) -> None:
         st.latex(
             r"""
             hotspot\_score =
-            \frac{(w_c \cdot churn_{norm}) + (w_s \cdot sonar_{norm}) + (w_g \cdot github_{norm})}
-            {w_c + w_s + w_g}
+            \frac{(w_a \cdot activity_{norm}) + (w_s \cdot sonar_{norm}) + (w_g \cdot github_{norm})}
+            {w_a + w_s + w_g}
             """
         )
         st.caption(
-            f"Current weights: churn={config.weight_churn:.2f}, "
+            f"Current weights: activity={config.weight_churn:.2f}, "
             f"sonar={config.weight_sonar:.2f}, github issues={config.weight_github_issues:.2f}"
         )
         st.markdown(
             """
-            All three signals are min-max normalized to a 0-1 scale before weighting so that no single raw metric dominates only because of its numeric range.
+            Each signal is min-max normalized before weighting. The GitHub and Sonar components also include confidence-oriented secondary features so that stronger evidence is favored over weak textual mentions or severity-free counts.
             """
         )
 
@@ -244,11 +334,11 @@ def _render_limitations() -> None:
     st.subheader("Limitations")
     st.markdown(
         """
-        - Code churn and maintenance issue frequency are **proxy indicators**. They can suggest maintenance pressure, but they are not direct proof of technical debt.
-        - High churn can reflect healthy feature work, active refactoring, or release preparation rather than problematic code.
-        - GitHub issue signals depend on issue-writing practices. If teams do not document refactoring or code smell work in issues, the issue signal will be understated.
+        - Code churn, recency, ownership concentration, and issue frequency are **proxy indicators**. They can suggest maintenance pressure, but they are not direct proof of technical debt.
+        - High code activity can still reflect healthy feature work, active refactoring, or release preparation rather than problematic code.
+        - GitHub issue attribution is heuristic. Exact path mentions are stronger evidence than basename-only mentions, but both can still miss context or over-attribute ambiguous files.
         - SonarCloud issue counts depend on analysis coverage and rule configuration. They should be interpreted as one input among several, not as a definitive quality score.
-        - File-level attribution from GitHub issues is heuristic because it relies on simple path or filename mentions in issue text.
+        - Time-sliced validation compares one historical slice with a later slice, but it still does not establish causality or a ground-truth debt label.
         """
     )
 
@@ -266,7 +356,7 @@ def _create_progress_updater() -> tuple[ProgressUpdater, Callable[[str], None]]:
         status_placeholder.caption(message)
         if not log_messages or log_messages[-1] != message:
             log_messages.append(message)
-            recent_messages = log_messages[-8:]
+            recent_messages = log_messages[-10:]
             log_placeholder.markdown(
                 "**Collection progress**\n" + "\n".join(f"- {entry}" for entry in recent_messages)
             )
@@ -277,11 +367,7 @@ def _create_progress_updater() -> tuple[ProgressUpdater, Callable[[str], None]]:
     return update, finish
 
 
-def _stage_progress(
-    updater: ProgressUpdater,
-    start: float,
-    end: float,
-) -> ProgressUpdater:
+def _stage_progress(updater: ProgressUpdater, start: float, end: float) -> ProgressUpdater:
     """Map a stage-local 0-1 progress value onto the overall progress bar."""
     span = max(end - start, 0.0)
 
@@ -292,6 +378,123 @@ def _stage_progress(
     return inner
 
 
+def _prefixed_stage_progress(updater: ProgressUpdater, label: str, start: float, end: float) -> ProgressUpdater:
+    """Prefix progress messages with the active analysis slice."""
+    staged_updater = _stage_progress(updater, start, end)
+
+    def inner(local_progress: float, message: str) -> None:
+        staged_updater(local_progress, f"{label}: {message}")
+
+    return inner
+
+
+def _build_issue_signal_frame(
+    churn_summary_df: pd.DataFrame,
+    sonar_summary_df: pd.DataFrame,
+    github_issue_df: pd.DataFrame,
+) -> pd.DataFrame:
+    """Build issue signal frame for the union of files present in churn and Sonar data."""
+    all_file_paths = sorted(
+        set(churn_summary_df.get("file_path", pd.Series(dtype=str)).dropna().tolist())
+        | set(sonar_summary_df.get("file_path", pd.Series(dtype=str)).dropna().tolist())
+    )
+    return build_issue_signal(github_issue_df, all_file_paths)
+
+
+def _collect_live_dataset(
+    config: AppConfig,
+    start_date: Any,
+    end_date: Any,
+    progress_specs: dict[str, tuple[float, float]],
+    progress_updater: ProgressUpdater,
+    dataset_label: str,
+    data_source_messages: list[str],
+) -> dict[str, pd.DataFrame]:
+    """Collect GitHub and optional Sonar data for one analysis slice."""
+    commit_df, churn_summary_df, daily_churn_df = fetch_commit_history_with_progress(
+        owner=config.github_owner,
+        repo=config.github_repo,
+        branch=config.default_branch,
+        start_date=start_date,
+        end_date=end_date,
+        token=config.github_token,
+        progress_callback=_prefixed_stage_progress(progress_updater, dataset_label, *progress_specs["commits"]),
+    )
+    github_issue_df = fetch_maintenance_issues_with_progress(
+        owner=config.github_owner,
+        repo=config.github_repo,
+        start_date=start_date,
+        end_date=end_date,
+        token=config.github_token,
+        progress_callback=_prefixed_stage_progress(progress_updater, dataset_label, *progress_specs["issues"]),
+    )
+
+    sonar_issue_df = pd.DataFrame()
+    sonar_summary_df = _empty_sonar_summary()
+    if config.sonar_base_url and config.sonar_token and config.sonar_project_key:
+        try:
+            sonar_issue_df, sonar_summary_df = fetch_sonar_issues_with_progress(
+                base_url=config.sonar_base_url,
+                token=config.sonar_token,
+                project_key=config.sonar_project_key,
+                progress_callback=_prefixed_stage_progress(progress_updater, dataset_label, *progress_specs["sonar"]),
+            )
+        except SonarAPIError as exc:
+            data_source_messages.append(
+                f"{dataset_label}: SonarQube data collection failed: {exc}. Scores for this slice use GitHub-only signals."
+            )
+    else:
+        data_source_messages.append(f"{dataset_label}: SonarQube settings are incomplete. SonarQube signals were omitted.")
+        progress_updater(progress_specs["sonar"][1], f"{dataset_label}: Skipping SonarCloud because required settings are incomplete.")
+
+    return {
+        "commit_df": commit_df,
+        "churn_summary_df": churn_summary_df,
+        "daily_churn_df": daily_churn_df,
+        "github_issue_df": github_issue_df,
+        "sonar_issue_df": sonar_issue_df,
+        "sonar_summary_df": sonar_summary_df,
+    }
+
+
+def _render_validation_section(windows: dict[str, Any], validation_insights: dict[str, float], comparison_df: pd.DataFrame) -> None:
+    """Render time-sliced validation outputs when available."""
+    if comparison_df.empty or not windows["validation_enabled"]:
+        return
+
+    st.subheader("Time-sliced validation")
+    st.caption(
+        f"Analysis slice: {windows['analysis_start'].isoformat()} to {windows['analysis_end'].isoformat()} | "
+        f"Validation slice: {windows['validation_start'].isoformat()} to {windows['validation_end'].isoformat()}"
+    )
+
+    columns = st.columns(4)
+    columns[0].metric(
+        "Top-20 overlap",
+        f"{validation_insights['top_n_overlap']}/{validation_insights['top_n']}",
+    )
+    columns[1].metric("Rank correlation", f"{validation_insights['score_correlation']:.2f}")
+    columns[2].metric(
+        "Avg future score of current top 20",
+        _format_hotspot_score(validation_insights["avg_future_score_top_n"]),
+    )
+    columns[3].metric("Top-20 future lift", f"{validation_insights['top_n_future_lift']:.2f}x")
+
+    st.plotly_chart(create_validation_comparison_chart(comparison_df), use_container_width=True)
+
+    validation_columns = [
+        "rank",
+        "file_path",
+        "hotspot_score",
+        "future_rank",
+        "future_hotspot_score",
+        "future_total_churn",
+        "future_sonar_issue_count",
+        "future_github_issue_signal",
+    ]
+    st.dataframe(comparison_df[[column for column in validation_columns if column in comparison_df.columns]].head(15), use_container_width=True, hide_index=True)
+
+
 def _render_results(
     config: AppConfig,
     commit_df: pd.DataFrame,
@@ -300,10 +503,13 @@ def _render_results(
     github_issue_df: pd.DataFrame,
     sonar_issue_df: pd.DataFrame,
     data_source_messages: list[str],
+    windows: dict[str, Any],
+    validation_insights: dict[str, float] | None = None,
+    comparison_df: pd.DataFrame | None = None,
 ) -> None:
     """Render the main dashboard content once data has been computed."""
     st.caption(
-        "Heuristic dashboard for surfacing potential technical debt hotspots using repository churn, "
+        "Heuristic dashboard for surfacing potential technical debt hotspots using repository code activity, "
         "maintenance-related GitHub issues, and SonarQube code smell findings."
     )
 
@@ -319,7 +525,7 @@ def _render_results(
         st.warning(message)
 
     summary = summarize_hotspots(hotspot_df, github_issue_df, sonar_issue_df)
-    _render_repository_summary(config, commit_df, hotspot_df, sonar_issue_df)
+    _render_repository_summary(config, commit_df, hotspot_df, sonar_issue_df, windows)
     _render_kpis(summary)
 
     left_col, right_col = st.columns([1.1, 0.9])
@@ -330,24 +536,47 @@ def _render_results(
 
     st.plotly_chart(create_churn_over_time_chart(daily_churn_df), use_container_width=True)
 
-    # _render_methodology(config)
-    # _render_limitations()
+    if validation_insights is not None and comparison_df is not None:
+        _render_validation_section(windows, validation_insights, comparison_df)
+
+    _render_methodology(config, windows)
+    _render_limitations()
+
+    export_df = hotspot_df.copy()
+    if comparison_df is not None and not comparison_df.empty:
+        export_df = comparison_df.copy()
 
     display_columns = [
         "rank",
         "file_path",
         "hotspot_score",
+        "code_activity_normalized",
         "total_churn",
         "commit_count",
-        "unique_contributors",
+        "active_days",
+        "days_since_last_touch",
+        "ownership_concentration",
+        "bugfix_commit_ratio",
+        "churn_burstiness",
         "sonar_issue_count",
         "github_issue_signal",
         "github_issue_matches",
+        "github_issue_attribution_confidence",
+        "github_exact_path_matches",
+        "github_suffix_path_matches",
+        "github_basename_matches",
+        "github_directory_matches",
+        "github_issue_examples",
+        "future_rank",
+        "future_hotspot_score",
+        "future_total_churn",
+        "future_sonar_issue_count",
+        "future_github_issue_signal",
         "highest_severity",
         "severity_breakdown",
     ]
-    available_columns = [column for column in display_columns if column in hotspot_df.columns]
-    export_df = hotspot_df[available_columns].copy()
+    available_columns = [column for column in display_columns if column in export_df.columns]
+    export_view_df = export_df[available_columns].copy()
     export_filename = (
         f"{config.github_owner}_{config.github_repo}_hotspot_ranking_"
         f"{config.start_date.isoformat()}_{config.end_date.isoformat()}.csv"
@@ -356,15 +585,11 @@ def _render_results(
     st.subheader("Hotspot ranking")
     st.download_button(
         label="Download hotspot ranking as CSV",
-        data=export_df.to_csv(index=False).encode("utf-8"),
+        data=export_view_df.to_csv(index=False).encode("utf-8"),
         file_name=export_filename,
         mime="text/csv",
     )
-    st.dataframe(
-        export_df,
-        use_container_width=True,
-        hide_index=True,
-    )
+    st.dataframe(export_view_df, use_container_width=True, hide_index=True)
 
 
 def main() -> None:
@@ -373,13 +598,11 @@ def main() -> None:
     defaults = get_default_sidebar_values()
     config, run_analysis = _render_sidebar(defaults)
 
-    st.title("Technical Debt Hotspot Dashboard")
+    st.title("Maintainability-Related Technical Debt Hotspots")
     st.caption(
-        "Configure the repository and click `Run analysis` to surface potential technical debt hotspots."
+        "Configure the repository and click `Run analysis` to surface potential maintainability-related technical debt hotspots."
     )
-    st.info(
-        "This dashboard combines heuristic indicators. It does not detect technical debt with certainty."
-    )
+    st.info("This dashboard combines heuristic indicators. It does not detect technical debt with certainty.")
 
     if not run_analysis:
         st.stop()
@@ -388,70 +611,86 @@ def main() -> None:
         st.error("The start date must be on or before the end date.")
         st.stop()
 
+    try:
+        windows = _derive_time_windows(config)
+    except ValueError as exc:
+        st.error(str(exc))
+        st.stop()
+
     data_source_messages: list[str] = []
     progress_updater, finish_progress = _create_progress_updater()
 
+    validation_insights: dict[str, float] | None = None
+    comparison_df: pd.DataFrame | None = None
+
     if config.use_mock_data:
-        progress_updater(0.1, "Mock mode: loading bundled GitHub data...")
+        progress_updater(0.15, "Mock mode: loading bundled GitHub data...")
         commit_df, churn_summary_df, daily_churn_df, github_issue_df, github_issue_signal_df = load_mock_github_data()
-        progress_updater(0.6, "Mock mode: loading bundled SonarQube data...")
+        progress_updater(0.60, "Mock mode: loading bundled SonarQube data...")
         sonar_issue_df, sonar_summary_df = load_mock_sonar_data()
-        progress_updater(0.9, "Calculating hotspot scores from mock data...")
+        progress_updater(0.90, "Calculating hotspot scores from mock data...")
+        if windows["validation_enabled"]:
+            data_source_messages.append("Time-sliced validation is disabled in mock mode. Switch to live data to compare current and future slices.")
+            windows["validation_enabled"] = False
     else:
         if not config.github_owner or not config.github_repo:
             st.error("GitHub owner and repo are required for live analysis.")
             st.stop()
 
         try:
-            commit_df, churn_summary_df, daily_churn_df = fetch_commit_history_with_progress(
-                owner=config.github_owner,
-                repo=config.github_repo,
-                branch=config.default_branch,
-                start_date=config.start_date,
-                end_date=config.end_date,
-                token=config.github_token,
-                progress_callback=_stage_progress(progress_updater, 0.0, 0.72),
-            )
-            github_issue_df = fetch_maintenance_issues_with_progress(
-                owner=config.github_owner,
-                repo=config.github_repo,
-                start_date=config.start_date,
-                end_date=config.end_date,
-                token=config.github_token,
-                progress_callback=_stage_progress(progress_updater, 0.72, 0.84),
-            )
+            if windows["validation_enabled"]:
+                analysis_dataset = _collect_live_dataset(
+                    config,
+                    windows["analysis_start"],
+                    windows["analysis_end"],
+                    {
+                        "commits": (0.00, 0.28),
+                        "issues": (0.28, 0.38),
+                        "sonar": (0.38, 0.48),
+                    },
+                    progress_updater,
+                    "Analysis window",
+                    data_source_messages,
+                )
+                validation_dataset = _collect_live_dataset(
+                    config,
+                    windows["validation_start"],
+                    windows["validation_end"],
+                    {
+                        "commits": (0.48, 0.74),
+                        "issues": (0.74, 0.84),
+                        "sonar": (0.84, 0.94),
+                    },
+                    progress_updater,
+                    "Validation window",
+                    data_source_messages,
+                )
+            else:
+                analysis_dataset = _collect_live_dataset(
+                    config,
+                    windows["analysis_start"],
+                    windows["analysis_end"],
+                    {
+                        "commits": (0.00, 0.62),
+                        "issues": (0.62, 0.78),
+                        "sonar": (0.78, 0.94),
+                    },
+                    progress_updater,
+                    "Analysis window",
+                    data_source_messages,
+                )
+                validation_dataset = None
         except GitHubAPIError as exc:
             st.error(f"GitHub data collection failed: {exc}")
             st.stop()
 
-        sonar_issue_df = pd.DataFrame()
-        sonar_summary_df = _empty_sonar_summary()
-
-        if config.sonar_base_url and config.sonar_token and config.sonar_project_key:
-            try:
-                sonar_issue_df, sonar_summary_df = fetch_sonar_issues_with_progress(
-                    base_url=config.sonar_base_url,
-                    token=config.sonar_token,
-                    project_key=config.sonar_project_key,
-                    progress_callback=_stage_progress(progress_updater, 0.84, 0.96),
-                )
-            except SonarAPIError as exc:
-                data_source_messages.append(
-                    f"SonarQube data collection failed: {exc}. Scores will use GitHub-only signals."
-                )
-                progress_updater(0.96, "SonarCloud access failed. Continuing with GitHub-only signals...")
-        else:
-            data_source_messages.append(
-                "SonarQube settings are incomplete. SonarQube signals were omitted from this run."
-            )
-            progress_updater(0.96, "Skipping SonarCloud because required settings are incomplete.")
-
-        all_file_paths = sorted(
-            set(churn_summary_df.get("file_path", pd.Series(dtype=str)).dropna().tolist())
-            | set(sonar_summary_df.get("file_path", pd.Series(dtype=str)).dropna().tolist())
-        )
-        github_issue_signal_df = build_issue_signal(github_issue_df, all_file_paths)
-        progress_updater(0.98, "Combining GitHub and SonarCloud signals...")
+        commit_df = analysis_dataset["commit_df"]
+        churn_summary_df = analysis_dataset["churn_summary_df"]
+        daily_churn_df = analysis_dataset["daily_churn_df"]
+        github_issue_df = analysis_dataset["github_issue_df"]
+        sonar_issue_df = analysis_dataset["sonar_issue_df"]
+        sonar_summary_df = analysis_dataset["sonar_summary_df"]
+        github_issue_signal_df = _build_issue_signal_frame(churn_summary_df, sonar_summary_df, github_issue_df)
 
     hotspot_df = compute_hotspot_scores(
         churn_summary_df=churn_summary_df,
@@ -461,6 +700,22 @@ def main() -> None:
         weight_sonar=config.weight_sonar,
         weight_github_issues=config.weight_github_issues,
     )
+
+    if not config.use_mock_data and windows["validation_enabled"] and validation_dataset is not None:
+        validation_issue_signal_df = _build_issue_signal_frame(
+            validation_dataset["churn_summary_df"],
+            validation_dataset["sonar_summary_df"],
+            validation_dataset["github_issue_df"],
+        )
+        validation_hotspot_df = compute_hotspot_scores(
+            churn_summary_df=validation_dataset["churn_summary_df"],
+            sonar_summary_df=validation_dataset["sonar_summary_df"],
+            github_issue_signal_df=validation_issue_signal_df,
+            weight_churn=config.weight_churn,
+            weight_sonar=config.weight_sonar,
+            weight_github_issues=config.weight_github_issues,
+        )
+        validation_insights, comparison_df = compute_validation_insights(hotspot_df, validation_hotspot_df)
 
     finish_progress("Analysis complete.")
 
@@ -476,6 +731,9 @@ def main() -> None:
         github_issue_df=github_issue_df,
         sonar_issue_df=sonar_issue_df,
         data_source_messages=data_source_messages,
+        windows=windows,
+        validation_insights=validation_insights,
+        comparison_df=comparison_df,
     )
 
 

@@ -42,7 +42,14 @@ def create_hotspot_bar_chart(hotspot_df: pd.DataFrame) -> go.Figure:
             "file_path": "Repository file path",
             "total_churn": "Total code churn (additions + deletions)",
         },
-        hover_data=["commit_count", "sonar_issue_count", "github_issue_signal"],
+        hover_data={
+            "commit_count": True,
+            "sonar_issue_count": True,
+            "github_issue_signal": ":.2f",
+            "ownership_concentration": ":.2f",
+            "bugfix_commit_ratio": ":.2f",
+            "days_since_last_touch": True,
+        },
     )
     figure.update_layout(
         template="plotly_white",
@@ -73,6 +80,12 @@ def create_scatter_chart(hotspot_df: pd.DataFrame) -> go.Figure:
             "sonar_issue_count": "Open SonarCloud code smell findings",
             "hotspot_score": "Weighted hotspot score (0-1)",
             "commit_count": "Commits touching file",
+        },
+        hover_data={
+            "code_activity_normalized": ":.2f",
+            "github_issue_signal": ":.2f",
+            "github_issue_attribution_confidence": ":.2f",
+            "ownership_concentration": ":.2f",
         },
     )
     figure.update_layout(
@@ -108,5 +121,44 @@ def create_churn_over_time_chart(daily_churn_df: pd.DataFrame) -> go.Figure:
         height=420,
         xaxis_title="Commit date",
         yaxis_title="Daily code churn (additions + deletions)",
+    )
+    return figure
+
+
+def create_validation_comparison_chart(comparison_df: pd.DataFrame) -> go.Figure:
+    """Create a current-vs-future score chart for time-sliced validation."""
+    if comparison_df.empty or "future_hotspot_score" not in comparison_df.columns:
+        return _empty_figure("Current Hotspot Score vs Future Validation Score")
+
+    figure = px.scatter(
+        comparison_df,
+        x="hotspot_score",
+        y="future_hotspot_score",
+        color="future_total_churn",
+        size="commit_count",
+        hover_name="file_path",
+        color_continuous_scale="Viridis",
+        title="Current Hotspot Score vs Future Validation Score",
+        labels={
+            "hotspot_score": "Current-window hotspot score",
+            "future_hotspot_score": "Validation-window hotspot score",
+            "future_total_churn": "Validation-window churn",
+            "commit_count": "Current-window commits touching file",
+        },
+        hover_data={
+            "rank": True,
+            "future_rank": True,
+            "sonar_issue_count": True,
+            "future_sonar_issue_count": True,
+            "github_issue_signal": ":.2f",
+            "future_github_issue_signal": ":.2f",
+        },
+    )
+    figure.update_layout(
+        template="plotly_white",
+        height=460,
+        xaxis_title="Current-window hotspot score",
+        yaxis_title="Validation-window hotspot score",
+        coloraxis_colorbar_title="Future churn",
     )
     return figure

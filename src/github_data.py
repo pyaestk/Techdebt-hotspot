@@ -6,7 +6,7 @@ import json
 import re
 from collections import defaultdict
 from datetime import date, datetime, time, timezone
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Iterable
 
 import pandas as pd
@@ -24,7 +24,23 @@ ProgressCallback = Callable[[float, str], None]
 
 
 COMMIT_DF_COLUMNS = ["sha", "commit_date", "contributor", "additions", "deletions", "files_changed", "message"]
-COMMIT_SUMMARY_COLUMNS = ["file_path", "commit_count", "additions", "deletions", "total_churn", "unique_contributors"]
+COMMIT_SUMMARY_COLUMNS = [
+    "file_path",
+    "commit_count",
+    "additions",
+    "deletions",
+    "total_churn",
+    "unique_contributors",
+    "active_days",
+    "first_commit_date",
+    "last_commit_date",
+    "days_since_last_touch",
+    "avg_churn_per_commit",
+    "ownership_concentration",
+    "bugfix_commit_count",
+    "bugfix_commit_ratio",
+    "churn_burstiness",
+]
 DAILY_CHURN_COLUMNS = ["commit_date", "total_churn", "commit_count"]
 ISSUE_COLUMNS = [
     "issue_number",
@@ -36,6 +52,25 @@ ISSUE_COLUMNS = [
     "html_url",
     "matched_keywords",
 ]
+ISSUE_SIGNAL_COLUMNS = [
+    "file_path",
+    "github_issue_matches",
+    "github_issue_signal",
+    "repo_issue_signal",
+    "github_exact_path_matches",
+    "github_suffix_path_matches",
+    "github_basename_matches",
+    "github_directory_matches",
+    "github_weighted_mentions",
+    "github_issue_attribution_confidence",
+    "github_issue_examples",
+]
+
+BUGFIX_PATTERN = re.compile(r"\b(fix|bug|defect|hotfix|regression|failure|error|patch)\b", re.IGNORECASE)
+PATH_PATTERN = re.compile(r"(?:[a-z0-9_.-]+/)+[a-z0-9_.-]+", re.IGNORECASE)
+FILENAME_PATTERN = re.compile(r"\b[a-z0-9_.-]+\.[a-z0-9_.-]+\b", re.IGNORECASE)
+DIRECTORY_PATTERN = re.compile(r"(?:[a-z0-9_.-]+/)+", re.IGNORECASE)
+COMMON_DIRECTORY_TOKENS = {"src", "app", "main", "lib", "test", "tests", "java", "kotlin", "python"}
 
 
 def _emit_progress(callback: ProgressCallback | None, progress: float, message: str) -> None:
@@ -55,6 +90,21 @@ def _utc_iso(date_value: date, end_of_day: bool = False) -> str:
 def _parse_timestamp(value: str) -> pd.Timestamp:
     """Parse an API timestamp into a pandas timestamp."""
     return pd.to_datetime(value, utc=True)
+
+
+def _normalize_path(value: str) -> str:
+    """Normalize GitHub paths into a lowercase forward-slash representation."""
+    return value.replace("\\", "/").strip().lower().strip("`'\" ")
+
+
+def _normalize_text(value: str) -> str:
+    """Normalize free text for path and filename matching."""
+    return _normalize_path(value)
+
+
+def _is_bugfix_message(message: str) -> bool:
+    """Flag commit messages that look like bug-fix work."""
+    return bool(BUGFIX_PATTERN.search(message or ""))
 
 
 def _github_headers(token: str) -> dict[str, str]:
@@ -175,43 +225,176 @@ def _issue_cache_paths(owner: str, repo: str, start_date: date, end_date: date) 
     return DATA_RAW_DIR / f"{cache_key}.json", DATA_PROCESSED_DIR / f"{cache_key}.csv"
 
 
-def _load_commit_cache(raw_path: Path, summary_path: Path, daily_path: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame] | None:
+def _empty_commit_frames() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Return stable empty GitHub commit dataframes."""
+    commit_df = pd.DataFrame(columns=COMMIT_DF_COLUMNS)
+    file_summary_df = pd.DataFrame(columns=COMMIT_SUMMARY_COLUMNS)
+    daily_churn_df = pd.DataFrame(columns=DAILY_CHURN_COLUMNS)
+    return commit_df, file_summary_df, daily_churn_df
+
+
+def _build_commit_frames_from_raw(raw_payload: list[dict[str, Any]]) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Rebuild commit-level and file-level frames from cached raw payloads."""
+    commit_rows: list[dict[str, Any]] = []
+    file_rows: list[dict[str, Any]] = []
+
+    for item in raw_payload:
+        commit_date_value = item.get("commit_date")
+        commit_date = pd.to_datetime(commit_date_value, errors="coerce")
+        if pd.isna(commit_date):
+            continue
+
+        contributor = item.get("contributor") or "unknown"
+        message = item.get("message", "")
+        stats = item.get("stats", {}) or {}
+        files = item.get("files", []) or []
+
+        commit_rows.append(
+            {
+                "sha": item.get("sha"),
+                "commit_date": commit_date.date(),
+                "contributor": contributor,
+                "additions": int(stats.get("additions", 0)),
+                "deletions": int(stats.get("deletions", 0)),
+                "files_changed": len(files),
+                "message": message,
+            }
+        )
+
+        bugfix_flag = _is_bugfix_message(message)
+        for file_item in files:
+            file_path = file_item.get("file_path") or file_item.get("filename")
+            if not file_path:
+                continue
+            additions = int(file_item.get("additions", 0))
+            deletions = int(file_item.get("deletions", 0))
+            total_churn = int(file_item.get("total_churn", additions + deletions))
+            file_rows.append(
+                {
+                    "sha": item.get("sha"),
+                    "commit_date": commit_date.date(),
+                    "contributor": contributor,
+                    "file_path": file_path,
+                    "status": file_item.get("status", "modified"),
+                    "additions": additions,
+                    "deletions": deletions,
+                    "total_churn": total_churn,
+                    "message": message,
+                    "bugfix_flag": bugfix_flag,
+                }
+            )
+
+    commit_df = pd.DataFrame(commit_rows, columns=COMMIT_DF_COLUMNS)
+    file_df = pd.DataFrame(file_rows)
+    return commit_df, file_df
+
+
+def _aggregate_commit_metrics(file_df: pd.DataFrame, end_date: date) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Aggregate file-level engineering signals and daily churn metrics."""
+    if file_df.empty:
+        return pd.DataFrame(columns=COMMIT_SUMMARY_COLUMNS), pd.DataFrame(columns=DAILY_CHURN_COLUMNS)
+
+    summary_df = (
+        file_df.groupby("file_path", dropna=True)
+        .agg(
+            commit_count=("sha", "nunique"),
+            additions=("additions", "sum"),
+            deletions=("deletions", "sum"),
+            total_churn=("total_churn", "sum"),
+            unique_contributors=("contributor", "nunique"),
+            active_days=("commit_date", "nunique"),
+            first_commit_date=("commit_date", "min"),
+            last_commit_date=("commit_date", "max"),
+        )
+        .reset_index()
+    )
+
+    contributor_touches = (
+        file_df.groupby(["file_path", "contributor"], dropna=True)["sha"]
+        .nunique()
+        .reset_index(name="contributor_touch_count")
+    )
+    ownership_df = (
+        contributor_touches.groupby("file_path", dropna=True)["contributor_touch_count"]
+        .max()
+        .reset_index(name="max_contributor_touch_count")
+    )
+
+    bugfix_df = (
+        file_df[file_df["bugfix_flag"]]
+        .groupby("file_path", dropna=True)["sha"]
+        .nunique()
+        .reset_index(name="bugfix_commit_count")
+    )
+
+    burstiness_df = (
+        file_df.groupby(["file_path", "sha"], dropna=True)["total_churn"]
+        .sum()
+        .reset_index()
+        .groupby("file_path", dropna=True)["total_churn"]
+        .max()
+        .reset_index(name="max_single_commit_churn")
+    )
+
+    summary_df = summary_df.merge(ownership_df, on="file_path", how="left")
+    summary_df = summary_df.merge(bugfix_df, on="file_path", how="left")
+    summary_df = summary_df.merge(burstiness_df, on="file_path", how="left")
+    summary_df["bugfix_commit_count"] = pd.to_numeric(summary_df["bugfix_commit_count"], errors="coerce").fillna(0).astype(int)
+    summary_df["max_contributor_touch_count"] = pd.to_numeric(summary_df["max_contributor_touch_count"], errors="coerce").fillna(0)
+    summary_df["max_single_commit_churn"] = pd.to_numeric(summary_df["max_single_commit_churn"], errors="coerce").fillna(0)
+
+    summary_df["days_since_last_touch"] = summary_df["last_commit_date"].apply(
+        lambda value: max((end_date - value).days, 0) if pd.notna(value) else 0
+    )
+    summary_df["avg_churn_per_commit"] = summary_df["total_churn"] / summary_df["commit_count"].replace(0, 1)
+    summary_df["ownership_concentration"] = summary_df["max_contributor_touch_count"] / summary_df["commit_count"].replace(0, 1)
+    summary_df["bugfix_commit_ratio"] = summary_df["bugfix_commit_count"] / summary_df["commit_count"].replace(0, 1)
+    summary_df["churn_burstiness"] = summary_df["max_single_commit_churn"] / summary_df["total_churn"].replace(0, 1)
+
+    summary_df = summary_df[COMMIT_SUMMARY_COLUMNS].sort_values(["total_churn", "commit_count"], ascending=[False, False])
+
+    daily_churn_df = (
+        file_df.groupby("commit_date", dropna=True)
+        .agg(total_churn=("total_churn", "sum"), commit_count=("sha", "nunique"))
+        .reset_index()
+        .sort_values("commit_date")
+    )
+
+    return summary_df, daily_churn_df
+
+
+def _load_commit_cache(
+    raw_path: Path,
+    summary_path: Path,
+    daily_path: Path,
+    end_date: date,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame] | None:
     """Load commit data from local cache when available."""
-    if not (raw_path.exists() and summary_path.exists() and daily_path.exists()):
+    if not raw_path.exists():
         return None
 
     try:
         raw_payload = json.loads(raw_path.read_text(encoding="utf-8"))
-        commit_rows = []
-        for item in raw_payload:
-            stats = item.get("stats", {}) or {}
-            files = item.get("files", []) or []
-            commit_rows.append(
-                {
-                    "sha": item.get("sha"),
-                    "commit_date": item.get("commit_date"),
-                    "contributor": item.get("contributor", "unknown"),
-                    "additions": stats.get("additions", 0),
-                    "deletions": stats.get("deletions", 0),
-                    "files_changed": len(files),
-                    "message": item.get("message", ""),
-                }
-            )
+        commit_df, file_df = _build_commit_frames_from_raw(raw_payload)
+        summary_df, daily_df = _aggregate_commit_metrics(file_df, end_date)
 
-        commit_df = pd.DataFrame(commit_rows)
-        if commit_df.empty:
-            commit_df = pd.DataFrame(columns=COMMIT_DF_COLUMNS)
-        else:
-            commit_df = commit_df.reindex(columns=COMMIT_DF_COLUMNS)
-            commit_df["commit_date"] = pd.to_datetime(commit_df["commit_date"], errors="coerce").dt.date
-
-        summary_df = _read_dataframe(summary_path, COMMIT_SUMMARY_COLUMNS)
-        daily_df = _read_dataframe(daily_path, DAILY_CHURN_COLUMNS)
+        if not summary_df.empty:
+            _write_dataframe(summary_path, summary_df)
         if not daily_df.empty:
-            daily_df["commit_date"] = pd.to_datetime(daily_df["commit_date"], errors="coerce").dt.date
+            _write_dataframe(daily_path, daily_df)
 
         return commit_df, summary_df, daily_df
     except Exception:
+        if summary_path.exists() and daily_path.exists():
+            try:
+                commit_df = pd.DataFrame(columns=COMMIT_DF_COLUMNS)
+                summary_df = _read_dataframe(summary_path, COMMIT_SUMMARY_COLUMNS)
+                daily_df = _read_dataframe(daily_path, DAILY_CHURN_COLUMNS)
+                if not daily_df.empty:
+                    daily_df["commit_date"] = pd.to_datetime(daily_df["commit_date"], errors="coerce").dt.date
+                return commit_df, summary_df, daily_df
+            except Exception:
+                return None
         return None
 
 
@@ -242,14 +425,6 @@ def _load_issue_cache(raw_path: Path, csv_path: Path) -> pd.DataFrame | None:
     return None
 
 
-def _empty_commit_frames() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    """Return stable empty GitHub commit dataframes."""
-    commit_df = pd.DataFrame(columns=COMMIT_DF_COLUMNS)
-    file_summary_df = pd.DataFrame(columns=COMMIT_SUMMARY_COLUMNS)
-    daily_churn_df = pd.DataFrame(columns=DAILY_CHURN_COLUMNS)
-    return commit_df, file_summary_df, daily_churn_df
-
-
 def _fetch_commit_history_impl(
     owner: str,
     repo: str,
@@ -261,7 +436,7 @@ def _fetch_commit_history_impl(
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Fetch commit history and aggregate churn metrics by file and by day."""
     raw_cache_path, summary_cache_path, daily_cache_path = _commit_cache_paths(owner, repo, branch, start_date, end_date)
-    cached_commit_data = _load_commit_cache(raw_cache_path, summary_cache_path, daily_cache_path)
+    cached_commit_data = _load_commit_cache(raw_cache_path, summary_cache_path, daily_cache_path, end_date)
     if cached_commit_data is not None:
         _emit_progress(progress_callback, 1.0, "GitHub: loaded commit history from local cache.")
         return cached_commit_data
@@ -285,8 +460,6 @@ def _fetch_commit_history_impl(
 
     _emit_progress(progress_callback, 0.1, f"GitHub: found {total_commits} commits. Fetching file-level details...")
 
-    commit_rows: list[dict[str, Any]] = []
-    file_rows: list[dict[str, Any]] = []
     raw_commit_payload: list[dict[str, Any]] = []
     checkpoint = max(1, total_commits // 10)
 
@@ -297,26 +470,10 @@ def _fetch_commit_history_impl(
         commit_date = _parse_timestamp(detail["commit"]["author"]["date"])
         github_author = detail.get("author") or {}
         commit_author = detail["commit"].get("author") or {}
-        contributor = (
-            github_author.get("login")
-            or commit_author.get("name")
-            or commit_author.get("email")
-            or "unknown"
-        )
+        contributor = github_author.get("login") or commit_author.get("name") or commit_author.get("email") or "unknown"
         stats = detail.get("stats", {}) or {}
         files = detail.get("files", []) or []
-
-        commit_rows.append(
-            {
-                "sha": sha,
-                "commit_date": commit_date.date(),
-                "contributor": contributor,
-                "additions": stats.get("additions", 0),
-                "deletions": stats.get("deletions", 0),
-                "files_changed": len(files),
-                "message": detail["commit"]["message"].splitlines()[0],
-            }
-        )
+        message = detail["commit"]["message"].splitlines()[0]
 
         raw_file_stats: list[dict[str, Any]] = []
         for file_stat in files:
@@ -327,19 +484,6 @@ def _fetch_commit_history_impl(
             additions = int(file_stat.get("additions", 0))
             deletions = int(file_stat.get("deletions", 0))
             total_churn = additions + deletions
-
-            file_rows.append(
-                {
-                    "sha": sha,
-                    "commit_date": commit_date.date(),
-                    "contributor": contributor,
-                    "file_path": filename,
-                    "status": file_stat.get("status", "modified"),
-                    "additions": additions,
-                    "deletions": deletions,
-                    "total_churn": total_churn,
-                }
-            )
             raw_file_stats.append(
                 {
                     "file_path": filename,
@@ -355,7 +499,7 @@ def _fetch_commit_history_impl(
                 "sha": sha,
                 "commit_date": detail["commit"]["author"]["date"],
                 "contributor": contributor,
-                "message": detail["commit"]["message"].splitlines()[0],
+                "message": message,
                 "stats": {
                     "additions": stats.get("additions", 0),
                     "deletions": stats.get("deletions", 0),
@@ -369,31 +513,8 @@ def _fetch_commit_history_impl(
             progress_value = 0.1 + (0.8 * (index / total_commits))
             _emit_progress(progress_callback, progress_value, f"GitHub: processed commit details {index}/{total_commits}.")
 
-    commit_df = pd.DataFrame(commit_rows, columns=COMMIT_DF_COLUMNS)
-    file_df = pd.DataFrame(file_rows)
-
-    if file_df.empty:
-        _, file_summary_df, daily_churn_df = _empty_commit_frames()
-    else:
-        file_summary_df = (
-            file_df.groupby("file_path", dropna=True)
-            .agg(
-                commit_count=("sha", "nunique"),
-                additions=("additions", "sum"),
-                deletions=("deletions", "sum"),
-                total_churn=("total_churn", "sum"),
-                unique_contributors=("contributor", "nunique"),
-            )
-            .reset_index()
-            .sort_values(["total_churn", "commit_count"], ascending=[False, False])
-        )
-
-        daily_churn_df = (
-            file_df.groupby("commit_date", dropna=True)
-            .agg(total_churn=("total_churn", "sum"), commit_count=("sha", "nunique"))
-            .reset_index()
-            .sort_values("commit_date")
-        )
+    commit_df, file_df = _build_commit_frames_from_raw(raw_commit_payload)
+    file_summary_df, daily_churn_df = _aggregate_commit_metrics(file_df, end_date)
 
     _write_json(raw_cache_path, raw_commit_payload)
     _write_dataframe(summary_cache_path, file_summary_df)
@@ -516,54 +637,218 @@ def fetch_maintenance_issues_with_progress(
     return _fetch_maintenance_issues_impl(owner, repo, start_date, end_date, token, keywords, progress_callback)
 
 
+def _extract_path_mentions(issue_text: str) -> set[str]:
+    """Extract path-like mentions from issue text."""
+    return {
+        _normalize_path(match.group(0).strip("`'\"()[]{}<>,.;:"))
+        for match in PATH_PATTERN.finditer(issue_text)
+        if match.group(0)
+    }
+
+
+def _extract_filename_mentions(issue_text: str) -> set[str]:
+    """Extract filename-like mentions from issue text."""
+    return {
+        _normalize_path(match.group(0).strip("`'\"()[]{}<>,.;:"))
+        for match in FILENAME_PATTERN.finditer(issue_text)
+        if "/" not in match.group(0)
+    }
+
+
+def _extract_directory_mentions(issue_text: str) -> set[str]:
+    """Extract directory-like mentions from issue text."""
+    return {
+        _normalize_path(match.group(0).rstrip("/"))
+        for match in DIRECTORY_PATTERN.finditer(issue_text)
+        if match.group(0)
+    }
+
+
+def _build_file_reference_index(file_paths: list[str]) -> tuple[dict[str, str], dict[str, list[str]], dict[str, list[str]], dict[str, dict[str, Any]]]:
+    """Pre-compute exact path, suffix, basename, and directory indexes."""
+    exact_path_index: dict[str, str] = {}
+    suffix_index: dict[str, list[str]] = defaultdict(list)
+    basename_index: dict[str, list[str]] = defaultdict(list)
+    metadata_by_path: dict[str, dict[str, Any]] = {}
+
+    for file_path in sorted(set(file_paths)):
+        normalized_path = _normalize_path(file_path)
+        parts = [part.lower() for part in PurePosixPath(normalized_path).parts if part]
+        if not parts:
+            continue
+
+        basename = parts[-1]
+        parent_parts = parts[:-1]
+        parent_path = "/".join(parent_parts)
+        last_directory = parent_parts[-1] if parent_parts else ""
+        meaningful_parent_tokens = {
+            token for token in parent_parts if len(token) > 3 and token not in COMMON_DIRECTORY_TOKENS
+        }
+        parent_suffixes = {
+            "/".join(parent_parts[-size:])
+            for size in (1, 2, 3)
+            if len(parent_parts) >= size and "/".join(parent_parts[-size:])
+        }
+
+        exact_path_index[normalized_path] = file_path
+        basename_index[basename].append(file_path)
+        for size in (2, 3):
+            if len(parts) >= size:
+                suffix_index["/".join(parts[-size:])].append(file_path)
+
+        metadata_by_path[file_path] = {
+            "normalized_path": normalized_path,
+            "basename": basename,
+            "parent_path": parent_path,
+            "last_directory": last_directory,
+            "meaningful_parent_tokens": meaningful_parent_tokens,
+            "parent_suffixes": parent_suffixes,
+        }
+
+    return exact_path_index, suffix_index, basename_index, metadata_by_path
+
+
+def _issue_matches_file_context(
+    issue_text: str,
+    issue_tokens: set[str],
+    directory_mentions: set[str],
+    metadata: dict[str, Any],
+) -> bool:
+    """Check whether issue text contains directory context for a candidate file."""
+    parent_path = metadata.get("parent_path", "")
+    if parent_path and parent_path in issue_text:
+        return True
+
+    last_directory = metadata.get("last_directory", "")
+    if last_directory and last_directory in issue_tokens and last_directory not in COMMON_DIRECTORY_TOKENS:
+        return True
+
+    if metadata.get("meaningful_parent_tokens", set()) & issue_tokens:
+        return True
+
+    if metadata.get("parent_suffixes", set()) & directory_mentions:
+        return True
+
+    return False
+
+
 def build_issue_signal(issue_df: pd.DataFrame, file_paths: list[str]) -> pd.DataFrame:
-    """Build a simple per-file GitHub issue signal using path and filename mentions."""
+    """Build a file-level GitHub issue signal using weighted mention heuristics."""
     if not file_paths:
-        return pd.DataFrame(columns=["file_path", "github_issue_matches", "github_issue_signal", "repo_issue_signal"])
+        return pd.DataFrame(columns=ISSUE_SIGNAL_COLUMNS)
 
     unique_file_paths = sorted(set(file_paths))
     repo_issue_signal = int(len(issue_df))
-    baseline = repo_issue_signal / max(len(unique_file_paths), 1)
+    baseline = (repo_issue_signal / max(len(unique_file_paths), 1)) * 0.05
 
-    basename_index: dict[str, list[str]] = defaultdict(list)
-    lower_path_index: dict[str, str] = {}
-    for file_path in unique_file_paths:
-        basename_index[Path(file_path).name.lower()].append(file_path)
-        lower_path_index[file_path.lower()] = file_path
-
-    direct_matches = {file_path: 0 for file_path in unique_file_paths}
-    signal_values = {file_path: baseline for file_path in unique_file_paths}
+    exact_path_index, suffix_index, basename_index, metadata_by_path = _build_file_reference_index(unique_file_paths)
+    signal_state = {
+        file_path: {
+            "github_issue_matches": 0,
+            "github_issue_signal": baseline,
+            "repo_issue_signal": repo_issue_signal,
+            "github_exact_path_matches": 0,
+            "github_suffix_path_matches": 0,
+            "github_basename_matches": 0,
+            "github_directory_matches": 0,
+            "github_weighted_mentions": 0.0,
+            "github_issue_attribution_confidence": 0.0,
+            "github_issue_examples": [],
+        }
+        for file_path in unique_file_paths
+    }
 
     for issue in issue_df.to_dict("records"):
-        issue_text = f"{issue.get('title', '')}\n{issue.get('body', '')}".lower()
-        matched_files: set[str] = set()
+        issue_number = issue.get("issue_number")
+        issue_text = _normalize_text(f"{issue.get('title', '')}\n{issue.get('body', '')}")
+        issue_tokens = set(re.findall(r"[a-z0-9_.-]+", issue_text))
+        path_mentions = _extract_path_mentions(issue_text)
+        filename_mentions = _extract_filename_mentions(issue_text)
+        directory_mentions = _extract_directory_mentions(issue_text)
+        evidence_by_file: dict[str, dict[str, Any]] = {}
 
-        for lower_path, original_path in lower_path_index.items():
-            if lower_path and lower_path in issue_text:
-                matched_files.add(original_path)
+        def ensure_evidence(file_path: str) -> dict[str, Any]:
+            return evidence_by_file.setdefault(
+                file_path,
+                {"score": 0.0, "exact": False, "suffix": False, "basename": False, "directory": False},
+            )
 
-        if not matched_files:
-            for basename, related_paths in basename_index.items():
-                if not basename:
-                    continue
-                if re.search(rf"(?<![\w/.-]){re.escape(basename)}(?![\w/.-])", issue_text):
-                    matched_files.update(related_paths)
+        for mention in path_mentions:
+            exact_match = exact_path_index.get(mention)
+            if exact_match:
+                evidence = ensure_evidence(exact_match)
+                evidence["score"] = max(evidence["score"], 1.0)
+                evidence["exact"] = True
+                continue
 
-        for file_path in matched_files:
-            direct_matches[file_path] += 1
-            signal_values[file_path] += 1
+            for candidate_path in suffix_index.get(mention, []):
+                evidence = ensure_evidence(candidate_path)
+                evidence["score"] = max(evidence["score"], 0.85)
+                evidence["suffix"] = True
 
-    return pd.DataFrame(
-        [
+        for basename in filename_mentions:
+            candidate_paths = basename_index.get(basename, [])
+            if not candidate_paths:
+                continue
+
+            if len(candidate_paths) == 1:
+                evidence = ensure_evidence(candidate_paths[0])
+                evidence["score"] = max(evidence["score"], 0.65)
+                evidence["basename"] = True
+                continue
+
+            narrowed_paths = [
+                candidate_path
+                for candidate_path in candidate_paths
+                if _issue_matches_file_context(issue_text, issue_tokens, directory_mentions, metadata_by_path[candidate_path])
+            ]
+            for candidate_path in narrowed_paths:
+                evidence = ensure_evidence(candidate_path)
+                evidence["score"] = max(evidence["score"], 0.65)
+                evidence["basename"] = True
+
+        for file_path, evidence in evidence_by_file.items():
+            metadata = metadata_by_path[file_path]
+            if _issue_matches_file_context(issue_text, issue_tokens, directory_mentions, metadata):
+                evidence["directory"] = True
+                evidence["score"] = min(1.0, evidence["score"] + 0.15)
+
+        for file_path, evidence in evidence_by_file.items():
+            if evidence["score"] <= 0:
+                continue
+            file_state = signal_state[file_path]
+            file_state["github_issue_matches"] += 1
+            file_state["github_weighted_mentions"] += evidence["score"]
+            file_state["github_issue_signal"] += evidence["score"]
+            file_state["github_exact_path_matches"] += int(evidence["exact"])
+            file_state["github_suffix_path_matches"] += int(evidence["suffix"])
+            file_state["github_basename_matches"] += int(evidence["basename"])
+            file_state["github_directory_matches"] += int(evidence["directory"])
+            if issue_number is not None and len(file_state["github_issue_examples"]) < 5:
+                file_state["github_issue_examples"].append(str(issue_number))
+
+    rows = []
+    for file_path in unique_file_paths:
+        file_state = signal_state[file_path]
+        matches = file_state["github_issue_matches"]
+        weighted_mentions = file_state["github_weighted_mentions"]
+        rows.append(
             {
                 "file_path": file_path,
-                "github_issue_matches": direct_matches[file_path],
-                "github_issue_signal": signal_values[file_path],
+                "github_issue_matches": matches,
+                "github_issue_signal": file_state["github_issue_signal"],
                 "repo_issue_signal": repo_issue_signal,
+                "github_exact_path_matches": file_state["github_exact_path_matches"],
+                "github_suffix_path_matches": file_state["github_suffix_path_matches"],
+                "github_basename_matches": file_state["github_basename_matches"],
+                "github_directory_matches": file_state["github_directory_matches"],
+                "github_weighted_mentions": weighted_mentions,
+                "github_issue_attribution_confidence": 0.0 if matches == 0 else weighted_mentions / matches,
+                "github_issue_examples": ", ".join(file_state["github_issue_examples"]),
             }
-            for file_path in unique_file_paths
-        ]
-    )
+        )
+
+    return pd.DataFrame(rows, columns=ISSUE_SIGNAL_COLUMNS)
 
 
 @st.cache_data(show_spinner=False)
@@ -585,13 +870,14 @@ def load_mock_github_data() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, p
 
     churn_summary_df = pd.DataFrame(
         [
-            {"file_path": "src/api.py", "commit_count": 6, "additions": 210, "deletions": 150, "total_churn": 360, "unique_contributors": 4},
-            {"file_path": "src/auth.py", "commit_count": 5, "additions": 165, "deletions": 140, "total_churn": 305, "unique_contributors": 3},
-            {"file_path": "src/reporting.py", "commit_count": 4, "additions": 125, "deletions": 95, "total_churn": 220, "unique_contributors": 3},
-            {"file_path": "src/dashboard.py", "commit_count": 4, "additions": 115, "deletions": 55, "total_churn": 170, "unique_contributors": 2},
-            {"file_path": "src/utils/serialization.py", "commit_count": 3, "additions": 55, "deletions": 65, "total_churn": 120, "unique_contributors": 2},
-            {"file_path": "tests/test_api.py", "commit_count": 2, "additions": 35, "deletions": 12, "total_churn": 47, "unique_contributors": 2},
-        ]
+            {"file_path": "src/api.py", "commit_count": 6, "additions": 210, "deletions": 150, "total_churn": 360, "unique_contributors": 4, "active_days": 5, "first_commit_date": date(2026, 1, 7), "last_commit_date": date(2026, 2, 3), "days_since_last_touch": 16, "avg_churn_per_commit": 60.0, "ownership_concentration": 0.50, "bugfix_commit_count": 1, "bugfix_commit_ratio": 0.17, "churn_burstiness": 0.33},
+            {"file_path": "src/auth.py", "commit_count": 5, "additions": 165, "deletions": 140, "total_churn": 305, "unique_contributors": 3, "active_days": 4, "first_commit_date": date(2026, 1, 12), "last_commit_date": date(2026, 2, 11), "days_since_last_touch": 8, "avg_churn_per_commit": 61.0, "ownership_concentration": 0.40, "bugfix_commit_count": 2, "bugfix_commit_ratio": 0.40, "churn_burstiness": 0.39},
+            {"file_path": "src/reporting.py", "commit_count": 4, "additions": 125, "deletions": 95, "total_churn": 220, "unique_contributors": 3, "active_days": 4, "first_commit_date": date(2026, 1, 14), "last_commit_date": date(2026, 2, 19), "days_since_last_touch": 0, "avg_churn_per_commit": 55.0, "ownership_concentration": 0.50, "bugfix_commit_count": 1, "bugfix_commit_ratio": 0.25, "churn_burstiness": 0.45},
+            {"file_path": "src/dashboard.py", "commit_count": 4, "additions": 115, "deletions": 55, "total_churn": 170, "unique_contributors": 2, "active_days": 3, "first_commit_date": date(2026, 1, 20), "last_commit_date": date(2026, 1, 20), "days_since_last_touch": 30, "avg_churn_per_commit": 42.5, "ownership_concentration": 0.75, "bugfix_commit_count": 0, "bugfix_commit_ratio": 0.0, "churn_burstiness": 0.79},
+            {"file_path": "src/utils/serialization.py", "commit_count": 3, "additions": 55, "deletions": 65, "total_churn": 120, "unique_contributors": 2, "active_days": 2, "first_commit_date": date(2026, 1, 27), "last_commit_date": date(2026, 1, 27), "days_since_last_touch": 23, "avg_churn_per_commit": 40.0, "ownership_concentration": 0.67, "bugfix_commit_count": 0, "bugfix_commit_ratio": 0.0, "churn_burstiness": 0.83},
+            {"file_path": "tests/test_api.py", "commit_count": 2, "additions": 35, "deletions": 12, "total_churn": 47, "unique_contributors": 2, "active_days": 2, "first_commit_date": date(2026, 1, 14), "last_commit_date": date(2026, 2, 3), "days_since_last_touch": 16, "avg_churn_per_commit": 23.5, "ownership_concentration": 0.50, "bugfix_commit_count": 1, "bugfix_commit_ratio": 0.50, "churn_burstiness": 0.53},
+        ],
+        columns=COMMIT_SUMMARY_COLUMNS,
     )
 
     daily_churn_df = pd.DataFrame(
