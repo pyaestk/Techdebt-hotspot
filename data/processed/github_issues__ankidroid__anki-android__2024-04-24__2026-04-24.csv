@@ -1,0 +1,2178 @@
+issue_number,title,body,state,created_at,updated_at,html_url,matched_keywords
+13283,[Cleanup]: Add Tests to the code (`@NeedsTest`),"> [!NOTE]
+> This issue does not need to be assigned to you before you work on it
+
+A number of paths of the code have been identified as requiring automated testing. 
+
+Typically this is regression testing: if a bug has been found, then it's useful to have a unit test which would have failed due to the bug.
+
+1. Find a usage of `@NeedsTest`: https://github.com/ankidroid/Anki-Android/blob/main/AnkiDroid/src/main/java/com/ichi2/annotations/NeedsTest.kt
+   a. Ensure that the method(s) you are testing are in use. 
+3. Post the test(s) that you're handling on this issue, so people don't duplicate work
+4. Write a unit test (`/test`, not `/androidTest`)
+5. Ensure that re-introducing the bug or issue would break the test
+6. Submit a Pull Request",open,2023-02-16,2026-04-20,https://github.com/ankidroid/Anki-Android/issues/13283,cleanup
+20694,Decide whether the JS API will be on a new repository or inside this one (`Anki-Android`),,open,2026-04-08,2026-04-12,https://github.com/ankidroid/Anki-Android/issues/20694,
+19460,architecture: support `withProgress` in ViewModels,"This issue exists as a placeholder to establish a common pattern for progress notifications in the ViewModel. 
+Likely via getting PR #17804 listed as high priority, discussed, reviewed and merged.
+
+Being unable to use `withProgress` from the ViewModel unnecessarily complicates a lot of code.
+
+In particular, it'd have been useful when refactoring the `DeckPicker` in #18886, and in the CardBrowser refactor.
+
+* #17804
+* #18290",open,2025-11-10,2026-04-12,https://github.com/ankidroid/Anki-Android/issues/19460,refactor
+20381,Potential storage leak in audio recording `createTempFile`,"##Description
+During the implementation of the new recording logic, it was noted that createTempFile() generates files in the cacheDir without a defined cleanup strategy inspect.
+
+OP: David 
+```
+What's the lifecycle of this file and who is responsible for cleanup?
+
+Feel free to peel this one off into an issue
+```
+
+_Originally posted by @david-allison in https://github.com/ankidroid/Anki-Android/pull/19911#discussion_r2660695544_
+
+            ",closed,2026-03-03,2026-04-03,https://github.com/ankidroid/Anki-Android/issues/20381,cleanup
+12582,Reorganizing the code tree.,"I'd love to do some cleanup in the code tree. I find it very confusing, even after almost 3 years working in it.
+
+Right now, this issue is up for discussion, we are not expecting anyone to do anything until there is a consensus. The first question is whether you agree that it's, on principle, something worth doing, whether you oppose it, or whether you don't care (I'm not asking whether you want to work on it yourself, I'm fine doing it myself, or getting help of whoever people also belive it'll improve the state of the codebase and contributors work)
+
+If we agree that it's worth doing a change, I suggest a new organization of the tree in https://docs.google.com/document/d/1IfEdbSWqWdpWWZUkFiENqty7twAupyJou7JakDvHkEo/edit?usp=sharing
+I believe a design document is better than an issue because anyone can comment any specific point, and we can track discussions of each directory proposal independently. 
+",open,2022-10-05,2026-03-22,https://github.com/ankidroid/Anki-Android/issues/12582,cleanup
+20236,Refactor NoteEditor to use Change Note Type Dialog,"Currently, the note editor's implementation of changing note type is not as intuitive.
+
+We should deprecate it to use the new dialog",closed,2026-01-27,2026-03-10,https://github.com/ankidroid/Anki-Android/issues/20236,refactor
+11116,Add View Binding,"**2026 update: Task List**
+
+* [x] Audit adapter/ViewHolder usage: https://github.com/ankidroid/Anki-Android/pull/19565#discussion_r2553888502
+  * [x] #20390 
+* [x] Remove the merge tag in toolbar.xml 
+    * it's not needed(we already have a single view as root and we don't append this included layout to a Toolbar view) and it also breaks ViewBinding(Missing required view with ID: `com.ichi2.anki.debug:id/toolbar`).
+    * #20286
+* [x] architecture review: vendor 'vbpd' David Allison 18/09/2025, 14:50
+* [x] #20188
+* [x] ~~refactor: remove 'layout' from MultimediaFragment David Allison 12/09/2025, 02:51~~
+* [x] #20186
+* [x] #20185
+* [x] #20184
+* [x] #20183
+* [x] #20165
+* [x] #19940
+* [x] #20153
+* [x] #20152
+* [x] #20151
+* [x] #20150
+* [x] #20149
+* [x] #20148
+* [x] #20139
+* [x] #20138
+* [x] #20389
+* [x] #20137
+* [x] #20135
+* [x] #19620
+* [x] #20134
+* [x] #20132
+* [x] #20083
+* [x] #19564
+* [x] #20081
+* [x] #20080
+* [x] #20079
+* [x] #20076
+* [x] #20075
+* [x] #20074
+* [x] CustomStudyDialog: 12ef7055367d3e687f58be3acc78ba9efabd8278
+* [x] #20012
+* [x] WhiteboardFragment: 8e869ad69cc7fe80c52b636b70a40d10950d1854
+* [x] #20011
+* [x] #20010
+* [x] #20009
+* [x] #20008
+* [x] #19621
+* [x] #19900
+* [x] #19899
+* [x] #19894
+* [x] #19566
+* [x] #19637
+* [x] #19892
+* [x] #19891
+* [x] #19890
+* [x] #19482
+* [x] #19565
+* [x] #19591
+* [x] #19889
+* [x] #19608
+* [x] #19888
+* [x] #19708
+* [x] #19593
+* [x] #19707
+* [x] #19706
+* [x] #19705
+* [x] #19568
+* [x] #19704
+* [x] https://github.com/ankidroid/Anki-Android/pull/19496
+* [x] #19567
+* [x] #19483
+* [x] #20202
+* [x] #20201
+* [x] #19525
+* [x] #19524
+* [x] ImageOcclusionBottomSheetFragment
+   *  https://github.com/ankidroid/Anki-Android/pull/19396
+* [x] #19482
+* [x] #20200
+* [x] #19523
+* [x] #19522
+* [x] #19526
+* [x] #19521
+* [x] #19511
+* [x] #19520
+* [x] #19502
+* [x] #19501
+* [x] #20199
+* [x] #19471
+* [x] ~~chore: convert Preferences to ViewBinding David Allison 10/09/2025, 22:27~~
+* [x] #19442
+* [x] #19440
+* [x] #20187
+* [x] #19439
+* [x] #19429
+* [x] chore: convert StudyOptionsFragment to ViewBinding David Allison 10/09/2025, 21:12
+* [x] #19428
+* [x] #19420
+* [x] chore: convert DrawingActivity to ViewBinding David Allison 10/09/2025, 18:57
+
+
+
+**Implement View Binding**
+Advantages of using it over findViewById
+Null safety – Properties in the generated class are non-null. In the case of multiple layout versions, e.g. layout file for different screen orientation or size, if some configuration contains an id that is not present in others, the generated property will be nullable.
+Type safety – Binding properties will be correctly typed, even with custom views.
+
+**Describe the solution you'd like**
+I will try to implement ViewiBinding for all activities and fragments.
+
+**Describe alternatives you've considered**
+This issue can be marked as good first issue so it will be helpful for new contributors. I will make a readme for this issue which have all the information about how to implement viewBinding for activities and fragments .
+
+**Additional context**
+**Advantages**
+Interoperability – Generated classes are in Java and are optimized for Kotlin-Java interoperability.
+Injection capability – Generated class can be injected in activity or fragment.
+Speed – There are no impacts on build speed, as it doesn’t use an annotation processor. After the first build with View Binding is enabled, it will dynamically generate new properties. And if you add new view elements to your XML, there is no need to rebuild every time
+
+",closed,2022-04-27,2026-03-09,https://github.com/ankidroid/Anki-Android/issues/11116,refactor
+13282,[Cleanup]: Fix Android Studio Warnings,"This task is designed as a small, useful task to onboard new users to the codebase who are unsure about what  to work on.
+
+> [!IMPORTANT] 
+> **Unique constraint to this issue**
+> Multiple pull requests from the same author will not be accepted, unless the refactoring is part of a larger piece of work 
+
+> [!TIP]
+> You do not need to be assigned this issue to work on it
+
+Android Studio flags a number of warnings in the AnkiDroid project.
+
+If a file which contains these warnings is committed, then Android Studio will warn the author. If the warning was not introduced by the author's commit, then the author is unnecessarily slowed down by having to confirm that they did not introduce more warnings into the codebase (which inevitably leads them to disabling the warning, as they're low value).
+
+The list of warnings can be obtained via:
+* Code -> Inspect Code
+
+![Screenshot 2023-02-16 at 21 38 16](https://user-images.githubusercontent.com/62114487/219492902-6f1198ee-50ed-4cf5-9d7b-95816653d8e8.png)
+
+The aim of this task is to introduce new contributors to the code with an 'easy' first issue to resolve.
+
+1. Run `Code -> Inspect Code` on the solution (it will be slow)
+2. Select one file which has warnings (under the `Kotlin` header is easiest.- many of the Java warnings are not flagged by the IDE)
+3. Fix all the errors, warnings + weak warnings in the file, automatically if this is offered by the IDE, or manually otherwise.
+4. Produce a Pull Request
+
+If you have completed this and desire to do more work, please select one of our accepted issues, [or fix some `@NeedsTest` annotations in the codebase.](https://github.com/ankidroid/Anki-Android/issues/13283)
+
+Once this issue has been completed, we can use CI to run Android Studio in headless mode to ensure that the codebase gets to, and stays at 0 warnings.",closed,2023-02-16,2026-03-08,https://github.com/ankidroid/Anki-Android/issues/13282,"refactor, cleanup"
+19924,[Split Browser] : java.util.NoSuchElementException: List is empty when toggling Card/Notes,"I got an exception changing to notes only mode. My be related.
+
+Instead of working around it, I'd rather move that logic to the ViewModel and get a unit test around it, it's bad code which I haven't tackled yet in the ViewModel/fragment refactor of the class
+```
+2025-12-13 21:55:20.521 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 I  Toggle select all / none
+2025-12-13 21:55:20.521 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  selecting none
+2025-12-13 21:55:20.523 13278-13278 CardBrowse...lectedRows com.ichi2.anki.debug                 D  refreshed selected rows
+2025-12-13 21:55:20.523 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:20.523 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:22.015 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 1390KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/33MB, paused 268us,2.142ms total 47.843ms
+2025-12-13 21:55:22.116 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:24.157 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 628KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 169us,1.925ms total 38.856ms
+2025-12-13 21:55:24.259 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:25.928 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@c00aad9
+2025-12-13 21:55:26.302 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 456KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 173us,1.602ms total 40.681ms
+2025-12-13 21:55:26.405 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:27.388 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:27.389 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:27.390 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  end multiselect mode
+2025-12-13 21:55:27.419 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onCreateOptionsMenu()
+2025-12-13 21:55:27.429 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:27.429 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:28.444 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 525KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/32MB, paused 157us,1.289ms total 35.826ms
+2025-12-13 21:55:28.546 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:30.586 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 670KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 16MB/33MB, paused 190us,1.201ms total 36.242ms
+2025-12-13 21:55:30.688 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:30.967 13278-13278 NoteEditorFragment      com.ichi2.anki.debug                 D  NoteEditor::onMenuItemSelected
+2025-12-13 21:55:30.967 13278-13278 CardBrowse...$setupMenu com.ichi2.anki.debug                 D  CardBrowserFragment::onMenuItemSelected
+2025-12-13 21:55:30.968 13278-13278 BrowserOpt...$Companion com.ichi2.anki.debug                 I  BrowserOptionsDialog::newInstance
+2025-12-13 21:55:30.969 13278-13278 NoteEditorFragment      com.ichi2.anki.debug                 D  NoteEditor::onMenuItemSelected
+2025-12-13 21:55:30.969 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@146f82c
+2025-12-13 21:55:30.972 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onAttach
+2025-12-13 21:55:30.973 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onCreate
+2025-12-13 21:55:31.011 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onViewCreated
+2025-12-13 21:55:31.021 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onStart
+2025-12-13 21:55:31.021 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onResume
+2025-12-13 21:55:31.321 13278-13375 HWUI                    com.ichi2.anki.debug                 D  endAllActiveAnimators on 0xb40000721d9eb580 (MenuPopupWindow$MenuDropDownListView) with handle 0xb40000715d97f950
+2025-12-13 21:55:32.737 13278-13306 chi2.anki.debug         com.ichi2.anki.debug                 I  Explicit concurrent mark compact GC freed 1527KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 17MB/34MB, paused 207us,1.635ms total 46.439ms
+2025-12-13 21:55:32.838 13278-13306 LeakCanary              com.ichi2.anki.debug                 D  Not showing notification: already requested missing POST_NOTIFICATIONS permission.
+2025-12-13 21:55:33.905 13278-13278 CardBrowse...rdsOrNotes com.ichi2.anki.debug                 I  setting mode to NOTES
+2025-12-13 21:55:33.905 13278-13278 WindowOnBackDispatcher  com.ichi2.anki.debug                 W  sendCancelIfRunning: isInProgress=false callback=android.app.Dialog$$ExternalSyntheticLambda2@a22453d
+2025-12-13 21:55:33.910 13278-13375 HWUI                    com.ichi2.anki.debug                 D  endAllActiveAnimators on 0xb40000721dbc7510 (RippleDrawable) with handle 0xb40000715da0c230
+2025-12-13 21:55:33.914 13278-13278 CardBrowse...mnHeadings com.ichi2.anki.debug                 D  updated headings for 4 columns
+2025-12-13 21:55:33.914 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  column names changed
+2025-12-13 21:55:33.914 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Sort Field, ankiColumnKey=noteFld)
+2025-12-13 21:55:33.915 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Cards, ankiColumnKey=template)
+2025-12-13 21:55:33.916 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Due, ankiColumnKey=cardDue)
+2025-12-13 21:55:33.917 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Deck, ankiColumnKey=deck)
+2025-12-13 21:55:33.918 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  loading columns for NOTES mode
+2025-12-13 21:55:33.918 13278-13278 CardBrowserViewModel    com.ichi2.anki.debug                 D  updating active columns
+2025-12-13 21:55:33.920 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  search state: Searching
+2025-12-13 21:55:33.920 13278-13278 CardBrowse...mnHeadings com.ichi2.anki.debug                 D  updated headings for 4 columns
+2025-12-13 21:55:33.921 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  column names changed
+2025-12-13 21:55:33.921 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Sort Field, ankiColumnKey=noteFld)
+2025-12-13 21:55:33.922 13278-13557 CardBrowse...chForCards com.ichi2.anki.debug                 D  performing search: ''
+2025-12-13 21:55:33.923 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Note Type, ankiColumnKey=note)
+2025-12-13 21:55:33.923 13278-13557 CardBrowse...chForCards com.ichi2.anki.debug                 D  Search returned 4 card(s)
+2025-12-13 21:55:33.923 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Cards, ankiColumnKey=template)
+2025-12-13 21:55:33.924 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  setting up column ColumnHeading(label=Tags, ankiColumnKey=noteTags)
+2025-12-13 21:55:33.924 13278-13278 CardBrowserFragment     com.ichi2.anki.debug                 D  columns changed
+2025-12-13 21:55:33.939 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onPause
+2025-12-13 21:55:33.939 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onStop
+2025-12-13 21:55:33.939 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of android.widget.ScrollView (com.ichi2.anki.dialogs.BrowserOptionsDialog received Fragment#onDestroyView() callback (references to its views should be cleared to prevent leaks)) with key 5519fc4b-6e67-469f-a137-6e4164f814c6
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onViewDestroyed
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of androidx.lifecycle.SavedStateHandlesVM (androidx.lifecycle.SavedStateHandlesVM received ViewModel#onCleared() callback) with key ddb1a680-bbf4-4b6e-b4f3-f38e79d24741
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of leakcanary.internal.ViewModelClearedWatcher (leakcanary.internal.ViewModelClearedWatcher received ViewModel#onCleared() callback) with key 3afe93c2-3959-4c6e-825d-c9b5cbd8c177
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of androidx.loader.app.LoaderManagerImpl$LoaderViewModel (androidx.loader.app.LoaderManagerImpl$LoaderViewModel received ViewModel#onCleared() callback) with key a619cd09-887e-4792-9069-89729f1d4145
+2025-12-13 21:55:33.940 13278-13278 LeakCanary              com.ichi2.anki.debug                 D  Watching instance of com.ichi2.anki.dialogs.BrowserOptionsDialog (com.ichi2.anki.dialogs.BrowserOptionsDialog received Fragment#onDestroy() callback) with key c21611d1-a276-4cc3-a19d-5519b434d40d
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onDestroy
+2025-12-13 21:55:33.940 13278-13278 FragmentLifecycleLogger com.ichi2.anki.debug                 I  CardBrowser::BrowserOptionsDialog::onDetach
+2025-12-13 21:55:33.941 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  search state: Completed
+2025-12-13 21:55:33.942 13278-13278 CardBrowse...fterSearch com.ichi2.anki.debug                 I  CardBrowser:: Completed searchCards() Successfully
+2025-12-13 21:55:33.943 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateList
+2025-12-13 21:55:33.944 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  onSelectionChanged
+2025-12-13 21:55:33.944 13278-13278 CardBrowser             com.ichi2.anki.debug                 D  updateMultiselectMenu()
+2025-12-13 21:55:33.961 13278-13278 CoroutineHelpersKt      com.ichi2.anki.debug                 E  java.util.NoSuchElementException: List is empty.
+                                                                                                    	at kotlin.collections.CollectionsKt___CollectionsKt.first(_Collections.kt:221)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId.toCardId_impl$lambda$0(CardOrNoteId.kt:42)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId.$r8$lambda$bxkjGAhWtD0G-4MOEwFHY5dBQno(Unknown Source:0)
+                                                                                                    	at com.ichi2.anki.browser.CardOrNoteId$$ExternalSyntheticLambda1.invoke(D8$$SyntheticClass:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager.withCol$lambda$1(CollectionManager.kt:146)
+                                                                                                    	at com.ichi2.anki.CollectionManager.$r8$lambda$ffr4nUlMOyAvThaKA2WuJlnLaPU(Unknown Source:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager$$ExternalSyntheticLambda10.invoke(D8$$SyntheticClass:0)
+                                                                                                    	at com.ichi2.anki.CollectionManager$withQueue$3.invokeSuspend(CollectionManager.kt:128)
+                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+                                                                                                    	at kotlinx.coroutines.internal.LimitedDispatcher$Worker.run(LimitedDispatcher.kt:113)
+                                                                                                    	at kotlinx.coroutines.scheduling.TaskImpl.run(Tasks.kt:89)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler.runSafely(CoroutineScheduler.kt:589)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.executeTask(CoroutineScheduler.kt:823)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.runWorker(CoroutineScheduler.kt:720)
+                                                                                                    	at kotlinx.coroutines.scheduling.CoroutineScheduler$Worker.run(CoroutineScheduler.kt:707)
+2025-12-13 21:55:33.961 13278-13278 CoroutineHelpersKt      com.ichi2.anki.debug                 E  	at com.ichi2.anki.CoroutineHelpersKt.launchCatchingTask$default(CoroutineHelpers.kt:222)
+                                                                                                    	at com.ichi2.anki.CardBrowser.redrawAfterSearch(CardBrowser.kt:1187)
+                                                                                                    	at com.ichi2.anki.CardBrowser.setupFlows$searchStateChanged(CardBrowser.kt:538)
+                                                                                                    	at com.ichi2.anki.CardBrowser.setupFlows$searchStateChanged$30(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.CardBrowser.access$setupFlows$searchStateChanged$30(CardBrowser.kt:111)
+                                                                                                    	at com.ichi2.anki.CardBrowser$setupFlows$8.invoke(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.CardBrowser$setupFlows$8.invoke(CardBrowser.kt:596)
+                                                                                                    	at com.ichi2.anki.AnkiActivity$launchCollectionInLifecycleScope$1$1$1.emit(AnkiActivity.kt:766)
+                                                                                                    	at kotlinx.coroutines.flow.SharedFlowImpl.collect$suspendImpl(SharedFlow.kt:397)
+                                                                                                    	at kotlinx.coroutines.flow.SharedFlowImpl$collect$1.invokeSuspend(Unknown Source:19)
+                                                                                                    	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+                                                                                                    	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+                                                                                                    	at android.os.Handler.handleCallback(Handler.java:995)
+                                                                                                    	at android.os.Handler.dispatchMessage(Handler.java:103)
+                                                                                                    	at android.os.Looper.loopOnce(Looper.java:248)
+                                                                                                    	at android.os.Looper.loop(Looper.java:338)
+                                                                                                    	at android.app.ActivityThread.main(ActivityThread.java:9067)
+                                                                                                    	at java.lang.reflect.Method.invoke(Native Method)
+                                                                                                    	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:593)
+                                                                                                    	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:932)
+```
+
+_Originally posted by @david-allison in https://github.com/ankidroid/Anki-Android/pull/19790#pullrequestreview-3574416888_
+            ",closed,2025-12-25,2026-02-20,https://github.com/ankidroid/Anki-Android/issues/19924,refactor
+17551,Very long 'Processing' dialog if AutoSync is enabled and AnkiWeb is down. ANR if no notification permissions,"* Enable autosync
+* Open AnkiDroid when AnkiWeb is down
+* ""Processing"" dialog can't be cancelled and took ~15 second to close
+  * Maybe longer, AnkiWeb was back up by the time it completed 
+
+A user reported that the app was hung, this may be related
+
+
+* Related: #17493
+
+Reproduction patch:
+
+```patch
+Index: AnkiDroid/src/main/java/com/ichi2/anki/Sync.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/Sync.kt b/AnkiDroid/src/main/java/com/ichi2/anki/Sync.kt
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/Sync.kt	(revision 951615f7753ca8b5710f15cce2bba2a9a114f91c)
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/Sync.kt	(date 1733378352598)
+@@ -23,6 +23,7 @@
+ import androidx.annotation.StringRes
+ import androidx.appcompat.app.AlertDialog
+ import androidx.core.content.edit
++import anki.backend.backendError
+ import anki.sync.SyncAuth
+ import anki.sync.SyncCollectionResponse
+ import anki.sync.syncAuth
+@@ -50,6 +51,7 @@
+ import kotlinx.coroutines.withContext
+ import net.ankiweb.rsdroid.Backend
+ import net.ankiweb.rsdroid.exceptions.BackendInterruptedException
++import net.ankiweb.rsdroid.exceptions.BackendNetworkException
+ import net.ankiweb.rsdroid.exceptions.BackendSyncException
+ import timber.log.Timber
+ 
+@@ -223,6 +225,12 @@
+         manualCancelButton = R.string.dialog_cancel
+     ) {
+         withCol {
++            Timber.d(""Simulating AnkiWeb wait"")
++            Thread.sleep(10_000)
++            Timber.d(""Simulating AnkiWeb timeout error"")
++            throw BackendNetworkException(backendError {
++                message = ""testing timeout""
++            })
+             syncCollection(auth2, media = false) // media is synced by SyncMediaWorker
+         }
+     }
+```",open,2024-12-05,2026-01-21,https://github.com/ankidroid/Anki-Android/issues/17551,
+5075,"DialogHandler assumes it was started by DeckPicker, may crash otherwise","###### Reproduction Steps
+
+1. Open AnkiDroid via a Reviewer-first pathway?
+2. request file import?
+3. 
+
+
+###### Expected Result
+
+Import dialog is shown
+
+
+###### Actual Result
+
+ClassCastException because import dialog is spawned from Reviewer somehow, instead of DeckPicker?
+```
+java.lang.ClassCastException: com.ichi2.anki.Reviewer cannot be cast to com.ichi2.anki.DeckPicker
+at com.ichi2.anki.dialogs.DialogHandler.handleMessage(DialogHandler.java:82)
+at android.os.Handler.dispatchMessage(Handler.java:106)
+at android.os.Looper.loop(Looper.java:164)
+at android.app.ActivityThread.main(ActivityThread.java:6501)
+at java.lang.reflect.Method.invoke(Native Method)
+at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:438)
+at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:807)
+```",open,2018-10-21,2026-01-21,https://github.com/ankidroid/Anki-Android/issues/5075,
+19965,Memory leak in SharedDecksActivity (suspected WebView Context issue),"### Checked for duplicates?
+
+- [x] This issue is not a duplicate
+
+### Does it also happen in the desktop version?
+
+- [ ] This bug does not occur in the latest version of Anki Desktop
+
+### What are the steps to reproduce this bug?
+
+1. Open AnkiDroid.
+2. Navigate to ""Get Shared Decks"" (SharedDecksActivity).
+3. Press the back button to return to the DeckPicker.
+4. Repeat steps 1-3 multiple times (e.g., 10-20 times).
+5. Inspect the memory usage using the Android Studio Profiler.
+
+**Observation**
+The memory usage keeps increasing.
+Instances of SharedDecksActivity are not being garbage collected.
+The heap dump suggests that UiModeManager holds a reference to the WebView, which in turn holds the Activity Context.
+
+<img width=""1424"" height=""622"" alt=""Image"" src=""https://github.com/user-attachments/assets/761524a2-df31-4619-9045-262cc161c2a2"" />
+
+<img width=""1418"" height=""468"" alt=""Image"" src=""https://github.com/user-attachments/assets/e4db8125-2bfa-45f4-881f-53c97527a2f2"" />
+
+I did it 7 times
+
+<img width=""1424"" height=""302"" alt=""Image"" src=""https://github.com/user-attachments/assets/1adb655f-7b6e-4584-8bb1-6fef3dd5c754"" />
+
+I did it 24 times
+
+<img width=""1416"" height=""766"" alt=""Image"" src=""https://github.com/user-attachments/assets/3e51c9e8-251f-4556-a2bb-c83ab36e1ad8"" />
+
+### Expected behaviour
+
+SharedDecksActivity should be garbage collected after it is destroyed.
+
+### Debug info
+
+```text
+AnkiDroid Version = 2.24.0alpha0-debug (120ae9e3e1cc9d74ae1cd9c93f87cf18d6a122d9)  
+Backend Version = 0.1.62-anki25.09.2 (25.09.2 3890e12c9e48c028c3f12aa58cb64bd9f8895e30)  
+Android Version = 14 (SDK 34)  
+ProductFlavor = play  
+Device Info = Google | google | emu64xa | sdk_gphone64_x86_64 | sdk_gphone64_x86_64 | ranchu  
+Webview User Agent = Mozilla/5.0 (Linux; Android 14; sdk_gphone64_x86_64 Build/UE1A.230829.036.A4; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/113.0.5672.136 Mobile Safari/537.36  
+ACRA UUID = cb9112dd-e24d-4e60-b2e8-a126d16276e7  
+FSRS = 5.1.0 (Enabled: false)  
+Crash Reports Enabled = false
+
+AnkiDroid Version = 2.24.0alpha0-debug (120ae9e3e1cc9d74ae1cd9c93f87cf18d6a122d9)  
+Backend Version = 0.1.62-anki25.09.2 (25.09.2 3890e12c9e48c028c3f12aa58cb64bd9f8895e30)  
+Android Version = 15 (SDK 35)  
+ProductFlavor = play  
+Device Info = Google | google | emu64xa | sdk_gphone64_x86_64 | sdk_gphone64_x86_64 | ranchu  
+Webview User Agent = Mozilla/5.0 (Linux; Android 15; sdk_gphone64_x86_64 Build/AE3A.240806.036; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/141.0.7390.122 Mobile Safari/537.36  
+ACRA UUID = d3ddc623-c774-4c20-b707-be5792040f43  
+FSRS = 5.1.0 (Enabled: false)  
+Crash Reports Enabled = false
+```
+
+### (Optional) Anything else you want to share?
+
+I have been investigating this issue and I would like to share my findings and a potential solution for review.
+
+My Analysis:
+It seems that defining the WebView in the XML layout causes it to be initialized with the Activity Context. This appears to prevent the Activity from being garbage collected because system services (like UiModeManager) keep a reference to the WebView.
+Also there is no onDestory function in SharedDecksActivity.
+
+Experimental Fix:
+I tried modifying the code to instantiate the WebView programmatically using the Application Context instead of the Activity Context.
+Added onDestroy(): Explicitly calling webView.stopLoading(), clearing the webViewClient, and calling webView.destroy().
+
+Replaced <WebView> in XML with a FrameLayout container.
+Initialized WebView(applicationContext) in onCreate and added it to the container.
+Cleaned up the WebView in onDestroy.
+Result:
+In my tests (API 34, 35), this change stopped the memory leak.
+
+Request for Review:
+As I am a student and new to this codebase, I am not entirely sure if using applicationContext for the WebView might introduce other side effects (e.g., theming or dialog issues).
+
+Could you please review if this approach is correct/safe?
+
+### Research
+
+- [x] I have checked the [manual](https://ankidroid.org/docs/manual.html) and the [FAQ](https://github.com/ankidroid/Anki-Android/wiki/FAQ) and could not find a solution to my issue
+- [ ] (Optional) I have confirmed the issue is not resolved in the latest alpha release ([instructions](https://docs.ankidroid.org/manual.html#betaTesting))",closed,2025-12-29,2026-01-20,https://github.com/ankidroid/Anki-Android/issues/19965,
+19729,Previewer: kotlin.UninitializedPropertyAccessException: lateinit property config has not been initialized,"https://github.com/ankidroid/Anki-Android/actions/runs/20076406192/job/57591859986
+
+```
+PreviewerViewModelTest > next, slider and previous navigation integration FAILED
+    java.lang.AssertionError
+        at org.junit.Assert.fail(Assert.java:87)
+        at org.junit.Assert.assertTrue(Assert.java:42)
+        at org.junit.Assert.assertTrue(Assert.java:53)
+        at com.ichi2.anki.previewer.PreviewerViewModelTest$next, slider and previous navigation integration$1.invokeSuspend(PreviewerViewModelTest.kt:203)
+        at com.ichi2.anki.previewer.PreviewerViewModelTest$next, slider and previous navigation integration$1.invoke(PreviewerViewModelTest.kt)
+        at com.ichi2.anki.previewer.PreviewerViewModelTest$next, slider and previous navigation integration$1.invoke(PreviewerViewModelTest.kt)
+        at com.ichi2.anki.libanki.testutils.AnkiTest.runTestInner$suspendImpl(AnkiTest.kt:336)
+        at com.ichi2.anki.libanki.testutils.AnkiTest.runTestInner(AnkiTest.kt)
+        at com.ichi2.anki.libanki.testutils.InMemoryAnkiTest.runTestInner(InMemoryAnkiTest.kt:36)
+        at com.ichi2.anki.libanki.testutils.AnkiTest$runTest$1$1.invokeSuspend(AnkiTest.kt:329)
+        at com.ichi2.anki.libanki.testutils.AnkiTest$runTest$1$1.invoke(AnkiTest.kt)
+        at com.ichi2.anki.libanki.testutils.AnkiTest$runTest$1$1.invoke(AnkiTest.kt)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$1.invokeSuspend(TestBuilders.kt:317)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.test.TestDispatcher.processEvent$kotlinx_coroutines_test(TestDispatcher.kt:24)
+        at kotlinx.coroutines.test.TestCoroutineScheduler.tryRunNextTaskUnless$kotlinx_coroutines_test(TestCoroutineScheduler.kt:99)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt$runTest$2$1$workRunner$1.invokeSuspend(TestBuilders.kt:326)
+        at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+        at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:100)
+        at kotlinx.coroutines.EventLoopImplBase.processNextEvent(EventLoop.common.kt:263)
+        at kotlinx.coroutines.BlockingCoroutine.joinBlocking(Builders.kt:94)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking(Builders.kt:70)
+        at kotlinx.coroutines.BuildersKt.runBlocking(Unknown Source)
+        at kotlinx.coroutines.BuildersKt__BuildersKt.runBlocking$default(Builders.kt:48)
+        at kotlinx.coroutines.BuildersKt.runBlocking$default(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersJvmKt.createTestResult(TestBuildersJvm.kt:10)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:309)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(Unknown Source)
+        at kotlinx.coroutines.test.TestBuildersKt__TestBuildersKt.runTest-8Mi8wO0(TestBuilders.kt:167)
+        at kotlinx.coroutines.test.TestBuildersKt.runTest-8Mi8wO0(Unknown Source)
+        at com.ichi2.anki.libanki.testutils.AnkiTest.runTest(AnkiTest.kt:328)
+        at com.ichi2.anki.libanki.testutils.InMemoryAnkiTest.runTest(InMemoryAnkiTest.kt:36)
+        at com.ichi2.anki.libanki.testutils.AnkiTest.runTest$default(AnkiTest.kt:317)
+        at com.ichi2.anki.previewer.PreviewerViewModelTest.next, slider and previous navigation integration(PreviewerViewModelTest.kt:178)
+```",closed,2025-12-09,2026-01-17,https://github.com/ankidroid/Anki-Android/issues/19729,
+19741,Define guidelines & processes for LLM/AI-based contributions,"I'm opening this issue for discussion. There have been a few comments on Discord (and the GSoC Mentor Summit/Mailing List). The burden on reviewers is steadily increasing, but the meaningful benefit from LLM-generated Pull Requests doesn't justify this additional burden.
+
+The aim is to:
+
+* Define our current problems
+* Research what other orgs are doing for these problems
+* Brainstorm reasonable solutions
+
+**Outcomes**
+
+I don't want to be heavy-handed here, a few incremental changes will likely suffice. I suspect that this will result in some of:
+
+* An update to our [PR Template](https://github.com/ankidroid/Anki-Android/blob/main/.github/pull_request_template.md)
+* An 'acceptable use' policy for LLM-based contributions 
+* Potential configuration changes to GitHub Copilot
+* An update to [`CONTRIBUTING.md`](https://github.com/ankidroid/Anki-Android/blob/main/CONTRIBUTING.md)
+  * on top of https://github.com/ankidroid/Anki-Android/pull/19732
+* CI: Validate the PR Template is filled in 
+
+**Past AnkiDroid Discussions (Discord)**
+
+I will summarize these later:
+
+* https://discord.com/channels/368267295601983490/701922522836369498/1436535978037608518
+* https://discord.com/channels/368267295601983490/701922522836369498/1447289676598611978
+* https://discord.com/channels/368267295601983490/701922522836369498/1442784489909649479",closed,2025-12-11,2026-01-06,https://github.com/ankidroid/Anki-Android/issues/19741,
+19975,ISSUE DRAFT — Android Studio Warnings Cleanup (Beginner-Friendly),"### Checked for duplicates?
+
+- [x] This issue is not a duplicate
+
+### Does it also happen in the desktop version?
+
+- [x] This bug does not occur in the latest version of Anki Desktop
+
+### What are the steps to reproduce this bug?
+
+1. Open the project in Android Studio (latest stable)
+ Navigate to:
+2. AnkiDroid/src/main/java/com/ichi2/anki/DeckPicker.kt
+3. Let Android Studio analyze the file
+4. The warnings appear in the IDE inspector
+
+### Expected behaviour
+
+No warnings should be reported for this file.
+
+### Debug info
+
+```text
+I’d like to:
+safely remove unused imports
+replace unnecessary null-safety operators where appropriate
+apply simple IDE-suggested cleanups that do not change behavior
+No logic changes — only cleanup.
+```
+
+### (Optional) Anything else you want to share?
+
+Description
+While browsing the codebase, I noticed several minor warnings reported by Android Studio in DeckPicker.kt.
+These are mostly related to:
+unused imports
+redundant ?.let usage
+unnecessary !! operators
+small code style improvements suggested by IDE
+Fixing these warnings improves readability and reduces noise for future contributors.
+
+### Research
+
+- [x] I have checked the [manual](https://ankidroid.org/docs/manual.html) and the [FAQ](https://github.com/ankidroid/Anki-Android/wiki/FAQ) and could not find a solution to my issue
+- [ ] (Optional) I have confirmed the issue is not resolved in the latest alpha release ([instructions](https://docs.ankidroid.org/manual.html#betaTesting))",closed,2025-12-29,2025-12-29,https://github.com/ankidroid/Anki-Android/issues/19975,cleanup
+19905,[BUG] CustomStudy: lateinit property deferredDefaults has not been initialized,"2.23.1
+
+https://ankidroid.org/acra/app/1/bug/368860/report/a72d140e-25cf-4347-869c-c43ad8779f2b
+
+```
+com.ichi2.anki.exception.UserSubmittedException: lateinit property deferredDefaults has not been initialized
+	at com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.buildInputDialog(CustomStudyDialog.kt:293)
+	at com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.onCreateDialog(CustomStudyDialog.kt:196)
+	at androidx.fragment.app.DialogFragment.prepareDialog(DialogFragment.java:925)
+	at androidx.fragment.app.DialogFragment.onGetLayoutInflater(DialogFragment.java:839)
+	at androidx.fragment.app.Fragment.performGetLayoutInflater(Fragment.java:1760)
+	at androidx.fragment.app.FragmentStateManager.createView(FragmentStateManager.java:547)
+	at androidx.fragment.app.FragmentStateManager.moveToExpectedState(FragmentStateManager.java:286)
+	at androidx.fragment.app.FragmentStore.moveToExpectedState(FragmentStore.java:114)
+	at androidx.fragment.app.FragmentManager.moveToState(FragmentManager.java:1685)
+	at androidx.fragment.app.FragmentManager.dispatchStateChange(FragmentManager.java:3319)
+	at androidx.fragment.app.FragmentManager.dispatchActivityCreated(FragmentManager.java:3237)
+	at androidx.fragment.app.FragmentController.dispatchActivityCreated(FragmentController.java:263)
+	at androidx.fragment.app.FragmentActivity.onStart(FragmentActivity.java:350)
+	at androidx.appcompat.app.AppCompatActivity.onStart(AppCompatActivity.java:238)
+	at com.ichi2.anki.AnkiActivity.onStart(AnkiActivity.kt:170)
+	at android.app.Instrumentation.callActivityOnStart(Instrumentation.java:1597)
+	at android.app.Activity.performStart(Activity.java:8931)
+	at android.app.ActivityThread.handleStartActivity(ActivityThread.java:4016)
+	at android.app.servertransaction.TransactionExecutor.performLifecycleSequence(TransactionExecutor.java:235)
+	at android.app.servertransaction.TransactionExecutor.cycleToPath(TransactionExecutor.java:215)
+	at android.app.servertransaction.TransactionExecutor.executeLifecycleState(TransactionExecutor.java:187)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:101)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2589)
+	at android.os.Handler.dispatchMessage(Handler.java:106)
+	at android.os.Looper.loopOnce(Looper.java:224)
+	at android.os.Looper.loop(Looper.java:318)
+	at android.app.ActivityThread.main(ActivityThread.java:8765)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:561)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1013)
+```
+
+```
+--------- beginning of main
+12-22 20:28:25.161 I/AnkiDroid( 1466): Timber config: PRODUCTION
+12-22 20:28:25.162 I/AnkiDroid( 1466): initialize()
+12-22 20:28:25.443 I/AnkiDroid( 1466): Not participating in analytics sample (sample percentage vs random: 10 38)
+12-22 20:28:25.443 I/AnkiDroid( 1466): setOptIn(): from false to true
+12-22 20:28:25.443 I/AnkiDroid( 1466): Not participating in analytics sample (sample percentage vs random: 10 56)
+12-22 20:28:25.444 I/AnkiDroid( 1466): initialize()
+12-22 20:28:25.444 I/AnkiDroid( 1466): AnkiDroidApp: listing debug info
+12-22 20:28:25.448 I/AnkiDroid( 1466): Creating notification channel with id/name: General Notifications/AnkiDroid
+12-22 20:28:25.451 I/AnkiDroid( 1466): Creating notification channel with id/name: Synchronization/Synchronization
+12-22 20:28:25.452 I/AnkiDroid( 1466): Creating notification channel with id/name: Review Reminders/Review Reminders
+12-22 20:28:25.462 I/AnkiDroid( 1466): AnkiDroidApp: Starting Services
+12-22 20:28:25.505 I/AnkiDroid( 1466): Setting theme to LIGHT
+12-22 20:28:25.523 I/AnkiDroid( 1466): DeckPicker::onCreate, savedInstanceState: 8 keys
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::n::onAttach
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::n::onCreate
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::p0::onAttach
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::p0::onCreate
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::n::onAttach
+12-22 20:28:25.533 I/AnkiDroid( 1466): DeckPicker::n::onCreate
+12-22 20:28:25.775 I/AnkiDroid( 1466): (Re)opening Database: Path(path=/storage/emulated/0/Android/data/com.ichi2.anki/files/AnkiDroid/collection.anki2)
+12-22 20:28:25.806 I/AnkiDroid( 1466): isLegacyStorage(): current dir: /storage/emulated/0/Android/data/com.ichi2.anki/files/AnkiDroid
+12-22 20:28:25.806 I/AnkiDroid( 1466): scoped external dirs: /storage/emulated/0/Android/data/com.ichi2.anki/files
+12-22 20:28:25.806 I/AnkiDroid( 1466): scoped internal dir: /data/user/0/com.ichi2.anki/files
+12-22 20:28:25.806 I/AnkiDroid( 1466): isLegacyStorage(): false
+12-22 20:28:25.911 I/AnkiDroid( 1466): DeckPicker::onStart
+12-22 20:28:25.912 I/AnkiDroid( 1466): Showing Custom Study dialog: EXTEND_NEW
+```",closed,2025-12-22,2025-12-26,https://github.com/ankidroid/Anki-Android/issues/19905,
+7110,SOFT_INPUT_ADJUST_RESIZE deprecated in API30,"
+The counsel on this one is rather involved:
+
+https://developer.android.com/reference/android/view/WindowManager.LayoutParams#SOFT_INPUT_ADJUST_RESIZE
+
+> Call Window#setDecorFitsSystemWindows(boolean) with false and install an OnApplyWindowInsetsListener on your root content view that fits insets of type Type#ime(). 
+
+That's a medium sized restructuring, so just marking the deprecation for now",open,2020-09-15,2025-12-19,https://github.com/ankidroid/Anki-Android/issues/7110,
+13695,dev: Update Emulator API version for Tests ,Rolled back to API 30 due to instability. We should roll forward (possibly to UpsideDownCake) when we have dev capacity,closed,2023-04-24,2025-12-16,https://github.com/ankidroid/Anki-Android/issues/13695,
+19757,[BUG] CardBrowser: scrollbar no longer works,"2.23.0
+
+Reproduced on my Pixel 9 Pro
+
+```
+AnkiDroid Version = 2.23.0 (4f768aa0be34e254d65fd4ebe19781b84e8efc37)  
+Backend Version = 0.1.62-anki25.09.2 (25.09.2 3890e12c9e48c028c3f12aa58cb64bd9f8895e30)  
+Android Version = 16 (SDK 36)  
+ProductFlavor = full  
+Device Info = Google | google | caiman | caiman | Pixel 9 Pro | caiman  
+Webview User Agent = Mozilla/5.0 (Linux; Android 16; Pixel 9 Pro Build/BP3A.251105.015; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/143.0.7499.34 Mobile Safari/537.36  
+ACRA UUID = 4df92614-8644-42e8-a797-27985368923c  
+FSRS = 5.1.0 (Enabled: true)  
+Crash Reports Enabled = true
+```",closed,2025-12-12,2025-12-14,https://github.com/ankidroid/Anki-Android/issues/19757,
+14320,Remove `Android` dependencies from libanki,"The goal is to increase the overall package building performance.
+
+If something can be simply extracted from there, it's easier. If not, refactor it",closed,2023-08-27,2025-11-05,https://github.com/ankidroid/Anki-Android/issues/14320,refactor
+18583,2.21beta1:  Parcelable protocol requires subclassing from Parcelable on class `y1.F` [RecyclerView],"https://ankidroid.org/acra/app/1/bug/313222/report/be0dbe1c-23a1-4fb2-b3d5-ea8a69bab62d
+
+```
+android.os.BadParcelableException: Parcelable protocol requires subclassing from Parcelable on class y1.F
+	at android.os.Parcel.readParcelableCreator(Parcel.java:3017)
+	at android.os.Parcel.readParcelable(Parcel.java:2964)
+	at androidx.recyclerview.widget.RecyclerView$SavedState.<init>(RecyclerView.java:13447)
+	at androidx.recyclerview.widget.RecyclerView$SavedState$1.createFromParcel(RecyclerView.java:13471)
+	at androidx.recyclerview.widget.RecyclerView$SavedState$1.createFromParcel(RecyclerView.java:13468)
+	at android.os.Parcel.readParcelable(Parcel.java:2971)
+	at android.os.Parcel.readValue(Parcel.java:2866)
+	at android.os.Parcel.readSparseArrayInternal(Parcel.java:3327)
+	at android.os.Parcel.readSparseArray(Parcel.java:2484)
+	at android.os.Parcel.readValue(Parcel.java:2923)
+	at android.os.Parcel.readArrayMapInternal(Parcel.java:3244)
+	at android.os.BaseBundle.initializeFromParcelLocked(BaseBundle.java:292)
+	at android.os.BaseBundle.unparcel(BaseBundle.java:236)
+	at android.os.Bundle.getSparseParcelableArray(Bundle.java:1029)
+	at com.android.internal.policy.PhoneWindow.restoreHierarchyState(PhoneWindow.java:2171)
+	at android.app.Activity.onRestoreInstanceState(Activity.java:1593)
+	at android.app.Activity.performRestoreInstanceState(Activity.java:1548)
+	at android.app.Instrumentation.callActivityOnRestoreInstanceState(Instrumentation.java:1353)
+	at android.app.ActivityThread.handleStartActivity(ActivityThread.java:3342)
+	at android.app.servertransaction.TransactionExecutor.performLifecycleSequence(TransactionExecutor.java:221)
+	at android.app.servertransaction.TransactionExecutor.cycleToPath(TransactionExecutor.java:201)
+	at android.app.servertransaction.TransactionExecutor.executeLifecycleState(TransactionExecutor.java:173)
+	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:97)
+	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2045)
+	at android.os.Handler.dispatchMessage(Handler.java:107)
+	at android.os.Looper.loop(Looper.java:214)
+	at android.app.ActivityThread.main(ActivityThread.java:7399)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:502)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:980)
+```",closed,2025-06-22,2025-10-07,https://github.com/ankidroid/Anki-Android/issues/18583,
+17716,FR: JS API function to remove a specific tag,"
+This is a sister issue to the already released issue https://github.com/ankidroid/Anki-Android/issues/16210#issuecomment-2571259696 , just removing a tag instead of adding it.
+
+@Haz3-jolt will implement this (source: https://github.com/ankidroid/Anki-Android/issues/16210#issuecomment-2571259696 )
+ ",closed,2025-01-04,2025-06-25,https://github.com/ankidroid/Anki-Android/issues/17716,
+17062,[BUG] AnkiDroid API no longer lists media on cards,"Hi, I'm trying to write an app that will launch upon unlocking the phone, and its only task will be to present one card, then close after receiving a response. Unfortunately, I'm struggling with one problem, namely how to display images and play audio files because I don't have access to them due to the new Android permissions. I'm wondering if there's a way around this?
+
+I was thinking about whether it would be possible to add another method to the AnkiDroid API that, return an image/audio binary data if it had access to such a file. Do you think this is doable in Android?",closed,2024-09-13,2025-06-25,https://github.com/ankidroid/Anki-Android/issues/17062,
+16007,Don't change browser's focus after editing a note,"The problem can be twofold. Go to card browser, search `is:new` or anything else. Now if you click on a card and back, the cursor would appear in your search bar and keyboard would open up. This ususally hides the bottom of the screen and is especially problematic if you are editing cards at the bottom of the list. That would mean everytime you open the note editor and back, you will have to scroll back to the previous position. You cannot keep the scroll position you had while keyboard was shown.
+
+I know you can just change the display order here but if we could just stop from the keyboard suddenly appearing it would be nice as even in other situations this impedes with opening note editor.",closed,2024-03-28,2025-06-10,https://github.com/ankidroid/Anki-Android/issues/16007,
+17583,"Custom Study: ""Study by card state or tag""","We currently use the `TagsDialog` for this feature, but it is incomplete compared to the functionality exposed by Anki Desktop. A UI should be designed, and this feature should be moved out of the `TagsDialog`
+
+<details>
+
+<summary>Anki Screenshots</summary>
+
+![Image](https://github.com/user-attachments/assets/d0c436d5-d4f1-479e-861c-6ba04bc19a5f)
+
+![Image](https://github.com/user-attachments/assets/0cafee61-8113-41e9-abd4-6de86b307297)
+
+</details>
+
+<details>
+
+<summary>AnkiDroid Screenshots</summary>
+
+![Image](https://github.com/user-attachments/assets/09386d54-87e1-4823-8b67-20ebe6a9ba3c)
+
+
+![Image](https://github.com/user-attachments/assets/74aa7bc8-ec2a-4acc-95d7-e981c472789e)
+
+
+</details>
+
+<details>
+
+<summary>Partial patch</summary>
+
+* based on: https://github.com/ankidroid/Anki-Android/pull/17562
+
+```patch
+From 1a169cf40f275619874bc4a507b2dbf898432041 Mon Sep 17 00:00:00 2001
+From: David Allison <62114487+david-allison@users.noreply.github.com>
+Date: Thu, 5 Dec 2024 22:32:30 +0000
+Subject: [PATCH] TODO! feat(custom-study): use Backend tag studying code
+
+TODOs:
+* IntegerDialog
+* extendLimits refactoring in wrong commit
+
+Anki has 'Study by card state or tag'
+
+This is:
+* Select `[100]` cards from this deck
+  * `[]` represents an input picker
+* A list of 4 strategies: 'new', 'due', etc...
+* A ""choose tags"" button,
+  * a user can exclude tags
+  * a checkbox: ""Review one or more of these tags""
+    * a user can specify tags which MUST be included
+
+We now do the above, except:
+
+* no exclusion of tags.
+* The 'saved' list of tags in 'defaults' is not yet used
+* Inclusion of tags is the default, and not gated behind a checkbox
+
+Changes:
+* TagsDialog had a partial implementation with 3 radio buttons
+  * Add a radio button
+  * Radio buttons are now vertical
+  * A text label and edit button now exist to set the
+* TagsDialog now returns a 'CustomStudyCramResponse'
+  * Previous data, as well as a number of cards to include
+* Card Browser no longer shows these radio buttons
+---
+ .../com/ichi2/anki/AbstractFlashcardViewer.kt |   4 +-
+ .../main/java/com/ichi2/anki/CardBrowser.kt   |  18 +-
+ .../main/java/com/ichi2/anki/NoteEditor.kt    |   4 +-
+ .../anki/browser/CardBrowserViewModel.kt      |   5 +-
+ .../customstudy/CustomStudyCramResponse.kt    |  22 +++
+ .../dialogs/customstudy/CustomStudyDialog.kt  | 175 ++++++------------
+ .../com/ichi2/anki/dialogs/tags/TagsDialog.kt |  97 ++++++++--
+ .../anki/dialogs/tags/TagsDialogListener.kt   |  12 +-
+ .../com/ichi2/anki/model/CardStateFilter.kt   |  31 ++--
+ AnkiDroid/src/main/res/layout/tags_dialog.xml |  59 ++++--
+ AnkiDroid/src/main/res/values/01-core.xml     |   2 -
+ AnkiDroid/src/main/res/values/02-strings.xml  |   1 -
+ AnkiDroid/src/main/res/values/03-dialogs.xml  |   5 -
+ 13 files changed, 242 insertions(+), 193 deletions(-)
+ create mode 100644 AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyCramResponse.kt
+
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/AbstractFlashcardViewer.kt b/AnkiDroid/src/main/java/com/ichi2/anki/AbstractFlashcardViewer.kt
+index 56ad993bf129..c4306fb296bc 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/AbstractFlashcardViewer.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/AbstractFlashcardViewer.kt
+@@ -99,10 +99,10 @@ import com.ichi2.anki.cardviewer.ViewerRefresh
+ import com.ichi2.anki.cardviewer.handledGamepadKeyDown
+ import com.ichi2.anki.cardviewer.handledGamepadKeyUp
+ import com.ichi2.anki.dialogs.TtsVoicesDialogFragment
++import com.ichi2.anki.dialogs.customstudy.CustomStudyCramResponse
+ import com.ichi2.anki.dialogs.tags.TagsDialog
+ import com.ichi2.anki.dialogs.tags.TagsDialogFactory
+ import com.ichi2.anki.dialogs.tags.TagsDialogListener
+-import com.ichi2.anki.model.CardStateFilter
+ import com.ichi2.anki.noteeditor.NoteEditorLauncher
+ import com.ichi2.anki.pages.AnkiServer
+ import com.ichi2.anki.pages.CongratsPage
+@@ -2592,7 +2592,7 @@ abstract class AbstractFlashcardViewer :
+     override fun onSelectedTags(
+         selectedTags: List<String>,
+         indeterminateTags: List<String>,
+-        stateFilter: CardStateFilter
++        customStudyExtra: CustomStudyCramResponse
+     ) {
+         launchCatchingTask {
+             val note = withCol { currentCard!!.note(this@withCol) }
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.kt b/AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.kt
+index 11c3d748e532..99a1c74374ec 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.kt
+@@ -82,6 +82,7 @@ import com.ichi2.anki.dialogs.DeckSelectionDialog.DeckSelectionListener
+ import com.ichi2.anki.dialogs.DeckSelectionDialog.SelectableDeck
+ import com.ichi2.anki.dialogs.IntegerDialog
+ import com.ichi2.anki.dialogs.SimpleMessageDialog
++import com.ichi2.anki.dialogs.customstudy.CustomStudyCramResponse
+ import com.ichi2.anki.dialogs.tags.TagsDialog
+ import com.ichi2.anki.dialogs.tags.TagsDialogFactory
+ import com.ichi2.anki.dialogs.tags.TagsDialogListener
+@@ -1691,9 +1692,9 @@ open class CardBrowser :
+         deckSpinnerSelection.computeDropDownDecks(includeFiltered = false)
+ 
+     @RustCleanup(""this isn't how Desktop Anki does it"")
+-    override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, stateFilter: CardStateFilter) {
++    override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, customStudyExtra: CustomStudyCramResponse) {
+         when (tagsDialogListenerAction) {
+-            TagsDialogListenerAction.FILTER -> filterByTags(selectedTags, stateFilter)
++            TagsDialogListenerAction.FILTER -> filterByTags(selectedTags)
+             TagsDialogListenerAction.EDIT_TAGS -> launchCatchingTask {
+                 editSelectedCardsTags(selectedTags, indeterminateTags)
+             }
+@@ -1721,9 +1722,9 @@ open class CardBrowser :
+         }
+     }
+ 
+-    private fun filterByTags(selectedTags: List<String>, cardState: CardStateFilter) =
++    private fun filterByTags(selectedTags: List<String>) =
+         launchCatchingTask {
+-            viewModel.filterByTags(selectedTags, cardState)
++            viewModel.filterByTags(selectedTags)
+         }
+ 
+     /** Updates search terms to only show cards with selected flag.  */
+@@ -2343,11 +2344,16 @@ open class CardBrowser :
+         renderBrowserQAParams(0, viewModel.rowCount - 1, viewModel.cards.toList())
+     }
+ 
++    @KotlinCleanup(""just call filterByTags"")
+     @VisibleForTesting(otherwise = VisibleForTesting.NONE)
+     fun filterByTag(vararg tags: String) {
+         tagsDialogListenerAction = TagsDialogListenerAction.FILTER
+-        onSelectedTags(tags.toList(), emptyList(), CardStateFilter.ALL_CARDS)
+-        filterByTags(tags.toList(), CardStateFilter.ALL_CARDS)
++        val unused = CustomStudyCramResponse(
++            kind = CardStateFilter.ALL_CARDS.cramKind,
++            cardLimit = 100
++        )
++        onSelectedTags(tags.toList(), emptyList(), unused)
++        filterByTags(tags.toList())
+     }
+ 
+     @VisibleForTesting
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/NoteEditor.kt b/AnkiDroid/src/main/java/com/ichi2/anki/NoteEditor.kt
+index 9699ce46f326..496e09bbe01d 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/NoteEditor.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/NoteEditor.kt
+@@ -93,10 +93,10 @@ import com.ichi2.anki.dialogs.DeckSelectionDialog.DeckSelectionListener
+ import com.ichi2.anki.dialogs.DeckSelectionDialog.SelectableDeck
+ import com.ichi2.anki.dialogs.DiscardChangesDialog
+ import com.ichi2.anki.dialogs.IntegerDialog
++import com.ichi2.anki.dialogs.customstudy.CustomStudyCramResponse
+ import com.ichi2.anki.dialogs.tags.TagsDialog
+ import com.ichi2.anki.dialogs.tags.TagsDialogFactory
+ import com.ichi2.anki.dialogs.tags.TagsDialogListener
+-import com.ichi2.anki.model.CardStateFilter
+ import com.ichi2.anki.multimedia.AudioRecordingFragment
+ import com.ichi2.anki.multimedia.AudioVideoFragment
+ import com.ichi2.anki.multimedia.MultimediaActivity.Companion.MULTIMEDIA_RESULT
+@@ -1543,7 +1543,7 @@ class NoteEditor : AnkiFragment(R.layout.note_editor), DeckSelectionListener, Su
+     override fun onSelectedTags(
+         selectedTags: List<String>,
+         indeterminateTags: List<String>,
+-        stateFilter: CardStateFilter
++        customStudyExtra: CustomStudyCramResponse
+     ) {
+         if (this.selectedTags != selectedTags) {
+             isTagsEdited = true
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserViewModel.kt b/AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserViewModel.kt
+index 44eb4477e5bd..e38aea619799 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserViewModel.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/browser/CardBrowserViewModel.kt
+@@ -35,7 +35,6 @@ import com.ichi2.anki.Flag
+ import com.ichi2.anki.PreviewerDestination
+ import com.ichi2.anki.export.ExportDialogFragment.ExportType
+ import com.ichi2.anki.launchCatchingIO
+-import com.ichi2.anki.model.CardStateFilter
+ import com.ichi2.anki.model.CardsOrNotes
+ import com.ichi2.anki.model.CardsOrNotes.CARDS
+ import com.ichi2.anki.model.CardsOrNotes.NOTES
+@@ -684,8 +683,8 @@ class CardBrowserViewModel(
+         setFilterQuery(searchTerms)
+     }
+ 
+-    suspend fun filterByTags(selectedTags: List<String>, cardState: CardStateFilter) {
+-        val sb = StringBuilder(cardState.toSearch)
++    suspend fun filterByTags(selectedTags: List<String>) {
++        val sb = StringBuilder()
+         // join selectedTags as ""tag:$tag"" with "" or "" between them
+         val tagsConcat = selectedTags.joinToString("" or "") { tag -> ""\""tag:$tag\"""" }
+         if (selectedTags.isNotEmpty()) {
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyCramResponse.kt b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyCramResponse.kt
+new file mode 100644
+index 000000000000..a4b5c2f6ed9c
+--- /dev/null
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyCramResponse.kt
+@@ -0,0 +1,22 @@
++/*
++ *  Copyright (c) 2024 David Allison <davidallisongithub@gmail.com>
++ *
++ *  This program is free software; you can redistribute it and/or modify it under
++ *  the terms of the GNU General Public License as published by the Free Software
++ *  Foundation; either version 3 of the License, or (at your option) any later
++ *  version.
++ *
++ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY
++ *  WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
++ *  PARTICULAR PURPOSE. See the GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License along with
++ *  this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++package com.ichi2.anki.dialogs.customstudy
++
++import anki.scheduler.CustomStudyRequest.Cram.CramKind
++import java.io.Serializable
++
++data class CustomStudyCramResponse(val kind: CramKind, val cardLimit: Int) : Serializable
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyDialog.kt b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyDialog.kt
+index 0bbb388a8571..4046ec1aa46a 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyDialog.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/customstudy/CustomStudyDialog.kt
+@@ -32,33 +32,28 @@ import androidx.appcompat.app.AlertDialog
+ import androidx.core.content.edit
+ import anki.scheduler.CustomStudyDefaultsResponse
+ import anki.scheduler.CustomStudyRequestKt
++import anki.scheduler.CustomStudyRequestKt.cram
+ import anki.scheduler.customStudyRequest
+ import com.ichi2.anki.CollectionManager.TR
+-import com.ichi2.anki.CollectionManager.withCol
+ import com.ichi2.anki.R
+ import com.ichi2.anki.analytics.AnalyticsDialogFragment
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_AHEAD
++import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_CARD_STATE_OR_TAGS
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_FORGOT
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_NEW
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_PREVIEW
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_REV
+-import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.ContextMenuOption.STUDY_TAGS
+ import com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.CustomStudyDefaults.Companion.toDomainModel
+ import com.ichi2.anki.dialogs.tags.TagsDialog
+ import com.ichi2.anki.dialogs.tags.TagsDialogListener
+ import com.ichi2.anki.launchCatchingTask
+-import com.ichi2.anki.model.CardStateFilter
+ import com.ichi2.anki.preferences.sharedPrefs
+-import com.ichi2.anki.showThemedToast
+ import com.ichi2.anki.utils.ext.dismissAllDialogFragments
+ import com.ichi2.anki.utils.ext.sharedPrefs
+ import com.ichi2.anki.utils.ext.showDialogFragment
+-import com.ichi2.anki.withProgress
+ import com.ichi2.annotations.NeedsTest
+ import com.ichi2.libanki.Collection
+-import com.ichi2.libanki.Consts
+-import com.ichi2.libanki.Consts.DynPriority
+ import com.ichi2.libanki.Deck
+ import com.ichi2.libanki.DeckId
+ import com.ichi2.libanki.undoableOp
+@@ -70,8 +65,6 @@ import com.ichi2.utils.listItems
+ import com.ichi2.utils.negativeButton
+ import com.ichi2.utils.positiveButton
+ import com.ichi2.utils.title
+-import net.ankiweb.rsdroid.exceptions.BackendDeckIsFilteredException
+-import org.json.JSONObject
+ import timber.log.Timber
+ 
+ /**
+@@ -101,18 +94,19 @@ import timber.log.Timber
+  *   * Review forgotten cards [STUDY_FORGOT]
+  *   * Review ahead [STUDY_AHEAD]
+  *   * Preview new cards [STUDY_PREVIEW]
+- *   * Study by tag [STUDY_TAGS]
++ *   * Study by card state or tags [STUDY_CARD_STATE_OR_TAGS]
++ *     * New cards only
++ *     * Due cards only
++ *     * All review cards in random order
++ *     * All cards in random order (don't reschedule)
+  *
+  * * An [input dialog][buildInputDialog], for a user to change and submit a [ContextMenuOption]
+  *   * Example: changing the number of new cards
+  *
+  * #### Not Implemented
+  * Anki Desktop contains the following items which are not yet implemented
+- * * Study by card state or tags
+- *   * New cards only
+- *   * Due cards only
+- *   * All review cards in random order
+- *   * All cards in random order (don't reschedule)
++ * * Select tags to Exclude
++ * * Checkbox (default: false): Require one or more of these tags
+  *
+  * ## Nomenclature
+  * Filtered decks were previously known as 'dynamic' decks, and before that: 'cram' decks
+@@ -185,7 +179,7 @@ class CustomStudyDialog(
+             .cancelable(true)
+             .listItems(items = listIds.map { it.getTitle(resources) }) { _, index ->
+                 when (listIds[index]) {
+-                    STUDY_TAGS -> {
++                    STUDY_CARD_STATE_OR_TAGS -> {
+                         /*
+                          * This is a special Dialog for CUSTOM STUDY, where instead of only collecting a
+                          * number, it is necessary to collect a list of tags. This case handles the creation
+@@ -275,33 +269,6 @@ class CustomStudyDialog(
+     private suspend fun customStudy(contextMenuOption: ContextMenuOption, userEntry: Int) {
+         Timber.i(""Custom study: $contextMenuOption; input = $userEntry"")
+ 
+-        suspend fun customStudy(block: CustomStudyRequestKt.Dsl.() -> Unit) {
+-            undoableOp {
+-                collection.sched.customStudy(
+-                    customStudyRequest {
+-                        deckId = dialogDeckId
+-                        block(this)
+-                    }
+-                )
+-            }
+-        }
+-        suspend fun extendLimits(block: CustomStudyRequestKt.Dsl.() -> Unit) {
+-            try {
+-                customStudy { block(this) }
+-                customStudyListener?.onExtendStudyLimits()
+-            } finally {
+-                requireActivity().dismissAllDialogFragments()
+-            }
+-        }
+-        suspend fun createCustomStudy(block: CustomStudyRequestKt.Dsl.() -> Unit) {
+-            try {
+-                customStudy { block(this) }
+-                customStudyListener?.onCreateCustomStudySession()
+-            } finally {
+-                requireActivity().dismissAllDialogFragments()
+-            }
+-        }
+-
+         // save the default values (not in upstream)
+         when (contextMenuOption) {
+             STUDY_FORGOT -> sharedPrefs().edit { putInt(""forgottenDays"", userEntry) }
+@@ -313,10 +280,10 @@ class CustomStudyDialog(
+         when (contextMenuOption) {
+             STUDY_NEW -> extendLimits { newLimitDelta = userEntry }
+             STUDY_REV -> extendLimits { reviewLimitDelta = userEntry }
+-            STUDY_FORGOT -> createCustomStudy { forgotDays = userEntry }
+-            STUDY_AHEAD -> createCustomStudy { reviewAheadDays = userEntry }
+-            STUDY_PREVIEW -> createCustomStudy { previewDays = userEntry }
+-            STUDY_TAGS -> TODO(""This branch has not been covered before"")
++            STUDY_FORGOT -> createCustomStudySession { forgotDays = userEntry }
++            STUDY_AHEAD -> createCustomStudySession { reviewAheadDays = userEntry }
++            STUDY_PREVIEW -> createCustomStudySession { previewDays = userEntry }
++            STUDY_CARD_STATE_OR_TAGS -> TODO(""This branch has not been covered before"")
+         }
+     }
+ 
+@@ -325,22 +292,18 @@ class CustomStudyDialog(
+      * Generates the search screen for the custom study deck.
+      */
+     @NeedsTest(""14537: limit to particular tags"")
+-    override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, stateFilter: CardStateFilter) {
+-        val sb = StringBuilder(stateFilter.toSearch)
+-        val arr: MutableList<String?> = ArrayList(selectedTags.size)
+-        if (selectedTags.isNotEmpty()) {
+-            for (tag in selectedTags) {
+-                arr.add(""tag:\""$tag\"""")
++    override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, customStudyExtra: CustomStudyCramResponse) {
++        Timber.i(""Custom study: ${selectedTags.count()} tag(s); filter = $customStudyExtra"")
++
++        launchCatchingTask {
++            createCustomStudySession {
++                cram = cram {
++                    tagsToInclude.addAll(selectedTags)
++                    kind = customStudyExtra.kind
++                    cardLimit = customStudyExtra.cardLimit
++                }
+             }
+-            sb.append(""("").append(arr.joinToString("" or "")).append("")"")
+         }
+-        createTagsCustomStudySession(
+-            arrayOf(
+-                sb.toString(),
+-                Consts.DYN_MAX_SIZE,
+-                Consts.DYN_RANDOM
+-            )
+-        )
+     }
+ 
+     /**
+@@ -349,7 +312,7 @@ class CustomStudyDialog(
+      */
+     private fun getListIds(): List<ContextMenuOption> {
+         // Standard context menu
+-        return mutableListOf(STUDY_FORGOT, STUDY_AHEAD, STUDY_PREVIEW, STUDY_TAGS).apply {
++        return mutableListOf(STUDY_FORGOT, STUDY_AHEAD, STUDY_PREVIEW, STUDY_CARD_STATE_OR_TAGS).apply {
+             if (defaults.extendReview.isUsable) {
+                 this.add(0, STUDY_REV)
+             }
+@@ -360,6 +323,32 @@ class CustomStudyDialog(
+         }
+     }
+ 
++    private suspend fun extendLimits(block: CustomStudyRequestKt.Dsl.() -> Unit) {
++        try {
++            val customStudyRequest = customStudyRequest {
++                deckId = dialogDeckId
++                block(this)
++            }
++            undoableOp { collection.sched.customStudy(customStudyRequest) }
++            customStudyListener?.onExtendStudyLimits()
++        } finally {
++            requireActivity().dismissAllDialogFragments()
++        }
++    }
++
++    private suspend fun createCustomStudySession(block: CustomStudyRequestKt.Dsl.() -> Unit) {
++        try {
++            val customStudyRequest = customStudyRequest {
++                deckId = dialogDeckId
++                block(this)
++            }
++            undoableOp { collection.sched.customStudy(customStudyRequest) }
++            customStudyListener?.onCreateCustomStudySession()
++        } finally {
++            requireActivity().dismissAllDialogFragments()
++        }
++    }
++
+     /** Line 1 of the number entry dialog */
+     private val text1: String get() = when (selectedSubDialog) {
+         STUDY_NEW -> defaults.newQueueAvailable()
+@@ -391,66 +380,6 @@ class CustomStudyDialog(
+             }
+         }
+ 
+-    /**
+-     * Create a custom study session
+-     * @param terms search terms
+-     */
+-    private fun createTagsCustomStudySession(terms: Array<Any>) {
+-        val dyn: Deck
+-
+-        val decks = collection.decks
+-        val deckToStudyName = decks.name(dialogDeckId)
+-        val customStudyDeck = resources.getString(R.string.custom_study_deck_name)
+-        val cur = decks.byName(customStudyDeck)
+-        if (cur != null) {
+-            Timber.i(""Found deck: '%s'"", customStudyDeck)
+-            if (cur.isNormal) {
+-                Timber.w(""Deck: '%s' was non-dynamic"", customStudyDeck)
+-                showThemedToast(requireContext(), getString(R.string.custom_study_deck_exists), true)
+-                return
+-            } else {
+-                Timber.i(""Emptying dynamic deck '%s' for custom study"", customStudyDeck)
+-                // safe to empty
+-                collection.sched.emptyDyn(cur.getLong(""id""))
+-                // reuse; don't delete as it may have children
+-                dyn = cur
+-                decks.select(cur.getLong(""id""))
+-            }
+-        } else {
+-            Timber.i(""Creating Dynamic Deck '%s' for custom study"", customStudyDeck)
+-            dyn = try {
+-                decks.get(decks.newFiltered(customStudyDeck))!!
+-            } catch (ex: BackendDeckIsFilteredException) {
+-                showThemedToast(requireActivity(), ex.localizedMessage ?: ex.message ?: """", true)
+-                return
+-            }
+-        }
+-        // and then set various options
+-        dyn.put(""delays"", JSONObject.NULL)
+-        val ar = dyn.getJSONArray(""terms"")
+-        ar.getJSONArray(0).put(0, ""deck:\"""" + deckToStudyName + ""\"" "" + terms[0])
+-        ar.getJSONArray(0).put(1, terms[1])
+-        @DynPriority val priority = terms[2] as Int
+-        ar.getJSONArray(0).put(2, priority)
+-        dyn.put(""resched"", true)
+-        // Rebuild the filtered deck
+-        Timber.i(""Rebuilding Custom Study Deck"")
+-        // PERF: Should be in background
+-        collection.decks.save(dyn)
+-        // launch this in the activity scope, rather than the fragment scope
+-        requireActivity().launchCatchingTask { rebuildDynamicDeck() }
+-        // Hide the dialogs (required due to a DeckPicker issue)
+-        requireActivity().dismissAllDialogFragments()
+-    }
+-
+-    private suspend fun rebuildDynamicDeck() {
+-        Timber.d(""rebuildDynamicDeck()"")
+-        withProgress {
+-            withCol { sched.rebuildDyn(decks.selected()) }
+-            customStudyListener?.onCreateCustomStudySession()
+-        }
+-    }
+-
+     /**
+      * Possible context menu options that could be shown in the custom study dialog.
+      */
+@@ -461,7 +390,7 @@ class CustomStudyDialog(
+         STUDY_FORGOT({ TR.customStudyReviewForgottenCards() }),
+         STUDY_AHEAD({ TR.customStudyReviewAhead() }),
+         STUDY_PREVIEW({ TR.customStudyPreviewNewCards() }),
+-        STUDY_TAGS({ getString(R.string.custom_study_limit_tags) })
++        STUDY_CARD_STATE_OR_TAGS({ TR.customStudyStudyByCardStateOrTag() })
+     }
+ 
+     /**
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialog.kt b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialog.kt
+index b0a40522386c..1b63b0617731 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialog.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialog.kt
+@@ -14,7 +14,10 @@ import android.view.LayoutInflater
+ import android.view.MenuItem
+ import android.view.View
+ import android.view.WindowManager
++import android.widget.Button
+ import android.widget.EditText
++import android.widget.LinearLayout
++import android.widget.RadioButton
+ import android.widget.RadioGroup
+ import android.widget.TextView
+ import androidx.annotation.VisibleForTesting
+@@ -25,13 +28,18 @@ import androidx.appcompat.widget.Toolbar
+ import androidx.core.content.ContextCompat
+ import androidx.core.os.BundleCompat
+ import androidx.core.os.bundleOf
++import androidx.core.view.isVisible
+ import androidx.recyclerview.widget.LinearLayoutManager
+ import androidx.recyclerview.widget.RecyclerView
++import com.ichi2.anki.CollectionManager.TR
+ import com.ichi2.anki.OnContextAndLongClickListener
+ import com.ichi2.anki.R
+ import com.ichi2.anki.analytics.AnalyticsDialogFragment
++import com.ichi2.anki.dialogs.IntegerDialog
++import com.ichi2.anki.dialogs.customstudy.CustomStudyCramResponse
+ import com.ichi2.anki.model.CardStateFilter
+ import com.ichi2.anki.snackbar.showSnackbar
++import com.ichi2.anki.utils.ext.showDialogFragment
+ import com.ichi2.annotations.NeedsTest
+ import com.ichi2.ui.AccessibleSearchView
+ import com.ichi2.utils.DisplayUtils.resizeWhenSoftInputShown
+@@ -85,6 +93,15 @@ class TagsDialog : AnalyticsDialogFragment {
+     private val listener: TagsDialogListener?
+ 
+     private lateinit var selectedOption: CardStateFilter
++    private var customStudyCardLimit: Int = 100
++        set(value) {
++            field = value
++            // WARN: Anki concats with an input box, leading to incorrect plural:
++            // 'Select [1 -+] cards from this deck'
++            this.dialog
++                ?.findViewById<TextView>(R.id.custom_study_card_count)
++                ?.text = ""${TR.customStudySelect()} $value ${TR.customStudyCardsFromTheDeck()}""
++        }
+ 
+     /**
+      * Constructs a new [TagsDialog] that will communicate the results using the provided listener.
+@@ -102,6 +119,11 @@ class TagsDialog : AnalyticsDialogFragment {
+         listener = null
+     }
+ 
++    override fun onSaveInstanceState(outState: Bundle) {
++        super.onSaveInstanceState(outState)
++        outState.putInt(""customStudyCardLimit"", customStudyCardLimit)
++    }
++
+     /**
+      * @param type the type of dialog @see [DialogType]
+      * @param checkedTags tags of the note
+@@ -138,6 +160,9 @@ class TagsDialog : AnalyticsDialogFragment {
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
++        if (savedInstanceState?.containsKey(""customStudyCardLimit"") == true) {
++            customStudyCardLimit = savedInstanceState.getInt(""customStudyCardLimit"")
++        }
+         resizeWhenSoftInputShown(requireActivity().window)
+ 
+         val tagsFile = requireNotNull(
+@@ -179,16 +204,12 @@ class TagsDialog : AnalyticsDialogFragment {
+         if (tags!!.isEmpty) {
+             noTagsTextView?.visibility = View.VISIBLE
+         }
+-        val optionsGroup = tagsDialogView.findViewById<RadioGroup>(R.id.tags_dialog_options_radiogroup)
+-        for (i in 0 until optionsGroup.childCount) {
+-            optionsGroup.getChildAt(i).id = i
+-        }
+-        optionsGroup.check(0)
+-        selectedOption = radioButtonIdToCardState(optionsGroup.checkedRadioButtonId)
+-        optionsGroup.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int -> selectedOption = radioButtonIdToCardState(checkedId) }
++
++        // setup options group (only visible for custom study)
++        setupCustomStudyOptions(tagsDialogView)
++
+         if (type == DialogType.EDIT_TAGS) {
+             dialogTitle = resources.getString(R.string.card_details_tags)
+-            optionsGroup.visibility = View.GONE
+             positiveText = getString(R.string.dialog_ok)
+             tagsArrayAdapter!!.tagContextAndLongClickListener =
+                 OnContextAndLongClickListener { v ->
+@@ -203,10 +224,14 @@ class TagsDialog : AnalyticsDialogFragment {
+         adjustToolbar(tagsDialogView)
+         dialog = AlertDialog.Builder(requireActivity())
+             .positiveButton(text = positiveText!!) {
++                val response = CustomStudyCramResponse(
++                    kind = selectedOption.cramKind,
++                    cardLimit = customStudyCardLimit
++                )
+                 tagsDialogListener.onSelectedTags(
+                     tags!!.copyOfCheckedTagList(),
+                     tags!!.copyOfIndeterminateTagList(),
+-                    selectedOption
++                    response
+                 )
+             }
+             .negativeButton(R.string.dialog_cancel)
+@@ -217,21 +242,57 @@ class TagsDialog : AnalyticsDialogFragment {
+         return dialog
+     }
+ 
++    // TODO: This should probably be a separate dialog
++    private fun setupCustomStudyOptions(view: View) {
++        if (type != DialogType.CUSTOM_STUDY_TAGS) {
++            view.findViewById<View>(R.id.custom_study_tag_settings).isVisible = false
++            return
++        }
++
++        // 'cards to study' - Anki default is 100
++        view.findViewById<Button>(R.id.custom_study_set_card_count).setOnClickListener {
++            // TODO: Could be a better dialog
++            var dialog = IntegerDialog().apply {
++                setArgs(
++                    title = """",
++                    prompt = null,
++                    defaultValue = customStudyCardLimit.toString(),
++                    digits = 5
++                )
++                setCallbackRunnable { customStudyCardLimit = it }
++            }
++            showDialogFragment(dialog)
++        }
++
++        // setup radio buttons
++        val optionsGroup = view.findViewById<RadioGroup>(R.id.tags_dialog_options_radiogroup)
++        for (filter in CardStateFilter.entries) {
++            RadioButton(optionsGroup.context).apply {
++                id = filter.order
++                text = filter.getDescription()
++                layoutParams = LinearLayout.LayoutParams(
++                    LinearLayout.LayoutParams.MATCH_PARENT, // full width to make more clickable
++                    LinearLayout.LayoutParams.WRAP_CONTENT
++                )
++                optionsGroup.addView(this)
++            }
++        }
++        optionsGroup.check(0)
++        selectedOption = radioButtonIdToCardState(optionsGroup.checkedRadioButtonId)
++        optionsGroup.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int -> selectedOption = radioButtonIdToCardState(checkedId) }
++        optionsGroup.isVisible = true
++    }
++
+     override fun onResume() {
+         super.onResume()
+         dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
++
++        // Update the UI now we have a view we can access
++        this.customStudyCardLimit = customStudyCardLimit
+     }
+ 
+     private fun radioButtonIdToCardState(id: Int) =
+-        when (id) {
+-            0 -> CardStateFilter.ALL_CARDS
+-            1 -> CardStateFilter.NEW
+-            2 -> CardStateFilter.DUE
+-            else -> {
+-                Timber.w(""unexpected value: %d"", id)
+-                CardStateFilter.ALL_CARDS
+-            }
+-        }
++        CardStateFilter.fromOrder(id) ?: CardStateFilter.ALL_CARDS
+ 
+     private fun adjustToolbar(tagsDialogView: View) {
+         val toolbar: Toolbar = tagsDialogView.findViewById(R.id.tags_dialog_toolbar)
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialogListener.kt b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialogListener.kt
+index f37c0f83ebc8..a746e74fb44b 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialogListener.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/dialogs/tags/TagsDialogListener.kt
+@@ -18,7 +18,7 @@ package com.ichi2.anki.dialogs.tags
+ import android.os.Bundle
+ import androidx.fragment.app.Fragment
+ import androidx.fragment.app.FragmentManager
+-import com.ichi2.anki.model.CardStateFilter
++import com.ichi2.anki.dialogs.customstudy.CustomStudyCramResponse
+ import com.ichi2.compat.CompatHelper.Companion.getSerializableCompat
+ import com.ichi2.utils.KotlinCleanup
+ import java.util.ArrayList
+@@ -33,9 +33,9 @@ interface TagsDialogListener {
+      * determining if tags in this list is checked or not is done by looking at the list of
+      * previous tags. if the tag is found in both previous and indeterminate, it should be kept
+      * otherwise it should be removed @see [com.ichi2.utils.TagsUtil.getUpdatedTags]
+-     * @param stateFilter selection radio option, should be ignored if not expected
++     * @param customStudyExtra selection radio option, should be ignored if not expected
+      */
+-    fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, stateFilter: CardStateFilter)
++    fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, customStudyExtra: CustomStudyCramResponse)
+     fun <F> F.registerFragmentResultReceiver() where F : Fragment, F : TagsDialogListener {
+         parentFragmentManager.setFragmentResultListener(
+             ON_SELECTED_TAGS_KEY,
+@@ -45,18 +45,18 @@ interface TagsDialogListener {
+                 bundle.getStringArrayList(ON_SELECTED_TAGS__SELECTED_TAGS)!!
+             val indeterminateTags: List<String> =
+                 bundle.getStringArrayList(ON_SELECTED_TAGS__INDETERMINATE_TAGS)!!
+-            val option = bundle.getSerializableCompat<CardStateFilter>(ON_SELECTED_TAGS__OPTION)!!
++            val option = bundle.getSerializableCompat<CustomStudyCramResponse>(ON_SELECTED_TAGS__OPTION)!!
+             onSelectedTags(selectedTags, indeterminateTags, option)
+         }
+     }
+ 
+     companion object {
+         fun createFragmentResultSender(fragmentManager: FragmentManager) = object : TagsDialogListener {
+-            override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, stateFilter: CardStateFilter) {
++            override fun onSelectedTags(selectedTags: List<String>, indeterminateTags: List<String>, customStudyExtra: CustomStudyCramResponse) {
+                 val bundle = Bundle().apply {
+                     putStringArrayList(ON_SELECTED_TAGS__SELECTED_TAGS, ArrayList(selectedTags))
+                     putStringArrayList(ON_SELECTED_TAGS__INDETERMINATE_TAGS, ArrayList(indeterminateTags))
+-                    putSerializable(ON_SELECTED_TAGS__OPTION, stateFilter)
++                    putSerializable(ON_SELECTED_TAGS__OPTION, customStudyExtra)
+                 }
+                 fragmentManager.setFragmentResult(ON_SELECTED_TAGS_KEY, bundle)
+             }
+diff --git a/AnkiDroid/src/main/java/com/ichi2/anki/model/CardStateFilter.kt b/AnkiDroid/src/main/java/com/ichi2/anki/model/CardStateFilter.kt
+index 9f1c84c8fe98..6d78019dca8b 100644
+--- a/AnkiDroid/src/main/java/com/ichi2/anki/model/CardStateFilter.kt
++++ b/AnkiDroid/src/main/java/com/ichi2/anki/model/CardStateFilter.kt
+@@ -16,21 +16,30 @@
+ 
+ package com.ichi2.anki.model
+ 
++import anki.scheduler.CustomStudyRequest.Cram.CramKind
++import com.ichi2.anki.CollectionManager.TR
++
+ /**
+  * Allows filtering a search by the state of cards
+  *
+  * @see [anki.search.SearchNode.CardState]
++ *
++ * https://github.com/ankitects/anki/blob/f6a3e98ac3dcb19d54e7fdbba96bf2fa15fc2b3f/rslib/src/scheduler/filtered/custom_study.rs#L246-L277
+  */
+-enum class CardStateFilter {
+-    ALL_CARDS,
+-    NEW,
+-    DUE
+-    ;
++enum class CardStateFilter(val getDescription: () -> String, val order: Int, val cramKind: CramKind) {
++    /** New cards, in order added, reschedule */
++    NEW({ TR.customStudyNewCardsOnly() }, 0, CramKind.CRAM_KIND_NEW),
++
++    /** Due cards (is:due), order by due, reschedule */
++    DUE({ TR.customStudyDueCardsOnly() }, 1, CramKind.CRAM_KIND_DUE),
++
++    /** Anything but new cards, random order, reschedule */
++    REVIEW({ TR.customStudyAllReviewCardsInRandomOrder() }, 2, CramKind.CRAM_KIND_REVIEW),
++
++    /** All cards, random order, no rescheduling */
++    ALL_CARDS({ TR.customStudyAllCardsInRandomOrderDont() }, 3, CramKind.CRAM_KIND_ALL);
+ 
+-    val toSearch: String
+-        get() = when (this) {
+-            ALL_CARDS -> """"
+-            NEW -> ""is:new ""
+-            DUE -> ""is:due ""
+-        }
++    companion object {
++        fun fromOrder(order: Int) = CardStateFilter.entries.firstOrNull { it.order == order }
++    }
+ }
+diff --git a/AnkiDroid/src/main/res/layout/tags_dialog.xml b/AnkiDroid/src/main/res/layout/tags_dialog.xml
+index af27c3e46b76..47a59204f964 100644
+--- a/AnkiDroid/src/main/res/layout/tags_dialog.xml
++++ b/AnkiDroid/src/main/res/layout/tags_dialog.xml
+@@ -1,6 +1,7 @@
+ <?xml version=""1.0"" encoding=""utf-8""?>
+ <RelativeLayout xmlns:android=""http://schemas.android.com/apk/res/android""
+     xmlns:tools=""http://schemas.android.com/tools""
++    xmlns:app=""http://schemas.android.com/apk/res-auto""
+     android:orientation=""vertical""
+     android:layout_width=""match_parent""
+     android:layout_height=""match_parent"">
+@@ -16,26 +17,56 @@
+         android:visibility=""gone""/>
+ 
+ 
+-    <RadioGroup android:id=""@+id/tags_dialog_options_radiogroup""
+-        android:layout_width=""wrap_content""
++    <androidx.constraintlayout.widget.ConstraintLayout
++        android:id=""@+id/custom_study_tag_settings""
++        android:layout_width=""match_parent""
+         android:layout_height=""wrap_content""
+-        android:layout_centerHorizontal=""true""
+-        android:layout_alignParentBottom=""true""
+-        android:orientation=""horizontal"">
+-        <!-- editing this requires a to map to CardStateFilter inside TagsDialog -->
+-        <RadioButton
++        android:layout_marginEnd=""4dp""
++        android:layout_alignParentBottom=""true"">
++
++
++        <RadioGroup android:id=""@+id/tags_dialog_options_radiogroup""
+             android:layout_width=""wrap_content""
+             android:layout_height=""wrap_content""
+-            android:text=""@string/tags_dialog_option_all_cards""/>
+-        <RadioButton
++            android:layout_centerHorizontal=""true""
++            android:paddingStart=""16dp""
++            android:paddingEnd=""16dp""
++            android:paddingBottom=""8dp""
++            android:orientation=""vertical""
++            app:layout_constraintBottom_toTopOf=""@id/custom_study_card_count"">
++            <!-- CardStateFilter is used to add vertical buttons -->
++<!--            <RadioButton-->
++<!--                android:layout_width=""wrap_content""-->
++<!--                android:layout_height=""wrap_content""-->
++<!--                android:text=""test"" />-->
++        </RadioGroup>
++
++
++        <TextView
++            android:id=""@+id/custom_study_card_count""
+             android:layout_width=""wrap_content""
+-            android:layout_height=""wrap_content""
+-            android:text=""@string/tags_dialog_option_new_cards""/>
+-        <RadioButton
++            android:layout_height=""0dp""
++            android:gravity=""center""
++            android:layout_marginStart=""16dp""
++            app:layout_constraintStart_toStartOf=""parent""
++            app:layout_constraintTop_toTopOf=""@+id/custom_study_set_card_count""
++            app:layout_constraintBottom_toBottomOf=""@+id/custom_study_set_card_count""
++            android:paddingStart=""8dp""
++            tools:text=""Select 100 cards from the deck"" />
++
++        <Button
++            android:id=""@+id/custom_study_set_card_count""
++            style=""@style/Widget.Material3.Button.TextButton""
+             android:layout_width=""wrap_content""
+             android:layout_height=""wrap_content""
+-            android:text=""@string/tags_dialog_option_due_cards""/>
+-    </RadioGroup>
++            android:text=""EDIT""
++            android:textColor=""?attr/colorAccent""
++            app:layout_constraintEnd_toEndOf=""parent""
++            app:layout_constraintBottom_toBottomOf=""parent""
++            />
++
++
++    </androidx.constraintlayout.widget.ConstraintLayout>
+ 
+     <androidx.recyclerview.widget.RecyclerView android:id=""@+id/tags_dialog_tags_list""
+                                                android:scrollbars=""vertical""
+diff --git a/AnkiDroid/src/main/res/values/01-core.xml b/AnkiDroid/src/main/res/values/01-core.xml
+index ca6e030e65a9..a17bab6b2ec1 100644
+--- a/AnkiDroid/src/main/res/values/01-core.xml
++++ b/AnkiDroid/src/main/res/values/01-core.xml
+@@ -103,8 +103,6 @@
+     <string name=""empty_cram_label"" maxLength=""28"">Empty</string>
+     <string name=""create_subdeck"">Create subdeck</string>
+     <string name=""empty_filtered_deck"">Emptying filtered deck…</string>
+-    <string name=""custom_study_deck_name"">Custom study session</string>
+-    <string name=""custom_study_deck_exists"">Rename the existing custom study deck first</string>
+     <string name=""search_deck"" comment=""Deck search for selecting it"">Deck Search</string>
+     <string name=""empty_deck"">This deck is empty</string>
+     <string name=""search_for_download_deck"" comment=""Deck search value for downloading deck"" maxLength=""28"">Deck Search</string>
+diff --git a/AnkiDroid/src/main/res/values/02-strings.xml b/AnkiDroid/src/main/res/values/02-strings.xml
+index fba8a26862f4..516d610721ef 100644
+--- a/AnkiDroid/src/main/res/values/02-strings.xml
++++ b/AnkiDroid/src/main/res/values/02-strings.xml
+@@ -62,7 +62,6 @@
+     <string name=""filter_by_flags"" maxLength=""41"">Flags</string>
+ 
+     <!-- Custom study options -->
+-    <string name=""custom_study_limit_tags"">Limit to particular tags</string>
+     <plurals name=""studyoptions_buried_count"">
+         <item quantity=""other"">+%d buried</item>
+     </plurals>
+diff --git a/AnkiDroid/src/main/res/values/03-dialogs.xml b/AnkiDroid/src/main/res/values/03-dialogs.xml
+index 8fd409a5a4c6..603f1d1921a4 100644
+--- a/AnkiDroid/src/main/res/values/03-dialogs.xml
++++ b/AnkiDroid/src/main/res/values/03-dialogs.xml
+@@ -108,11 +108,6 @@
+         <item quantity=""other"">%d files deleted</item>
+     </plurals>
+ 
+-    <!-- Tags Dialog Options -->
+-    <string name=""tags_dialog_option_all_cards"">All cards</string>
+-    <string name=""tags_dialog_option_new_cards"">New</string>
+-    <string name=""tags_dialog_option_due_cards"" comment=""Name of cards that are already been reviewed in the past, and that should be reviewed again"">Due</string>
+-
+     <!-- Empty cards -->
+     <string name=""emtpy_cards_finding"">Finding empty cards…</string>
+     <string name=""empty_cards_count"">Cards to delete: %d</string>
+```
+
+</details>
+",closed,2024-12-10,2025-04-02,https://github.com/ankidroid/Anki-Android/issues/17583,"refactor, cleanup"
+17875,refactor: de-duplicate .csv/.tsv values both in IntentHandler and in `ImportFileSelectionFragment`,"> those values are both here and in `ImportFileSelectionFragment`, which makes easier to forget to add a value to some of them (this one doesn't have `text/plain`, but the other does).
+
+> Extracting the list to somewhere and reusing it in both places would be better IMO
+
+_Originally posted by @BrayanDSO in https://github.com/ankidroid/Anki-Android/pull/17867#discussion_r1929391773_
+            ",closed,2025-01-26,2025-03-29,https://github.com/ankidroid/Anki-Android/issues/17875,refactor
+16209,Default search text for Browser as in Desktop,"**Is your feature request related to a problem? Please describe.**
+When going into Browser on AnkiDroid, I often have to manually type in -is:suspended to hide the suspended cards. 
+
+**Describe the solution you'd like**
+Desktop Anki has a ""Default search text"" feature (Tools > Preferences > Editing tab > Browsing section. This would be nice to see in AnkiDroid as well. I suppose Settings > General would be a logical place to put it, but no strong opinions on that.
+
+**Describe alternatives you've considered**
+Manually typing -is:suspended each time to hide suspended cards
+
+**Additional context**
+Here it is in Desktop Anki. 
+![image](https://github.com/ankidroid/Anki-Android/assets/9300442/8961d170-6e50-448f-b408-d11424ef9f9b)
+",closed,2024-04-18,2025-02-14,https://github.com/ankidroid/Anki-Android/issues/16209,
+17757,CustomStudyDialog tries to dismissAllFragments but requireActivity throws,"### Checked for duplicates?
+
+- [x] This issue is not a duplicate
+
+### Does it also happen in the desktop version?
+
+- [x] This bug does not occur in the latest version of Anki Desktop
+
+### What are the steps to reproduce this bug?
+
+Showing up in ACRA a bit and it's been seen live in my household
+
+
+https://ankidroid.org/acra/app/1/bug/274469/report/a77940e9-0951-499e-a1ba-af2f742cdfb5
+
+```
+java.lang.IllegalStateException: Fragment i{328fac5} (1de5f5cc-a332-4060-ab5f-87cf50498cf0) not attached to an activity.
+	at androidx.fragment.app.Fragment.requireActivity(Fragment.java:1005)
+	at com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.customStudy(CustomStudyDialog.kt:334)
+	at com.ichi2.anki.dialogs.customstudy.CustomStudyDialog.access$customStudy(CustomStudyDialog.kt:115)
+	at com.ichi2.anki.dialogs.customstudy.CustomStudyDialog$customStudy$1.invokeSuspend(CustomStudyDialog.kt)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:363)
+	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith$default(DispatchedContinuation.kt:274)
+	at kotlinx.coroutines.DispatchedCoroutine.afterResume(Builders.common.kt:257)
+	at kotlinx.coroutines.AbstractCoroutine.resumeWith(AbstractCoroutine.kt:99)
+	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:46)
+	at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:104)
+	at android.os.Handler.handleCallback(Handler.java:991)
+	at android.os.Handler.dispatchMessage(Handler.java:102)
+	at android.os.Looper.loopOnce(Looper.java:232)
+	at android.os.Looper.loop(Looper.java:317)
+	at android.app.ActivityThread.main(ActivityThread.java:8787)
+	at java.lang.reflect.Method.invoke(Native Method)
+	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:591)
+	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:871)
+```
+
+Caused by:
+
+https://github.com/ankidroid/Anki-Android/commit/03d6d024dfe31871281710bcde3f3c64c5dc7545#diff-db6bbcabbd676cdc4c30bd6ff19fe6371503423f866743aeb5ec4cdab543a243R307-R323
+
+@david-allison not sure what the best thing to do is - here is what it looks like on screen when it happens:
+
+![Image](https://github.com/user-attachments/assets/3a9e17eb-40c3-46a6-8ed6-b7a17a639297)
+
+
+... can the requireActivity just be converted to an `activity?.` ? or is there a dialog there that the fragment really needs to try to get rid of. I believe the custom study dialog fragment is the one that should go and it's still on screen
+
+<details>
+<summary>Here is the full logcat for examination of chain of events</summary>
+
+```
+--------- beginning of main
+01-06 23:16:25.193 I/AnkiDroid(27887): DeckPicker::onStart
+01-06 23:16:25.197 I/AnkiDroid(27887): DeckPicker::onResume
+01-06 23:16:25.257 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:25.259 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:27.016 I/AnkiDroid(27887): DeckPicker:: Sync button pressed
+01-06 23:16:27.017 I/AnkiDroid(27887): Sync: Normal collection sync
+01-06 23:16:27.618 I/AnkiDroid(27887): Displaying progress dialog: 600ms elapsed; 
+01-06 23:16:27.618 I/AnkiDroid(27887): cancellable: true; 
+01-06 23:16:27.618 I/AnkiDroid(27887): manualCancel: true
+01-06 23:16:27.618 I/AnkiDroid(27887): 
+01-06 23:16:29.500 I/AnkiDroid(27887): sync result: NO_CHANGES
+01-06 23:16:29.510 I/AnkiDroid(27887): Launching background media sync
+01-06 23:16:29.527 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:29.536 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:29.549 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:29.572 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:29.580 I/AnkiDroid(27887): DeckPicker: Showing media sync progress indicator
+01-06 23:16:30.618 I/AnkiDroid(27887): DeckPicker: Hiding media sync progress indicator
+01-06 23:16:32.829 I/AnkiDroid(27887): DeckPicker:: Selected deck with id 1732130413454
+01-06 23:16:32.867 I/AnkiDroid(27887): DeckPicker::onPause
+01-06 23:16:32.872 I/AnkiDroid(27887): Setting theme to LIGHT
+01-06 23:16:32.873 I/AnkiDroid(27887): SingleFragmentActivity::onCreate
+01-06 23:16:32.875 I/AnkiDroid(27887): isLegacyStorage(): current dir: /storage/emulated/0/Android/data/com.ichi2.anki/files/AnkiDroid
+01-06 23:16:32.875 I/AnkiDroid(27887): scoped external dirs: /storage/emulated/0/Android/data/com.ichi2.anki/files
+01-06 23:16:32.875 I/AnkiDroid(27887): scoped internal dir: /data/user/0/com.ichi2.anki/files
+01-06 23:16:32.875 I/AnkiDroid(27887): isLegacyStorage(): false
+01-06 23:16:32.889 I/AnkiDroid(27887): SingleFragmentActivity::onStart
+01-06 23:16:32.889 I/AnkiDroid(27887): SingleFragmentActivity::a::onAttach
+01-06 23:16:32.889 I/AnkiDroid(27887): SingleFragmentActivity::a::onCreate
+01-06 23:16:32.907 I/AnkiDroid(27887): Loading http://127.0.0.1:42705/congrats
+01-06 23:16:32.918 I/AnkiDroid(27887): SingleFragmentActivity::a::onViewCreated
+01-06 23:16:32.918 I/AnkiDroid(27887): SingleFragmentActivity::a::onStart
+01-06 23:16:32.920 I/AnkiDroid(27887): SingleFragmentActivity::onResume
+01-06 23:16:32.921 I/AnkiDroid(27887): SingleFragmentActivity::a::onResume
+01-06 23:16:33.151 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:33.171 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:33.465 I/AnkiDroid(27887): DeckPicker::onStop
+01-06 23:16:33.467 I/AnkiDroid(27887): DeckPicker::onSaveInstanceState
+01-06 23:16:34.922 I/AnkiDroid(27887): finishWithAnimation DEFAULT
+01-06 23:16:34.940 I/AnkiDroid(27887): SingleFragmentActivity::onPause
+01-06 23:16:34.940 I/AnkiDroid(27887): SingleFragmentActivity::a::onPause
+01-06 23:16:34.961 I/AnkiDroid(27887): DeckPicker::onStart
+01-06 23:16:34.964 I/AnkiDroid(27887): DeckPicker::onResume
+01-06 23:16:35.026 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:35.028 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:35.533 I/AnkiDroid(27887): SingleFragmentActivity::onStop
+01-06 23:16:35.534 I/AnkiDroid(27887): SingleFragmentActivity::a::onStop
+01-06 23:16:35.536 I/AnkiDroid(27887): SingleFragmentActivity::onDestroy
+01-06 23:16:35.537 I/AnkiDroid(27887): SingleFragmentActivity::a::onViewDestroyed
+01-06 23:16:35.538 I/AnkiDroid(27887): SingleFragmentActivity::a::onDestroy
+01-06 23:16:35.538 I/AnkiDroid(27887): SingleFragmentActivity::a::onDetach
+01-06 23:16:36.237 I/AnkiDroid(27887): DeckPicker:: Selected deck with id 1736132692600
+01-06 23:16:36.275 I/AnkiDroid(27887): DeckPicker::onPause
+01-06 23:16:36.280 I/AnkiDroid(27887): Setting theme to LIGHT
+01-06 23:16:36.281 I/AnkiDroid(27887): SingleFragmentActivity::onCreate
+01-06 23:16:36.282 I/AnkiDroid(27887): isLegacyStorage(): current dir: /storage/emulated/0/Android/data/com.ichi2.anki/files/AnkiDroid
+01-06 23:16:36.282 I/AnkiDroid(27887): scoped external dirs: /storage/emulated/0/Android/data/com.ichi2.anki/files
+01-06 23:16:36.282 I/AnkiDroid(27887): scoped internal dir: /data/user/0/com.ichi2.anki/files
+01-06 23:16:36.282 I/AnkiDroid(27887): isLegacyStorage(): false
+01-06 23:16:36.294 I/AnkiDroid(27887): SingleFragmentActivity::onStart
+01-06 23:16:36.294 I/AnkiDroid(27887): SingleFragmentActivity::a::onAttach
+01-06 23:16:36.294 I/AnkiDroid(27887): SingleFragmentActivity::a::onCreate
+01-06 23:16:36.304 I/AnkiDroid(27887): Loading http://127.0.0.1:39929/congrats
+01-06 23:16:36.307 I/AnkiDroid(27887): SingleFragmentActivity::a::onViewCreated
+01-06 23:16:36.307 I/AnkiDroid(27887): SingleFragmentActivity::a::onStart
+01-06 23:16:36.310 I/AnkiDroid(27887): SingleFragmentActivity::onResume
+01-06 23:16:36.310 I/AnkiDroid(27887): SingleFragmentActivity::a::onResume
+01-06 23:16:36.376 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:36.392 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:36.853 I/AnkiDroid(27887): DeckPicker::onStop
+01-06 23:16:36.855 I/AnkiDroid(27887): DeckPicker::onSaveInstanceState
+01-06 23:16:39.254 I/AnkiDroid(27887): SingleFragmentActivity::onPause
+01-06 23:16:39.254 I/AnkiDroid(27887): SingleFragmentActivity::a::onPause
+01-06 23:16:39.258 I/AnkiDroid(27887): Setting theme to LIGHT
+01-06 23:16:39.259 I/AnkiDroid(27887): FilteredDeckOptions::onCreate
+01-06 23:16:39.283 W/AnkiDroid(27887): FilteredDeckOptions/ Failed to remove preference 'steps'
+01-06 23:16:39.283 I/AnkiDroid(27887): FilteredDeckOptions::onStart
+01-06 23:16:39.284 I/AnkiDroid(27887): FilteredDeckOptions::onResume
+01-06 23:16:39.851 I/AnkiDroid(27887): SingleFragmentActivity::onStop
+01-06 23:16:39.853 I/AnkiDroid(27887): SingleFragmentActivity::a::onStop
+01-06 23:16:39.857 I/AnkiDroid(27887): SingleFragmentActivity::onSaveInstanceState
+01-06 23:16:39.857 I/AnkiDroid(27887): SingleFragmentActivity::a::onSaveInstanceState
+01-06 23:16:41.087 I/AnkiDroid(27887): DeckOptions - onBackPressed()
+01-06 23:16:41.103 I/AnkiDroid(27887): FilteredDeckOptions::onPause
+01-06 23:16:41.124 I/AnkiDroid(27887): SingleFragmentActivity::onStart
+01-06 23:16:41.125 I/AnkiDroid(27887): SingleFragmentActivity::a::onStart
+01-06 23:16:41.129 I/AnkiDroid(27887): SingleFragmentActivity::onResume
+01-06 23:16:41.130 I/AnkiDroid(27887): SingleFragmentActivity::a::onResume
+01-06 23:16:41.693 I/AnkiDroid(27887): FilteredDeckOptions::onStop
+01-06 23:16:41.694 I/AnkiDroid(27887): FilteredDeckOptions::onDestroy
+01-06 23:16:42.698 I/AnkiDroid(27887): finishWithAnimation DEFAULT
+01-06 23:16:42.707 I/AnkiDroid(27887): SingleFragmentActivity::onPause
+01-06 23:16:42.707 I/AnkiDroid(27887): SingleFragmentActivity::a::onPause
+01-06 23:16:42.712 I/AnkiDroid(27887): DeckPicker::onStart
+01-06 23:16:42.717 I/AnkiDroid(27887): DeckPicker::onResume
+01-06 23:16:42.753 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:42.758 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:43.287 I/AnkiDroid(27887): SingleFragmentActivity::onStop
+01-06 23:16:43.288 I/AnkiDroid(27887): SingleFragmentActivity::a::onStop
+01-06 23:16:43.290 I/AnkiDroid(27887): SingleFragmentActivity::onDestroy
+01-06 23:16:43.292 I/AnkiDroid(27887): SingleFragmentActivity::a::onViewDestroyed
+01-06 23:16:43.292 I/AnkiDroid(27887): SingleFragmentActivity::a::onDestroy
+01-06 23:16:43.292 I/AnkiDroid(27887): SingleFragmentActivity::a::onDetach
+01-06 23:16:44.303 I/AnkiDroid(27887): class M3.R3: user long clicked
+01-06 23:16:44.313 I/AnkiDroid(27887): DeckPicker::L::onAttach
+01-06 23:16:44.313 I/AnkiDroid(27887): DeckPicker::L::onCreate
+01-06 23:16:44.331 I/AnkiDroid(27887): DeckPicker::L::onStart
+01-06 23:16:44.331 I/AnkiDroid(27887): DeckPicker::L::onResume
+01-06 23:16:44.349 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:44.355 I/AnkiDroid(27887): deck filter: 14 ()
+01-06 23:16:45.632 I/AnkiDroid(27887): ContextMenu: Delete deck selected
+01-06 23:16:45.673 I/AnkiDroid(27887): DeckPicker::L::onPause
+01-06 23:16:45.673 I/AnkiDroid(27887): DeckPicker::L::onStop
+01-06 23:16:45.674 I/AnkiDroid(27887): DeckPicker::L::onViewDestroyed
+01-06 23:16:45.674 I/AnkiDroid(27887): DeckPicker::L::onDestroy
+01-06 23:16:45.674 I/AnkiDroid(27887): DeckPicker::L::onDetach
+01-06 23:16:45.691 I/AnkiDroid(27887): refreshing: study queues updated
+01-06 23:16:45.695 I/AnkiDroid(27887): refreshing: study queues updated
+01-06 23:16:45.750 I/AnkiDroid(27887): Updating deck list UI
+01-06 23:16:45.753 I/AnkiDroid(27887): deck filter: 13 ()
+01-06 23:16:45.821 W/AnkiDroid(27887): PageFragment/ ignored UI request 'congratsInfo' due to screen/app being backgrounded
+01-06 23:16:45.835 W/AnkiDroid(27887): PageFragment/ ignored UI request 'congratsInfo' due to screen/app being backgrounded
+01-06 23:16:45.836 W/AnkiDroid(27887): PageFragment/ ignored UI request 'i18nResources' due to screen/app being backgrounded
+01-06 23:16:45.849 W/AnkiDroid(27887): PageFragment/ ignored UI request 'i18nResources' due to screen/app being backgrounded
+01-06 23:16:46.854 I/AnkiDroid(27887): DeckPicker:: Selected deck with id 1477426814579
+01-06 23:16:46.910 I/AnkiDroid(27887): DeckPicker::onPause
+01-06 23:16:46.918 I/AnkiDroid(27887): Setting theme to LIGHT
+01-06 23:16:46.919 I/AnkiDroid(27887): SingleFragmentActivity::onCreate
+01-06 23:16:46.920 I/AnkiDroid(27887): isLegacyStorage(): current dir: /storage/emulated/0/Android/data/com.ichi2.anki/files/AnkiDroid
+01-06 23:16:46.920 I/AnkiDroid(27887): scoped external dirs: /storage/emulated/0/Android/data/com.ichi2.anki/files
+01-06 23:16:46.920 I/AnkiDroid(27887): scoped internal dir: /data/user/0/com.ichi2.anki/files
+01-06 23:16:46.920 I/AnkiDroid(27887): isLegacyStorage(): false
+01-06 23:16:46.932 I/AnkiDroid(27887): SingleFragmentActivity::onStart
+01-06 23:16:46.932 I/AnkiDroid(27887): SingleFragmentActivity::a::onAttach
+01-06 23:16:46.932 I/AnkiDroid(27887): SingleFragmentActivity::a::onCreate
+01-06 23:16:46.942 I/AnkiDroid(27887): Loading http://127.0.0.1:38681/congrats
+01-06 23:16:46.945 I/AnkiDroid(27887): SingleFragmentActivity::a::onViewCreated
+01-06 23:16:46.946 I/AnkiDroid(27887): SingleFragmentActivity::a::onStart
+01-06 23:16:46.948 I/AnkiDroid(27887): SingleFragmentActivity::onResume
+01-06 23:16:46.948 I/AnkiDroid(27887): SingleFragmentActivity::a::onResume
+01-06 23:16:47.017 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:47.030 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:47.487 I/AnkiDroid(27887): DeckPicker::onStop
+01-06 23:16:47.489 I/AnkiDroid(27887): DeckPicker::onSaveInstanceState
+01-06 23:16:48.436 I/AnkiDroid(27887): SingleFragmentActivity::i::onAttach
+01-06 23:16:48.437 I/AnkiDroid(27887): SingleFragmentActivity::i::onCreate
+01-06 23:16:48.457 I/AnkiDroid(27887): Showing Custom Study main menu
+01-06 23:16:48.475 I/AnkiDroid(27887): SingleFragmentActivity::i::onStart
+01-06 23:16:48.475 I/AnkiDroid(27887): SingleFragmentActivity::i::onResume
+01-06 23:16:53.486 I/AnkiDroid(27887): SingleFragmentActivity::i::onAttach
+01-06 23:16:53.486 I/AnkiDroid(27887): SingleFragmentActivity::i::onCreate
+01-06 23:16:53.502 I/AnkiDroid(27887): Showing Custom Study dialog: STUDY_FORGOT
+01-06 23:16:53.533 I/AnkiDroid(27887): SingleFragmentActivity::i::onStart
+01-06 23:16:53.533 I/AnkiDroid(27887): SingleFragmentActivity::i::onResume
+01-06 23:16:58.859 I/AnkiDroid(27887): Custom study: STUDY_FORGOT; input = 20
+01-06 23:16:58.901 I/AnkiDroid(27887): SingleFragmentActivity::i::onPause
+01-06 23:16:58.901 I/AnkiDroid(27887): SingleFragmentActivity::i::onStop
+01-06 23:16:58.901 I/AnkiDroid(27887): SingleFragmentActivity::i::onViewDestroyed
+01-06 23:16:58.902 I/AnkiDroid(27887): SingleFragmentActivity::i::onDestroy
+01-06 23:16:58.902 I/AnkiDroid(27887): SingleFragmentActivity::i::onDetach
+01-06 23:16:58.907 I/AnkiDroid(27887): refreshing: study queues updated
+01-06 23:16:58.908 I/AnkiDroid(27887): refreshing: study queues updated
+01-06 23:16:58.908 I/AnkiDroid(27887): refreshing: study queues updated
+01-06 23:16:58.909 E/AnkiDroid(27887): u3/ java.lang.IllegalStateException: Fragment i{328fac5} (1de5f5cc-a332-4060-ab5f-87cf50498cf0) not attached to an activity.
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at androidx.fragment.app.Fragment.requireActivity(SourceFile:18)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at X3.i.n(SourceFile:400)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at X3.g.q(SourceFile:14)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at p5.a.i(SourceFile:9)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at V6.a.i(SourceFile:138)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.C.u(SourceFile:23)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.a.i(SourceFile:23)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at p5.a.i(SourceFile:32)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.D.run(SourceFile:113)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Handler.handleCallback(Handler.java:991)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Looper.loopOnce(Looper.java:232)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Looper.loop(Looper.java:317)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.app.ActivityThread.main(ActivityThread.java:8787)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at java.lang.reflect.Method.invoke(Native Method)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:591)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:871)
+01-06 23:16:58.909 E/AnkiDroid(27887): 
+01-06 23:16:58.909 E/AnkiDroid(27887): java.lang.IllegalStateException: Fragment i{328fac5} (1de5f5cc-a332-4060-ab5f-87cf50498cf0) not attached to an activity.
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at androidx.fragment.app.Fragment.requireActivity(SourceFile:18)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at X3.i.n(SourceFile:400)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at X3.g.q(SourceFile:14)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at p5.a.i(SourceFile:9)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at V6.a.i(SourceFile:138)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.C.u(SourceFile:23)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.a.i(SourceFile:23)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at p5.a.i(SourceFile:32)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at Q6.D.run(SourceFile:113)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Handler.handleCallback(Handler.java:991)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Handler.dispatchMessage(Handler.java:102)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Looper.loopOnce(Looper.java:232)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.os.Looper.loop(Looper.java:317)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at android.app.ActivityThread.main(ActivityThread.java:8787)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at java.lang.reflect.Method.invoke(Native Method)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:591)
+01-06 23:16:58.909 E/AnkiDroid(27887): 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:871)
+01-06 23:16:58.909 I/AnkiDroid(27887): Error dialog displayed
+01-06 23:16:59.078 W/AnkiDroid(27887): PageFragment/ ignored UI request 'congratsInfo' due to screen/app being backgrounded
+01-06 23:16:59.089 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:59.095 W/AnkiDroid(27887): PageFragment/ ignored UI request 'i18nResources' due to screen/app being backgrounded
+01-06 23:16:59.095 W/AnkiDroid(27887): PageFragment/ ignored UI request 'congratsInfo' due to screen/app being backgrounded
+01-06 23:16:59.096 W/AnkiDroid(27887): PageFragment/ Unknown TS method called.
+01-06 23:16:59.106 W/AnkiDroid(27887): PageFragment/ ignored UI request 'i18nResources' due to screen/app being backgrounded
+```
+
+</details>
+
+### Expected behaviour
+
+shouldn't get a exception thrown up in the user's face of course 😆 
+
+### Debug info
+
+```text
+This is Play store release version 2.21alpha5 running on a Pixel 8 so I had to download proguard mappings etc and decode to get the trace above for you
+```
+
+### (Optional) Anything else you want to share?
+
+_No response_
+
+### Research
+
+- [x] I have checked the [manual](https://ankidroid.org/docs/manual.html) and the [FAQ](https://github.com/ankidroid/Anki-Android/wiki/FAQ) and could not find a solution to my issue
+- [x] (Optional) I have confirmed the issue is not resolved in the latest alpha release ([instructions](https://docs.ankidroid.org/manual.html#betaTesting))",closed,2025-01-07,2025-01-18,https://github.com/ankidroid/Anki-Android/issues/17757,
+6476,Widget: Notification & Sound each time I change AnkiDroid Activities,"2.12alpha6 Android 9.
+
+I don't use notifications/widget generally, so this may be user error.
+
+I have a test collection with 55 unseen cards
+
+Notification settings: Notify when more than 10 cards due
+
+Each time I lock my phone with AnkiDroid open, or load a new activity in AnkiDroid, I get a notification sound and notification with ""55 cards due"". Even if the notification is currently appearing, there's no grace period.
+
+This is distracting and isn't a great user experience.
+
+Caused by calling `widget.update()` `onStop`: https://github.com/ankidroid/Anki-Android/blob/b1135ff3cbd8d536a0175e7b9b156fdb88585e1b/AnkiDroid/src/main/java/com/ichi2/anki/CardBrowser.java#L683
+
+This calls through to:
+
+https://github.com/ankidroid/Anki-Android/blob/8ada06b2e6521aa4e9eff2a0539dc192ef89a894/AnkiDroid/src/main/java/com/ichi2/widget/WidgetStatus.java#L116",open,2020-06-16,2025-01-10,https://github.com/ankidroid/Anki-Android/issues/6476,
+11889,Improve Card browser scrolling performance,"I think Card browser scrolling performance is slightly suboptimal. The UI freezes a lot when you flick down or up, and when I drag the scrollbar I get about 3 FPS.
+
+There seems to be a task that pre-renders the table when you scroll in a background thread. It only renders a little more than 2 screenfuls of rows. I tried to make that task render *all* rows, and here are the results:
+
+  * There's 19619 cards in my collection
+  * It took the renderer task 61 seconds to complete
+  * During that time, GC freed 1501 MB, judging by Logcat messages.
+
+Some of the problems with this are:
+  
+  * `ListView`
+  * Card browser is doing one SQL request for initial search to get card ids, and then *multiple requests* for each row. Both card and note objects are created, and they both execute SQL in the constructor. (Maybe don't do SQL in constructor??!?!?)
+  * Some fields, such as search field, are not cached in these objects, and so another SQL query is run _each time a row comes into view_.
+  * Renderer task calls `notifyDataSetChanged()` after every card
+  * I think that it's also possible to have several rendering tasks running alongside each other, not sure what issues this might cause.
+
+I think this can be drastically improved by taking these steps:
+
+  * `RecyclerView`
+  * ~~Run a single query for each search. Do not construct card and note objects, instead, only request what's needed for display, and only store what's needed for display. Use the `Cursor` from the one query to fetch the rows.~~
+  * ~~Render _all_ cards in background. I think for a collection like mine the IO shouldn't take more than, say, 300ms? Of course, it's possible to have super big collection for which this might not work well. Maybe do something like this;~~
+    * ~~Have renderer task set up in such a way that it renders cards from a specified position, and up to a specified amount, in the specified direction, e.g. “render up to 10 cards up from position 15”. When user scrolls, this task is made to render from the position of scroll to the direction of scroll, and main thread can `wait()` for these cards, or maybe pass the Cursor to the main thread for a bit.~~
+    * ~~Or perhaps only display up to N cards at the same time, and replace the contents when user reaches bottom.~~
+    * ~~Or think of something else.~~
+  * ~~Profile and optimize post-IO processing, and, if too slow, perhaps offload to another thread.~~
+  * **Edit**: just use `browserRowForId`.
+
+Also, currently browser is reset every time it is opened. If one day it keeps its state, it'd be useful to think about how it could be updated with new data. E.g. make a search in browser, go to reviewer, edit a card there, go back to search, card is updated with animation. Normally this is done via calculating a diff; ~~this probably wouldn't be feasible for large search results~~.",closed,2022-07-19,2025-01-05,https://github.com/ankidroid/Anki-Android/issues/11889,
+16161,Ci Failure (Windows-unit tests): Could not read workspace metadata from `C:\Users\runneradmin\.gradle\caches\transforms-4\0e69aaacf4af78f6c6c3f80936fa8b36\metadata.bin`,"https://github.com/ankidroid/Anki-Android/actions/workflows/tests_unit.yml
+
+First failure: https://github.com/ankidroid/Anki-Android/actions/runs/8645719390
+
+Possible cause: cancelled build: https://github.com/ankidroid/Anki-Android/actions/runs/8645703463
+
+```
+3 warnings
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':AnkiDroid:checkPlayDebugAarMetadata'.
+> A build operation failed.
+      Could not read workspace metadata from C:\Users\runneradmin\.gradle\caches\transforms-4\0e69aaacf4af78f6c6c3f80936fa8b36\metadata.bin
+   > Could not read workspace metadata from C:\Users\runneradmin\.gradle\caches\transforms-4\0e69aaacf4af78f6c6c3f80936fa8b36\metadata.bin
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org./
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.7/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 20s
+25 actionable tasks: 8 executed, 17 from cache
+Error: Gradle build failed: see console output for details
+```",closed,2024-04-11,2025-01-03,https://github.com/ankidroid/Anki-Android/issues/16161,
+17498,[2.19.2] Android 8 WebView detection issue,"User appears to be on WebView 130.X, but we are detecting it as 70.
+
+https://www.reddit.com/r/Anki/comments/1gy8viw/cant_update_webview_android_8_whats_my_best_option/",closed,2024-11-26,2024-12-04,https://github.com/ankidroid/Anki-Android/issues/17498,
+15138,Get MathJax and jquery directly from the backend instead of copying it with a GitHub workflow,"In the pre backend era, Mani built a [GH workflow](https://github.com/ankidroid/Anki-Android/blob/f3ebb8c0c729c8c7242d09ae47192d75085b8a8a/.github/workflows/update_js_libs.yml) to get jQuery and Mathjax libraries from Anki's repository
+
+Since we now can ship anything from there with the new backend, that seems like an easier approach and more future proof.
+
+~~It's a very low priority issue since both MathJax and jQuery rarely updates and this is mostly a non functional change~~",closed,2024-01-02,2024-10-11,https://github.com/ankidroid/Anki-Android/issues/15138,
+15143,[Dev]: Make formatter automatically break big lines to match the IDE behavior,"              These were automated changes when I used the inline function in the IDE. 
+
+I was going to revert the changes, but since this is a recurring problem, I wanted to raise an issue to make the formatter automatically do these changes, or use some kind of project shared setting
+
+I can still revert them if asked
+
+_Originally posted by @BrayanDSO in https://github.com/ankidroid/Anki-Android/pull/15140#discussion_r1440000819_
+            ",closed,2024-01-03,2024-06-06,https://github.com/ankidroid/Anki-Android/issues/15143,
+16489,CI Flake: 'Setup Gradle' (Windows),"Seen this a few times, I believe @criticalAY had this locally after a gradle upgrade
+
+https://github.com/ankidroid/Anki-Android/actions/runs/9255048898/job/25458050475
+
+```
+2024-05-27T12:44:32.1140353Z ##[group]Run gradle/actions/setup-gradle@v3
+2024-05-27T12:44:32.1140761Z with:
+2024-05-27T12:44:32.1140976Z   cache-read-only: false
+2024-05-27T12:44:32.1141242Z   cache-disabled: false
+2024-05-27T12:44:32.1141509Z   cache-write-only: false
+2024-05-27T12:44:32.1141793Z   cache-overwrite-existing: false
+2024-05-27T12:44:32.1142166Z   gradle-home-cache-includes: caches
+notifications
+
+2024-05-27T12:44:32.1142565Z   gradle-home-cache-cleanup: false
+2024-05-27T12:44:32.1142861Z   add-job-summary: always
+2024-05-27T12:44:32.1143148Z   add-job-summary-as-pr-comment: never
+2024-05-27T12:44:32.1143475Z   dependency-graph: disabled
+2024-05-27T12:44:32.1143799Z   dependency-graph-continue-on-failure: true
+2024-05-27T12:44:32.1144147Z   build-scan-publish: false
+2024-05-27T12:44:32.1144423Z   validate-wrappers: false
+2024-05-27T12:44:32.1144692Z   generate-job-summary: true
+2024-05-27T12:44:32.1144985Z   gradle-home-cache-strict-match: false
+2024-05-27T12:44:32.1145533Z   workflow-job-context: {
+  ""os"": ""windows-latest"",
+  ""iteration"": 1,
+  ""name"": ""windows""
+}
+2024-05-27T12:44:32.1146196Z   github-token: ***
+2024-05-27T12:44:32.1146412Z env:
+2024-05-27T12:44:32.1146676Z   CODECOV_TOKEN: ***
+2024-05-27T12:44:32.1147100Z   JAVA_HOME: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\21.0.3-9.0\x64
+2024-05-27T12:44:32.1147766Z   JAVA_HOME_21_X64: C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\21.0.3-9.0\x64
+2024-05-27T12:44:32.1148254Z ##[endgroup]
+2024-05-27T12:44:38.4762636Z Merged default JDK locations into C:\Users\runneradmin\.m2\toolchains.xml
+2024-05-27T12:44:38.4769621Z ##[group]Restore Gradle state from cache
+2024-05-27T12:44:40.6197838Z Received 209715200 of 772821052 (27.1%), 200.0 MBs/sec
+2024-05-27T12:44:41.6260821Z Received 461373440 of 772821052 (59.7%), 219.6 MBs/sec
+2024-05-27T12:44:42.6288178Z Received 713031680 of 772821052 (92.3%), 226.2 MBs/sec
+2024-05-27T12:44:42.9110615Z Cache Size: ~737 MB (772821052 B)
+2024-05-27T12:44:42.9149119Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/3cb8a6a6-93bf-4f14-830c-bd52a946e2bc/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:44:43.6301559Z Received 772821052 of 772821052 (100.0%), 183.7 MBs/sec
+2024-05-27T12:45:11.5403690Z Cache restored successfully
+2024-05-27T12:45:11.5758408Z Restored Gradle User Home from cache key: gradle-home-v1|Windows|unit[9458aee62b2c0ce7d26523702c1da1be]-fabbd7a3a599bb11b74f91205a2967828b893000
+2024-05-27T12:45:12.1466061Z Cache Size: ~0 MB (241809 B)
+2024-05-27T12:45:12.1466798Z Cache Size: ~1 MB (1005985 B)
+2024-05-27T12:45:12.1467400Z Cache Size: ~0 MB (126709 B)
+2024-05-27T12:45:12.3079378Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/72c1da32-c1fb-48ef-b5f3-35d39a34bad4/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:12.3105636Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/7c100505-e21c-4763-a50d-c2b11d11eadb/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:12.3127653Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/62aa60dc-64e4-4af0-a360-04e06014d544/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:12.6388685Z Cache restored successfully
+2024-05-27T12:45:12.6503888Z Restored instrumented-jars with key gradle-instrumented-jars-v1-cfd7d89155a92ce6d1c5d5267d1cbb2e to C:\Users\runneradmin\.gradle\caches\jars-*\*/
+2024-05-27T12:45:12.7336832Z Cache Size: ~36 MB (38112471 B)
+2024-05-27T12:45:12.8692980Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/5c6fcb13-ac36-4aee-8ffb-b2ffa65ba437/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:12.9136359Z Received 241809 of 241809 (100.0%), 0.2 MBs/sec
+2024-05-27T12:45:12.9138146Z Received 71303168 of 133065448 (53.6%), 67.8 MBs/sec
+2024-05-27T12:45:12.9385816Z Received 1005985 of 1005985 (100.0%), 0.9 MBs/sec
+2024-05-27T12:45:12.9386716Z Received 126709 of 126709 (100.0%), 0.1 MBs/sec
+2024-05-27T12:45:12.9387331Z Received 38112471 of 38112471 (100.0%), 36.0 MBs/sec
+2024-05-27T12:45:12.9387827Z Received 75497472 of 1507987020 (5.0%), 72.0 MBs/sec
+2024-05-27T12:45:13.4052882Z Cache Size: ~127 MB (133065448 B)
+2024-05-27T12:45:13.4504700Z Received 88080384 of 534779083 (16.5%), 83.2 MBs/sec
+2024-05-27T12:45:13.4804380Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/cf4c541e-4645-44af-92cf-2f0facb4b85b/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:13.5046722Z Cache restored successfully
+2024-05-27T12:45:13.5247040Z Restored generated-gradle-jars with key gradle-generated-gradle-jars-v1-d6d47bedd9337a0be6f3a426277e63ee to C:\Users\runneradmin\.gradle\caches\8.7\generated-gradle-jars\gradle-api-8.7.jar
+2024-05-27T12:45:13.9223797Z Received 133065448 of 133065448 (100.0%), 63.3 MBs/sec
+2024-05-27T12:45:13.9362515Z Received 243269632 of 1507987020 (16.1%), 115.7 MBs/sec
+2024-05-27T12:45:14.4500025Z Received 209715200 of 534779083 (39.2%), 99.6 MBs/sec
+2024-05-27T12:45:14.9388255Z Received 373293056 of 1507987020 (24.8%), 118.4 MBs/sec
+2024-05-27T12:45:15.4577229Z Received 381681664 of 534779083 (71.4%), 120.7 MBs/sec
+2024-05-27T12:45:15.9453288Z Received 574619648 of 1507987020 (38.1%), 136.5 MBs/sec
+2024-05-27T12:45:16.2406607Z Cache Size: ~510 MB (534779083 B)
+2024-05-27T12:45:16.2757776Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/89eaf7c2-0f66-4248-9fb0-63a63c83a723/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:16.4629667Z Received 534779083 of 534779083 (100.0%), 126.8 MBs/sec
+2024-05-27T12:45:16.9456651Z Received 864026624 of 1507987020 (57.3%), 164.3 MBs/sec
+2024-05-27T12:45:17.9481224Z Received 1212153856 of 1507987020 (80.4%), 192.2 MBs/sec
+2024-05-27T12:45:18.8619975Z Cache Size: ~1438 MB (1507987020 B)
+2024-05-27T12:45:18.8704021Z [command]""C:\Program Files\Git\usr\bin\tar.exe"" -xf D:/a/_temp/fc480c3e-9e4b-4b6f-85cd-3e99b8c49085/cache.tzst -P -C D:/a/Anki-Android/Anki-Android --force-local --use-compress-program ""zstd -d""
+2024-05-27T12:45:18.9581816Z Received 1507987020 of 1507987020 (100.0%), 204.7 MBs/sec
+2024-05-27T12:45:21.8618054Z Cache restored successfully
+2024-05-27T12:45:21.8682692Z Restored wrapper-zips with key gradle-wrapper-zips-v1-09242415bccaaeb0f8be2fc74b9ad33a to C:\Users\runneradmin\.gradle\wrapper\dists\gradle-8.7-bin\bhs2wmbdwecv87pi65oeuq5iu
+2024-05-27T12:45:22.7042828Z Cache restored successfully
+2024-05-27T12:45:22.7046384Z Restored groovy-dsl with key gradle-groovy-dsl-v1-97da7e10134d4298944637af11ea8c4d to C:\Users\runneradmin\.gradle\caches\*\groovy-dsl\*/
+2024-05-27T12:45:48.2368489Z Cache restored successfully
+2024-05-27T12:45:48.3102893Z Restored dependencies with key gradle-dependencies-v1-2b93be8353b68a27926cea5a8103e0c0 to C:\Users\runneradmin\.gradle\caches\modules-*\files-*\*\*\*\*
+2024-05-27T12:46:52.6179586Z Cache restored successfully
+2024-05-27T12:46:52.6184234Z Restored kotlin-dsl with key gradle-kotlin-dsl-v1-2f648f8e5a9ff86e70fe055b39ea37e2 to C:\Users\runneradmin\.gradle\caches\*\kotlin-dsl\accessors\*/
+2024-05-27T12:46:52.6185356Z C:\Users\runneradmin\.gradle\caches\*\kotlin-dsl\scripts\*/
+2024-05-27T12:49:32.1254823Z ##[error]The action 'Setup Gradle' has timed out after 5 minutes.
+```",closed,2024-05-27,2024-05-30,https://github.com/ankidroid/Anki-Android/issues/16489,cleanup
+13315,Deprecate MaterialDialog and use AlertDialog instead,"# PRs only will be accepted with a screenshot/video showing the dialog in the PR description 
+
+Historically, the [MaterialDialog](https://github.com/afollestad/material-dialogs) dependency has caused some issues, e.g. #12669, and hasn't been dev-friendly, like disabling issues on their repository and forcing to upgrade to Kotlin in order to use it. Here's some pros and cons I thought about keeping it:
+
+Reasons to remove it:
+- It isn't very extensible
+- Haven't got new releases for 3 years
+- Their repo's issues is disabled
+- They make dialogs inconsistent between the platform libraries that use AlertDialog by default (e.g. `Preference`) and where we use MaterialDialog
+- It is harder to customize the style of the material dialogs
+- One less dependency
+
+Reasons to keep it:
+- Avoid having the work of replacing it
+
+So I'm in favor of replacing its usages with the platform `AlertDialog`. This can be done one by one, or a bunch of dialogs at a time (e.g. #12682), showing a video that the functionaly is kept after the change.
+
+# Recommendations
+
+1. One dialog per commit -> so it's easier to review and drop the changes if necessary, although probably the commits are going to be squashed
+2. Check for linked open PRs to avoid duplicating work
+3. Don't ask to assign the issue to you. You can start working on it immediately by warning here which class(es) you are working on
+4. Add a screenshot of the dialog after the change. If you can add a video tapping the dialog's buttons, even better",closed,2023-02-20,2024-05-21,https://github.com/ankidroid/Anki-Android/issues/13315,
+15822,Can't record sound in background state as before,"Some users seem to feel it is an issue to be fixed.
+
+> Hello
+> 
+> Sherry the upgrade i cannot record sound from Google Translate. This is because recording stops after losing focus (to switch to Google Translate). Can you fix this?
+
+https://groups.google.com/g/anki-android/c/HFIaaCMKg-Q/m/qu_r6n7vAgAJ
+
+
+> (...) I am trying to add the sound from the dictionary to the entry, but when I leave the Anki to play the recording in the dictionary (after I pressed record in Anki), Anki automatically stops the process of recording. (...) I will have to leave AnkiDroid if it is not fixed. (...)
+
+(from Play store review)
+
+`AnkiDroid Version = 2.17.5`
+",closed,2024-03-09,2024-05-11,https://github.com/ankidroid/Anki-Android/issues/15822,
+3593,Tapping the notification takes you to the deck list instead of to your open deck,"*Steps to reproduce:
+1. Turn on Anki notifications
+2. Open a deck and start reviewing
+3. Lock the device or navigate to home screen or another app
+4. Tap the ""Cards due"" notification
+5. Ankidroid opens and displays the deck list, kicking you out of whatever deck you were previously studying. This would also kick you out of any note you were editing, losing your changes in the process. 
+
+Can it be changed so that tapping the notification brings you back to the current Anki session, rather than relaunching from the deck list?
+",closed,2015-08-03,2024-05-10,https://github.com/ankidroid/Anki-Android/issues/3593,
