@@ -1,4 +1,4 @@
-# Technical Debt Hotspot Dashboard
+# Potential Maintainability related Technical Debt Hotspot Dashboard
 
 Streamlit dashboard for surfacing **potential technical debt hotspots** in a GitHub repository by combining heuristic indicators from:
 
